@@ -4,7 +4,7 @@ import AddData from "./AddStudents"
 import {FilterStudent} from "./FilterStudent"
 import {RootState} from "@/lib/store"
 import EditStudent from "./EditStudent"
-import AddRegistration from "./AddRegistration"
+import AddRegistration from "./AddRegistrationStudent"
 
 function FilterAndAddData() {
   const {

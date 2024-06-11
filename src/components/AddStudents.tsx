@@ -75,7 +75,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
         createdAt: new Date(),
         quizLevel: 0,
         videoLevel: 0,
-        groupName: ""
+        groupName: "",
       })
     }
     console.log(studentsFormData)

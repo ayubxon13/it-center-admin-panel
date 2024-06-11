@@ -8,14 +8,15 @@ import {customFetch, formatPhoneNumber} from "@/utils/utils"
 import {toast} from "sonner"
 import {useMutation, useQueryClient} from "@tanstack/react-query"
 
-type RegisterInputType = {
-  fullName: string
-  number: string
-}
-
-async function addRegistration(data: RegisterInputType) {
+async function addRegistrationStudent(data: IRegierterStudents) {
   try {
-    const res = await customFetch.post("students", data)
+    await customFetch.post("register-students", {
+      data: {
+        fullName: data.fullName,
+        number: data.number,
+        role: "noStudent",
+      },
+    })
     toast.success("Student created successfully")
   } catch (error) {
     toast.error("Failed to create student")
@@ -25,21 +26,21 @@ async function addRegistration(data: RegisterInputType) {
   }
 }
 
-function AddRegistration({isOpen}: {isOpen: boolean}) {
+function AddRegistrationStudent({isOpen}: {isOpen: boolean}) {
   const queryClient = useQueryClient()
 
   const dispatch = useDispatch()
-  const {control, handleSubmit} = useForm<RegisterInputType>()
+  const {control, handleSubmit} = useForm<IRegierterStudents>()
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: addRegistration,
+    mutationFn: addRegistrationStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["registration"]})
       dispatch(toggleRegistrationFunc())
     },
   })
 
-  const onSubmit = (data: RegisterInputType) => {
+  const onSubmit = (data: IRegierterStudents) => {
     const isEmpty = Object.values(data).some((val) => val == null || val == "")
     if (isEmpty) {
       return toast.error("Please fill out the form")
@@ -115,4 +116,4 @@ function AddRegistration({isOpen}: {isOpen: boolean}) {
   )
 }
 
-export default AddRegistration
+export default AddRegistrationStudent

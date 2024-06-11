@@ -87,3 +87,9 @@ interface IQuestions {
   d: string
   right: string
 }
+
+interface IRegierterStudents {
+  fullName: string
+  number: string
+  role: "noStudent"
+}

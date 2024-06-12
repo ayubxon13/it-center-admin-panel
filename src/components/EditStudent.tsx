@@ -81,7 +81,6 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
         : new Date(singleStudentData?.updatedAt ?? ""),
       quizLevel: 0,
       videoLevel: 0,
-      groupName: ""
     })
   }
 

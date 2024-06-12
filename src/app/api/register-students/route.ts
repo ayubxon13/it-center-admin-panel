@@ -1,7 +1,7 @@
 import connectMongoDB from "@/database/mongodb"
 import RegisterStudents from "@/models/register-students"
-import {generateRandomNumber} from "@/utils/utils"
-import {NextResponse} from "next/server"
+import { generateRandomNumber } from "@/utils/utils"
+import { NextResponse } from "next/server"
 
 export const GET = async () => {
   try {
@@ -21,15 +21,16 @@ export const GET = async () => {
   }
 }
 export const POST = async (req: Request) => {
-  const {fullName, number}: IRegierterStudents = await req.json()
+  const { fullName, personalPhone, role }: IRegisterStudents = await req.json()
   try {
     await connectMongoDB()
     await RegisterStudents.create({
       id: generateRandomNumber(),
       fullName,
-      number,
+      personalPhone,
+      role
     })
-    return NextResponse.json({message: "OK"}, {status: 200})
+    return NextResponse.json({ message: "OK" }, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       {

@@ -1,16 +1,16 @@
-import {Button, ConfigProvider, Space, Table, Tooltip} from "antd"
-import {PencilSquareIcon, XMarkIcon} from "@heroicons/react/24/outline"
-import {toggleEditStudentFunc} from "@/lib/features/toggle/toggleSlice"
-import {useDispatch} from "react-redux"
-import {setSingleStudentData} from "@/lib/features/student/studentSlice"
+import { Button, ConfigProvider, Space, Table, Tooltip } from "antd"
+import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { toggleEditStudentFunc } from "@/lib/features/toggle/toggleSlice"
+import { useDispatch } from "react-redux"
+import { setSingleStudentData } from "@/lib/features/student/studentSlice"
 import ModalPromise from "./ModalPromise"
-
 type TDataTable = {
-  students: IStudents[]
+  href: "students" | "register-students"
+  students: (IStudents | IRegierterStudents)[] | undefined
   loading: boolean
 }
 
-function DataTable({loading, students}: TDataTable) {
+function DataTable({ href, loading, students }: TDataTable) {
   const dispatch = useDispatch()
 
   const studentsTableData = [
@@ -49,12 +49,12 @@ function DataTable({loading, students}: TDataTable) {
       title: "Tahrirlash",
       className: "w-[120px]",
       key: "options",
-      render: (student: IStudents) => (
+      render: (student: IStudents & IRegierterStudents) => (
         <Space size="small">
           <ModalPromise
-            key="students"
+            key={href}
             title="student"
-            url={`students/${student._id}`}
+            url={`${href}/${student._id}`}
           >
             <Button
               type="primary"
@@ -89,7 +89,7 @@ function DataTable({loading, students}: TDataTable) {
       }}
     >
       <Table
-        scroll={{y: `calc(80vh - 250px)`}}
+        scroll={{ y: `calc(80vh - 250px)` }}
         bordered
         tableLayout="auto"
         rowKey="id"

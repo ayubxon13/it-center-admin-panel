@@ -1,10 +1,10 @@
-import mongoose, {Schema} from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 const RegisterStudentsSchema = new Schema(
   {
     id: Number,
     fullName: String,
-    number: String,
+    personalPhone: String,
     role: String,
   },
   {

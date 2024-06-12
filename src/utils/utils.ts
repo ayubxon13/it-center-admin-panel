@@ -1,4 +1,4 @@
-import {SelectProps} from "antd"
+import { SelectProps } from "antd"
 import axios from "axios"
 const baseURL = "https://it-center-admin-panel.vercel.app/api/"
 export const customFetch = axios.create({
@@ -51,7 +51,7 @@ export const onSearchSelect = (value: string) => {
 
 export const filterOptionSelect = (
   input: string,
-  option?: {label: string; value: string}
+  option?: { label: string; value: string }
 ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
 
 export const selectGroup: SelectProps["options"] = [

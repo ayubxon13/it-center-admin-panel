@@ -37,8 +37,18 @@ interface IStudents {
   updatedAt?: Date
   quizLevel: number
   videoLevel: number
-  groupName: string
 }
+
+interface IRegisterStudents {
+  _id: string
+  id: number
+  fullName: string
+  personalPhone: string
+  role: "noStudent"
+  createdAt: Date
+  updatedAt: Date
+}
+
 
 type TNotification = {
   _id: string
@@ -86,10 +96,4 @@ interface IQuestions {
   c: string
   d: string
   right: string
-}
-
-interface IRegierterStudents {
-  fullName: string
-  number: string
-  role: "noStudent"
 }

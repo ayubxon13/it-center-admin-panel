@@ -1,21 +1,19 @@
 "use client"
-import {Input, Modal} from "antd"
-import {useDispatch} from "react-redux"
-import {toggleRegistrationFunc} from "@/lib/features/toggle/toggleSlice"
-import {Controller, useForm} from "react-hook-form"
-import {ChangeEvent} from "react"
-import {customFetch, formatPhoneNumber} from "@/utils/utils"
-import {toast} from "sonner"
-import {useMutation, useQueryClient} from "@tanstack/react-query"
+import { Input, Modal } from "antd"
+import { useDispatch } from "react-redux"
+import { toggleRegistrationFunc } from "@/lib/features/toggle/toggleSlice"
+import { Controller, useForm } from "react-hook-form"
+import { ChangeEvent } from "react"
+import { customFetch, formatPhoneNumber } from "@/utils/utils"
+import { toast } from "sonner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-async function addRegistrationStudent(data: IRegierterStudents) {
+async function addRegistrationStudent(data: IRegisterStudents) {
   try {
     await customFetch.post("register-students", {
-      data: {
-        fullName: data.fullName,
-        number: data.number,
-        role: "noStudent",
-      },
+      fullName: data.fullName,
+      personalPhone: data.personalPhone,
+      role: "noStudent",
     })
     toast.success("Student created successfully")
   } catch (error) {
@@ -26,21 +24,21 @@ async function addRegistrationStudent(data: IRegierterStudents) {
   }
 }
 
-function AddRegistrationStudent({isOpen}: {isOpen: boolean}) {
+function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
   const queryClient = useQueryClient()
 
   const dispatch = useDispatch()
-  const {control, handleSubmit} = useForm<IRegierterStudents>()
+  const { control, handleSubmit } = useForm<IRegisterStudents>()
 
-  const {mutateAsync, isPending} = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: addRegistrationStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["registration"]})
+      queryClient.invalidateQueries({ queryKey: ["students"] })
       dispatch(toggleRegistrationFunc())
     },
   })
 
-  const onSubmit = (data: IRegierterStudents) => {
+  const onSubmit = (data: IRegisterStudents) => {
     const isEmpty = Object.values(data).some((val) => val == null || val == "")
     if (isEmpty) {
       return toast.error("Please fill out the form")
@@ -70,7 +68,7 @@ function AddRegistrationStudent({isOpen}: {isOpen: boolean}) {
             <Controller
               name="fullName"
               control={control}
-              render={({field}) => (
+              render={({ field }) => (
                 <Input
                   className="h-10"
                   size="large"
@@ -94,9 +92,9 @@ function AddRegistrationStudent({isOpen}: {isOpen: boolean}) {
           <div>
             <h5 className="text-lg opacity-70 font-medium">Shaxsiy raqam:</h5>
             <Controller
-              name="number"
+              name="personalPhone"
               control={control}
-              render={({field}) => (
+              render={({ field }) => (
                 <Input
                   {...field}
                   name="phone"

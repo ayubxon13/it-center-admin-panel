@@ -7,7 +7,7 @@ import {
   toggleAddStudentFunc,
   toggleRegistrationFunc,
 } from "@/lib/features/toggle/toggleSlice"
-import {customFetch} from "@/utils/utils"
+import { customFetch } from "@/utils/utils"
 import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
@@ -15,13 +15,14 @@ import {
   FunnelIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
-import {useQuery} from "@tanstack/react-query"
-import {useRouter} from "next/navigation"
-import {useEffect, useState} from "react"
-import {useDispatch} from "react-redux"
+import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 function Students() {
   const dispatch = useDispatch()
   const route = useRouter()
+  const [href, setHref] = useState<"students" | "register-students">("students")
   useEffect(() => {
     const admin = localStorage.getItem("auth")
     if (!admin) {
@@ -29,15 +30,16 @@ function Students() {
     }
   }, [route])
 
-  const {data, isPending} = useQuery({
-    queryKey: ["students"],
+  const { data, isPending } = useQuery({
+    queryKey: ["students", href],
     queryFn: async () => {
-      const students: {data: IStudents[]} = await customFetch("/students")
-      return students.data
+      const students: { data: IStudents[] } = await customFetch(href);
+      return students.data;
     },
     staleTime: 0,
     refetchOnWindowFocus: false,
-  })
+  });
+
 
   const graduatedLength =
     data?.filter((item) => item.graduated === true).length ?? 0
@@ -47,8 +49,14 @@ function Students() {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const handleScoreClick = (index: number) => {
-    setActiveIndex(index)
+    setActiveIndex(index);
+    if (index === 4) {
+      setHref("register-students")
+    } else {
+      setHref("students")
+    }
   }
+
 
   return (
     <main className="grid gap-y-5">
@@ -98,14 +106,15 @@ function Students() {
         />
         <Score
           active={activeIndex === 4}
-          onClick={() => handleScoreClick(4)}
+          onClick={() => handleScoreClick(4)
+          }
           icon={<UserGroupIcon width={20} height={20} />}
           title="Ro'yxatga olish"
           total={4}
         />
       </div>
       <FilterAndAddData />
-      <DataTable loading={isPending} students={data ?? []} />
+      <DataTable href={href} loading={isPending} students={data ?? []} />
     </main>
   )
 }

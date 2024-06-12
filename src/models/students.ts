@@ -15,7 +15,6 @@ const studentsSchema = new Schema(
     userPhoto: String,
     quizLevel: Number,
     videoLevel: Number,
-    groupName: String,
   },
   {
     timestamps: true,

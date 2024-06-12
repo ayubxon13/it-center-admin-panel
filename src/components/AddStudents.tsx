@@ -1,8 +1,8 @@
 "use client"
-import {DatePicker, Input, Select, Space} from "antd"
-import {XMarkIcon} from "@heroicons/react/24/outline"
-import {Controller, useForm} from "react-hook-form"
-import {useMutation, useQueryClient} from "@tanstack/react-query"
+import { DatePicker, Input, Select, Space } from "antd"
+import { XMarkIcon } from "@heroicons/react/24/outline"
+import { Controller, useForm } from "react-hook-form"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   customFetch,
   filterOptionSelect,
@@ -12,11 +12,11 @@ import {
   onSearchSelect,
   selectGroup,
 } from "@/utils/utils"
-import {toast} from "sonner"
-import {useDispatch} from "react-redux"
-import {toggleAddStudentFunc} from "@/lib/features/toggle/toggleSlice"
+import { toast } from "sonner"
+import { useDispatch } from "react-redux"
+import { toggleAddStudentFunc } from "@/lib/features/toggle/toggleSlice"
 import dayjs from "dayjs"
-import {ChangeEvent, useRef} from "react"
+import { ChangeEvent, useRef } from "react"
 import useFileChange from "@/hooks/useFileChange"
 import SelectUI from "./antdUI/SelectUI"
 import PhoneInput from "./antdUI/PhoneInput"
@@ -35,17 +35,17 @@ async function addStudents(data: IStudents) {
   }
 }
 
-function AddData({isOpen}: {isOpen: boolean}) {
-  const {handleFileChange, selectImage, setSelectImage} = useFileChange()
+function AddData({ isOpen }: { isOpen: boolean }) {
+  const { handleFileChange, selectImage, setSelectImage } = useFileChange()
   const dispatch = useDispatch()
   const fileUpload = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
-  const {control, handleSubmit} = useForm<TInputs>()
+  const { control, handleSubmit } = useForm<TInputs>()
 
-  const {mutateAsync, isPending} = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: addStudents,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["students"]})
+      queryClient.invalidateQueries({ queryKey: ["students"] })
       dispatch(toggleAddStudentFunc())
     },
   })
@@ -75,17 +75,14 @@ function AddData({isOpen}: {isOpen: boolean}) {
         createdAt: new Date(),
         quizLevel: 0,
         videoLevel: 0,
-        groupName: "",
       })
     }
-    console.log(studentsFormData)
   }
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${
-        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <div className="bg-white z-50 w-full mx-[17%] p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
@@ -156,7 +153,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 control={control}
                 name="fullName"
-                render={({field}) => (
+                render={({ field }) => (
                   <Input
                     className="h-10"
                     size="large"
@@ -184,7 +181,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="birthday"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <DatePicker
                     {...field}
                     placeholder=""
@@ -199,7 +196,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="address"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     filterOption={filterOptionSelect}
                     onChange={(value) => {
@@ -217,7 +214,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="group"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <Select
                     {...field}
                     size="large"
@@ -259,7 +256,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="certificate"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     {...field}
                     options={[
@@ -285,7 +282,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="graduated"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     {...field}
                     options={[

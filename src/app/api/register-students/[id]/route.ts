@@ -28,7 +28,7 @@ export const DELETE = async (req: Request) => {
 }
 export const PUT = async (req: Request, { params }: { params: { id: number } }) => {
   const { id } = params
-  const { fullName, personalPhone }: IRegierterStudents = await req.json()
+  const { fullName, personalPhone }: IRegisterStudents = await req.json()
   await connectMongoDB()
   await RegisterStudents.findByIdAndUpdate(id, {
     fullName,

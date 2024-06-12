@@ -6,7 +6,7 @@ import { setSingleStudentData } from "@/lib/features/student/studentSlice"
 import ModalPromise from "./ModalPromise"
 type TDataTable = {
   href: "students" | "register-students"
-  students: (IStudents | IRegierterStudents)[] | undefined
+  students: (IStudents | IRegisterStudents)[] | undefined
   loading: boolean
 }
 
@@ -49,7 +49,7 @@ function DataTable({ href, loading, students }: TDataTable) {
       title: "Tahrirlash",
       className: "w-[120px]",
       key: "options",
-      render: (student: IStudents & IRegierterStudents) => (
+      render: (student: IStudents & IRegisterStudents) => (
         <Space size="small">
           <ModalPromise
             key={href}

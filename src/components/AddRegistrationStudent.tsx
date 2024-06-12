@@ -12,7 +12,7 @@ async function addRegistrationStudent(data: IRegisterStudents) {
   try {
     await customFetch.post("register-students", {
       fullName: data.fullName,
-      personalPhone: data.personalPhone,
+      personalPhone: "+998 " + data.personalPhone,
       role: "noStudent",
     })
     toast.success("Student created successfully")

@@ -114,7 +114,7 @@ function Students() {
         />
       </div>
       <FilterAndAddData />
-      <DataTable href={href} loading={isPending} students={data ?? []} />
+      <DataTable activeIndex={activeIndex} href={href} loading={isPending} students={data ?? []} />
     </main>
   )
 }

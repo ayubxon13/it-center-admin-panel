@@ -8,9 +8,10 @@ type TDataTable = {
   href: "students" | "register-students"
   students: (IStudents | IRegisterStudents)[] | undefined
   loading: boolean
+  activeIndex: number
 }
 
-function DataTable({ href, loading, students }: TDataTable) {
+function DataTable({ href, loading, students, activeIndex }: TDataTable) {
   const dispatch = useDispatch()
 
   const studentsTableData = [
@@ -49,7 +50,7 @@ function DataTable({ href, loading, students }: TDataTable) {
       title: "Tahrirlash",
       className: "w-[120px]",
       key: "options",
-      render: (student: IStudents & IRegisterStudents) => (
+      render: (student: IStudents) => (
         <Space size="small">
           <ModalPromise
             key={href}
@@ -80,6 +81,58 @@ function DataTable({ href, loading, students }: TDataTable) {
       ),
     },
   ]
+  const registerStudentsTableData = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      className: "w-[65px]",
+    },
+    {
+      title: "Ism Familya",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "Shaxsiy raqami",
+      dataIndex: "personalPhone",
+      key: "personalPhone",
+    },
+    {
+      title: "Tahrirlash",
+      key: "options",
+      className: "w-[120px]",
+      render: (student: IRegisterStudents) => (
+        <Space size="small">
+          <ModalPromise
+            key={href}
+            title="student"
+            url={`${href}/${student._id}`}
+          >
+            <Button
+              type="primary"
+              size="large"
+              shape="default"
+              danger
+              icon={<XMarkIcon width={24} height={24} />}
+            />
+          </ModalPromise>
+          <Tooltip title="Edit">
+            <Button
+              onClick={() => {
+                dispatch(toggleEditStudentFunc())
+                // dispatch(setSingleStudentData(student))
+              }}
+              size="large"
+              type="primary"
+              shape="default"
+              icon={<PencilSquareIcon width={24} height={24} />}
+            />
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ]
   return (
     <ConfigProvider
       theme={{
@@ -89,12 +142,12 @@ function DataTable({ href, loading, students }: TDataTable) {
       }}
     >
       <Table
-        scroll={{ y: `calc(80vh - 250px)` }}
+        // scroll={{ y: `calc(80vh - 250px)` }}
         bordered
         tableLayout="auto"
         rowKey="id"
         loading={loading}
-        columns={studentsTableData}
+        columns={activeIndex === 4 ? registerStudentsTableData : studentsTableData}
         dataSource={students}
       />
     </ConfigProvider>

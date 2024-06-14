@@ -20,7 +20,7 @@ function FilterAndAddData() {
       <AddData isOpen={toggleAddStudentValue} />
       <EditStudent isOpen={toggleEditStudentValue} />
       <AddRegistration isOpen={toggleRegistrationValue} />
-      <EditRegistrationStudents isOpen={toggleRegistrationValue} />
+      {/* <EditRegistrationStudents isOpen={toggleRegistrationValue} /> */}
     </>
   )
 }

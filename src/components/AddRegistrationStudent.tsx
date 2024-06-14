@@ -26,7 +26,6 @@ async function addRegistrationStudent(data: IRegisterStudents) {
 }
 
 function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
-  const { singleRegisterStudents } = useSelector((store: RootState) => store.registerStudentsSlice)
   const queryClient = useQueryClient()
 
   const dispatch = useDispatch()
@@ -77,7 +76,6 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
                 <Input
                   className="h-10"
                   size="large"
-                  defaultValue={singleRegisterStudents?.fullName ? singleRegisterStudents.fullName : ""}
                   {...field}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const capitalizedValue =

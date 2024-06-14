@@ -40,7 +40,7 @@ function AddData({ isOpen }: { isOpen: boolean }) {
   const dispatch = useDispatch()
   const fileUpload = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
-  const { control, handleSubmit } = useForm<TInputs>()
+  const { control, handleSubmit, reset } = useForm<TInputs>()
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: addStudents,
@@ -75,6 +75,9 @@ function AddData({ isOpen }: { isOpen: boolean }) {
         createdAt: new Date(),
         quizLevel: 0,
         videoLevel: 0,
+      }).then(() => {
+        reset()
+        setSelectImage(null)
       })
     }
   }

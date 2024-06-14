@@ -1,9 +1,10 @@
 import { Button, ConfigProvider, Space, Table, Tooltip } from "antd"
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { toggleEditStudentFunc } from "@/lib/features/toggle/toggleSlice"
+import { toggleEditStudentFunc, toggleRegistrationFunc } from "@/lib/features/toggle/toggleSlice"
 import { useDispatch } from "react-redux"
 import { setSingleStudentData } from "@/lib/features/student/studentSlice"
 import ModalPromise from "./ModalPromise"
+import { singleRegisterStudentsFunc } from "@/lib/features/register-students-slice/registerStudentsSlice"
 type TDataTable = {
   href: "students" | "register-students"
   students: (IStudents | IRegisterStudents)[] | undefined
@@ -68,8 +69,8 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
           <Tooltip title="Edit">
             <Button
               onClick={() => {
-                dispatch(toggleEditStudentFunc())
                 dispatch(setSingleStudentData(student))
+                dispatch(toggleEditStudentFunc())
               }}
               size="large"
               type="primary"
@@ -120,9 +121,9 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
           <Tooltip title="Edit">
             <Button
               onClick={() => {
-                dispatch(toggleEditStudentFunc())
-                // dispatch(setSingleStudentData(student))
-              }}
+                dispatch(singleRegisterStudentsFunc(student))
+                dispatch(toggleRegistrationFunc())
+              }}  
               size="large"
               type="primary"
               shape="default"

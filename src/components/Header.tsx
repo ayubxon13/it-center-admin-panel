@@ -1,6 +1,5 @@
 "use client"
 import {
-  toggleAddStudentFunc,
   toggleFilterFunc,
 } from "@/lib/features/toggle/toggleSlice"
 import {RootState} from "@/lib/store"

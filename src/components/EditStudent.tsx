@@ -1,8 +1,8 @@
 "use client"
-import {DatePicker, Input, Select, Space} from "antd"
-import {XMarkIcon} from "@heroicons/react/24/outline"
-import {Controller, useForm} from "react-hook-form"
-import {useMutation, useQueryClient} from "@tanstack/react-query"
+import { DatePicker, Input, Select, Space } from "antd"
+import { XMarkIcon } from "@heroicons/react/24/outline"
+import { Controller, useForm } from "react-hook-form"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   customFetch,
   filterOptionSelect,
@@ -11,12 +11,12 @@ import {
   onSearchSelect,
   selectGroup,
 } from "@/utils/utils"
-import {toast} from "sonner"
-import {useDispatch, useSelector} from "react-redux"
-import {toggleEditStudentFunc} from "@/lib/features/toggle/toggleSlice"
+import { toast } from "sonner"
+import { useDispatch, useSelector } from "react-redux"
+import { toggleEditStudentFunc } from "@/lib/features/toggle/toggleSlice"
 import dayjs from "dayjs"
-import {RootState} from "@/lib/store"
-import {ChangeEvent, useEffect, useState} from "react"
+import { RootState } from "@/lib/store"
+import { ChangeEvent, useEffect, useState } from "react"
 import useFileChange from "@/hooks/useFileChange"
 import Btn from "./antdUI/Btn"
 import SelectUI from "./antdUI/SelectUI"
@@ -35,13 +35,13 @@ async function editStudent(data: IStudents) {
   }
 }
 
-function EditStudent({isOpen}: {isOpen: boolean}) {
-  const {handleFileChange, selectImage, setSelectImage} = useFileChange()
+function EditStudent({ isOpen }: { isOpen: boolean }) {
+  const { handleFileChange, selectImage, setSelectImage } = useFileChange()
   const dispatch = useDispatch()
 
   const queryClient = useQueryClient()
-  const {control, handleSubmit} = useForm<TInputs>()
-  const {singleStudentData} = useSelector(
+  const { control, handleSubmit } = useForm<TInputs>()
+  const { singleStudentData } = useSelector(
     (store: RootState) => store.studentSlice
   )
 
@@ -51,15 +51,13 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     }
   }, [singleStudentData])
 
-  const {mutateAsync, isPending} = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: editStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["students"]})
+      queryClient.invalidateQueries({ queryKey: ["students"] })
       dispatch(toggleEditStudentFunc())
     },
   })
-
-  console.log(singleStudentData)
 
   const onSubmit = (studentsFormData: TInputs) => {
     mutateAsync({
@@ -86,9 +84,8 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${
-        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <div className="bg-white z-50 w-full mx-80 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
@@ -160,7 +157,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 name="fullName"
                 key={singleStudentData?.fullName}
                 defaultValue={singleStudentData?.fullName}
-                render={({field}) => (
+                render={({ field }) => (
                   <Input
                     className="h-10"
                     size="large"
@@ -187,7 +184,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 name="birthday"
                 control={control}
                 key={singleStudentData?.birthday}
-                render={({field}) => (
+                render={({ field }) => (
                   <DatePicker
                     defaultValue={dayjs(singleStudentData?.birthday)}
                     placeholder=""
@@ -204,7 +201,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 name="address"
                 control={control}
                 key={singleStudentData?.address}
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     defaultValue={singleStudentData?.address}
                     {...field}
@@ -226,7 +223,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 defaultValue={singleStudentData?.group}
                 name="group"
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <Select
                     {...field}
                     size="large"
@@ -275,7 +272,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                     : "Berilmagan ❌"
                 }
                 control={control}
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     defaultValue={
                       singleStudentData?.certificate
@@ -309,7 +306,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 key={
                   singleStudentData?.graduated ? "Bitirgan ✅" : "Bitirmagan ❌"
                 }
-                render={({field}) => (
+                render={({ field }) => (
                   <SelectUI
                     defaultValue={
                       singleStudentData?.graduated

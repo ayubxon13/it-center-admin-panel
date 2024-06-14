@@ -1,12 +1,13 @@
 "use client"
 import { Input, Modal } from "antd"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toggleRegistrationFunc } from "@/lib/features/toggle/toggleSlice"
 import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent } from "react"
 import { customFetch, formatPhoneNumber } from "@/utils/utils"
 import { toast } from "sonner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { RootState } from "@/lib/store"
 
 async function addRegistrationStudent(data: IRegisterStudents) {
   try {
@@ -25,10 +26,11 @@ async function addRegistrationStudent(data: IRegisterStudents) {
 }
 
 function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
+  const { singleRegisterStudents } = useSelector((store: RootState) => store.registerStudentsSlice)
   const queryClient = useQueryClient()
 
   const dispatch = useDispatch()
-  const { control, handleSubmit } = useForm<IRegisterStudents>()
+  const { control, handleSubmit, reset } = useForm<IRegisterStudents>()
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: addRegistrationStudent,
@@ -43,7 +45,9 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
     if (isEmpty) {
       return toast.error("Please fill out the form")
     } else {
-      mutateAsync(data)
+      mutateAsync(data).then(() => {
+        reset()
+      })
     }
   }
 
@@ -55,9 +59,10 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
         open={isOpen}
         okText="Qo'shish"
         cancelText="Bekor qilish"
-        onOk={() => handleSubmit(onSubmit)()}
         onCancel={() => dispatch(toggleRegistrationFunc())}
         width={700}
+        confirmLoading={isPending}
+        onOk={() => handleSubmit(onSubmit)()}
       >
         <form
           className="grid grid-cols-2 gap-3"
@@ -72,6 +77,7 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
                 <Input
                   className="h-10"
                   size="large"
+                  defaultValue={singleRegisterStudents?.fullName ? singleRegisterStudents.fullName : ""}
                   {...field}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const capitalizedValue =
@@ -109,7 +115,7 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
             />
           </div>
         </form>
-      </Modal>
+      </Modal >
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit";
 
 export const toggleSlice = createSlice({
   name: "toggle",
@@ -8,33 +8,38 @@ export const toggleSlice = createSlice({
     toggleEditStudentValue: false,
     toggleRegistrationValue: false,
     toggleEditRegistrationValue: false,
+    toggleAddAdsValue: false,
   },
   reducers: {
     toggleFilterFunc: (state) => {
-      state.toggleFilterValue = !state.toggleFilterValue
-      state.toggleAddStudentValue = false
+      state.toggleFilterValue = !state.toggleFilterValue;
+      state.toggleAddStudentValue = false;
     },
     toggleAddStudentFunc: (state) => {
-      state.toggleAddStudentValue = !state.toggleAddStudentValue
-      state.toggleFilterValue = false
+      state.toggleAddStudentValue = !state.toggleAddStudentValue;
+      state.toggleFilterValue = false;
     },
     toggleEditStudentFunc: (state) => {
-      state.toggleEditStudentValue = !state.toggleEditStudentValue
+      state.toggleEditStudentValue = !state.toggleEditStudentValue;
     },
     toggleRegistrationFunc: (state) => {
-      state.toggleRegistrationValue = !state.toggleRegistrationValue
+      state.toggleRegistrationValue = !state.toggleRegistrationValue;
     },
     toggleEditRegistrationFunc: (state) => {
-      state.toggleEditRegistrationValue = !state.toggleEditRegistrationValue
-    }
+      state.toggleEditRegistrationValue = !state.toggleEditRegistrationValue;
+    },
+    toggleAddAdsFunc: (state) => {
+      state.toggleAddAdsValue = !state.toggleAddAdsValue;
+    },
   },
-})
+});
 
 export const {
   toggleFilterFunc,
   toggleAddStudentFunc,
   toggleEditStudentFunc,
   toggleRegistrationFunc,
-  toggleEditRegistrationFunc
-} = toggleSlice.actions
-export default toggleSlice.reducer
+  toggleEditRegistrationFunc,
+  toggleAddAdsFunc,
+} = toggleSlice.actions;
+export default toggleSlice.reducer;

@@ -201,6 +201,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 key={singleStudentData?.address}
                 render={({field}) => (
                   <SelectUI
+                    field={field}
                     defaultValue={singleStudentData?.address}
                     {...field}
                     options={neighborhood}
@@ -272,6 +273,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 control={control}
                 render={({field}) => (
                   <SelectUI
+                    field={field}
                     defaultValue={
                       singleStudentData?.certificate
                         ? "Berilgan ✅"
@@ -306,6 +308,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 }
                 render={({field}) => (
                   <SelectUI
+                    field={field}
                     defaultValue={
                       singleStudentData?.graduated
                         ? "Bitirgan ✅"

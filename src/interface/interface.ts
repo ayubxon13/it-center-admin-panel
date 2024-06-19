@@ -71,8 +71,8 @@ interface IAds {
   id: number;
   image: string;
   title: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 type Level = "free" | "begin" | "medium" | "advanced";
 

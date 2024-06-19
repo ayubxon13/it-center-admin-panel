@@ -1,62 +1,84 @@
-"use client"
-import DataTable from "@/components/DataTable"
-import FilterAndAddData from "@/components/FilterAddEdit"
-import Header from "@/components/Header"
-import Score from "@/components/Score"
+"use client";
+import DataTable from "@/components/DataTable";
+import FilterAndAddData from "@/components/FilterAddEdit";
+import Header from "@/components/Header";
+import Score from "@/components/Score";
 import {
   toggleAddStudentFunc,
   toggleRegistrationFunc,
-} from "@/lib/features/toggle/toggleSlice"
-import { customFetch } from "@/utils/utils"
+} from "@/lib/features/toggle/toggleSlice";
+import {customFetch} from "@/utils/utils";
 import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
   ClipboardDocumentCheckIcon,
   FunnelIcon,
   UserGroupIcon,
-} from "@heroicons/react/24/outline"
-import { useQuery } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+} from "@heroicons/react/24/outline";
+import {useQuery} from "@tanstack/react-query";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 function Students() {
-  const dispatch = useDispatch()
-  const route = useRouter()
-  const [href, setHref] = useState<"students" | "register-students">("students")
+  const [allStudentsData, setAllStudentsData] = useState<
+    IStudents[] | undefined
+  >(undefined);
+  const [registerStudentsData, setRegisterStudentsData] = useState<
+    IRegisterStudents[] | undefined
+  >(undefined);
+  const [noGraduateData, setNoGraduateData] = useState<IStudents[] | undefined>(
+    undefined
+  );
+  const [graduateData, setGraduateData] = useState<IStudents[] | undefined>(
+    undefined
+  );
+  const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch();
+  const route = useRouter();
+  const [href, setHref] = useState<"students" | "register-students">(
+    "students"
+  );
   useEffect(() => {
-    const admin = localStorage.getItem("auth")
+    const admin = localStorage.getItem("auth");
     if (!admin) {
-      route.push("/login")
+      route.push("/login");
     }
-  }, [route])
+  }, [route]);
 
-  const { data, isPending } = useQuery({
+  const {data, isPending} = useQuery({
     queryKey: ["students", href],
     queryFn: async () => {
-      const students: { data: IStudents[] } = await customFetch(href);
+      const students: {data: IStudents[] & IRegisterStudents[]} =
+        await customFetch(href);
       return students.data;
     },
     staleTime: 0,
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    if (href === "students") {
+      setNoGraduateData(data?.filter((data) => data.graduated === false));
+    }
+    if (href === "students") {
+      setGraduateData(data?.filter((data) => data.graduated === true));
+    }
+    if (href === "students") {
+      setAllStudentsData(data);
+    }
+    if (href === "register-students") {
+      setRegisterStudentsData(data);
+    }
+  }, [href, data]);
 
-  const graduatedLength =
-    data?.filter((item) => item.graduated === true).length ?? 0
-
-  const noGraduatedLength =
-    data?.filter((item) => item.graduated == false).length ?? 0
-
-  const [activeIndex, setActiveIndex] = useState(0)
   const handleScoreClick = (index: number) => {
     setActiveIndex(index);
     if (index === 4) {
-      setHref("register-students")
+      setHref("register-students");
     } else {
-      setHref("students")
+      setHref("students");
     }
-  }
-
+  };
 
   return (
     <main className="grid gap-y-5">
@@ -80,7 +102,7 @@ function Students() {
           onClick={() => handleScoreClick(0)}
           icon={<ClipboardDocumentCheckIcon width={20} height={20} />}
           title="Jami o'quvchilar"
-          total={data?.length ?? 0}
+          total={allStudentsData?.length ?? 0}
           active={activeIndex === 0}
         />
         <Score
@@ -88,34 +110,56 @@ function Students() {
           onClick={() => handleScoreClick(1)}
           icon={<ArrowTrendingDownIcon width={20} height={20} />}
           title="Hozir o'qiyotganlar"
-          total={noGraduatedLength}
+          total={noGraduateData?.length ?? 0}
         />
         <Score
           active={activeIndex === 2}
           onClick={() => handleScoreClick(2)}
           icon={<ArchiveBoxArrowDownIcon width={20} height={20} />}
           title="Bitirganlar"
-          total={graduatedLength}
+          total={graduateData?.length ?? 0}
         />
         <Score
           active={activeIndex === 3}
           onClick={() => handleScoreClick(3)}
           icon={<UserGroupIcon width={20} height={20} />}
           title="Ustozlar"
-          total={4}
+          total={0}
         />
         <Score
           active={activeIndex === 4}
-          onClick={() => handleScoreClick(4)
-          }
+          onClick={() => handleScoreClick(4)}
           icon={<UserGroupIcon width={20} height={20} />}
           title="Ro'yxatga olish"
-          total={4}
+          total={registerStudentsData?.length ?? "x"}
         />
       </div>
       <FilterAndAddData />
-      <DataTable activeIndex={activeIndex} href={href} loading={isPending} students={data ?? []} />
+      {[0, 4].includes(activeIndex) && (
+        <DataTable
+          activeIndex={activeIndex}
+          href={href}
+          loading={isPending}
+          students={data ?? []}
+        />
+      )}
+      {activeIndex === 1 && (
+        <DataTable
+          activeIndex={activeIndex}
+          href={href}
+          loading={isPending}
+          students={noGraduateData ?? []}
+        />
+      )}
+      {activeIndex === 2 && (
+        <DataTable
+          activeIndex={activeIndex}
+          href={href}
+          loading={isPending}
+          students={graduateData ?? []}
+        />
+      )}
     </main>
-  )
+  );
 }
-export default Students
+export default Students;

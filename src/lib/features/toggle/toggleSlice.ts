@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 export const toggleSlice = createSlice({
   name: "toggle",
@@ -7,6 +7,7 @@ export const toggleSlice = createSlice({
     toggleAddStudentValue: false,
     toggleEditStudentValue: false,
     toggleRegistrationValue: false,
+    toggleEditRegistrationValue: false,
   },
   reducers: {
     toggleFilterFunc: (state) => {
@@ -23,6 +24,9 @@ export const toggleSlice = createSlice({
     toggleRegistrationFunc: (state) => {
       state.toggleRegistrationValue = !state.toggleRegistrationValue
     },
+    toggleEditRegistrationFunc: (state) => {
+      state.toggleEditRegistrationValue = !state.toggleEditRegistrationValue
+    }
   },
 })
 
@@ -31,5 +35,6 @@ export const {
   toggleAddStudentFunc,
   toggleEditStudentFunc,
   toggleRegistrationFunc,
+  toggleEditRegistrationFunc
 } = toggleSlice.actions
 export default toggleSlice.reducer

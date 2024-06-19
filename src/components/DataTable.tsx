@@ -1,19 +1,22 @@
-import { Button, ConfigProvider, Space, Table, Tooltip } from "antd"
-import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { toggleEditStudentFunc, toggleRegistrationFunc } from "@/lib/features/toggle/toggleSlice"
-import { useDispatch } from "react-redux"
-import { setSingleStudentData } from "@/lib/features/student/studentSlice"
-import ModalPromise from "./ModalPromise"
-import { singleRegisterStudentsFunc } from "@/lib/features/register-students-slice/registerStudentsSlice"
+import {Button, ConfigProvider, Space, Table, Tooltip} from "antd";
+import {PencilSquareIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {
+  toggleEditRegistrationFunc,
+  toggleEditStudentFunc,
+} from "@/lib/features/toggle/toggleSlice";
+import {useDispatch} from "react-redux";
+import {setSingleStudentData} from "@/lib/features/student/studentSlice";
+import ModalPromise from "./ModalPromise";
+import {singleRegisterStudentsFunc} from "@/lib/features/register-students-slice/registerStudentsSlice";
 type TDataTable = {
-  href: "students" | "register-students"
-  students: (IStudents | IRegisterStudents)[] | undefined
-  loading: boolean
-  activeIndex: number
-}
+  href: "students" | "register-students";
+  students: (IStudents | IRegisterStudents)[] | undefined;
+  loading: boolean;
+  activeIndex: number;
+};
 
-function DataTable({ href, loading, students, activeIndex }: TDataTable) {
-  const dispatch = useDispatch()
+function DataTable({href, loading, students, activeIndex}: TDataTable) {
+  const dispatch = useDispatch();
 
   const studentsTableData = [
     {
@@ -69,8 +72,8 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
           <Tooltip title="Edit">
             <Button
               onClick={() => {
-                dispatch(setSingleStudentData(student))
-                dispatch(toggleEditStudentFunc())
+                dispatch(setSingleStudentData(student));
+                dispatch(toggleEditStudentFunc());
               }}
               size="large"
               type="primary"
@@ -81,7 +84,7 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
         </Space>
       ),
     },
-  ]
+  ];
   const registerStudentsTableData = [
     {
       title: "ID",
@@ -121,9 +124,9 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
           <Tooltip title="Edit">
             <Button
               onClick={() => {
-                dispatch(singleRegisterStudentsFunc(student))
-                dispatch(toggleRegistrationFunc())
-              }}  
+                dispatch(singleRegisterStudentsFunc(student));
+                dispatch(toggleEditRegistrationFunc());
+              }}
               size="large"
               type="primary"
               shape="default"
@@ -133,7 +136,7 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
         </Space>
       ),
     },
-  ]
+  ];
   return (
     <ConfigProvider
       theme={{
@@ -148,10 +151,12 @@ function DataTable({ href, loading, students, activeIndex }: TDataTable) {
         tableLayout="auto"
         rowKey="id"
         loading={loading}
-        columns={activeIndex === 4 ? registerStudentsTableData : studentsTableData}
+        columns={
+          activeIndex === 4 ? registerStudentsTableData : studentsTableData
+        }
         dataSource={students}
       />
     </ConfigProvider>
-  )
+  );
 }
-export default DataTable
+export default DataTable;

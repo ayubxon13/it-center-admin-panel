@@ -1,8 +1,8 @@
-"use client"
-import { DatePicker, Input, Select, Space } from "antd"
-import { XMarkIcon } from "@heroicons/react/24/outline"
-import { Controller, useForm } from "react-hook-form"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+"use client";
+import {DatePicker, Input, Select, Space} from "antd";
+import {XMarkIcon} from "@heroicons/react/24/outline";
+import {Controller, useForm} from "react-hook-form";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {
   customFetch,
   filterOptionSelect,
@@ -10,54 +10,54 @@ import {
   onChangeSelect,
   onSearchSelect,
   selectGroup,
-} from "@/utils/utils"
-import { toast } from "sonner"
-import { useDispatch, useSelector } from "react-redux"
-import { toggleEditStudentFunc } from "@/lib/features/toggle/toggleSlice"
-import dayjs from "dayjs"
-import { RootState } from "@/lib/store"
-import { ChangeEvent, useEffect, useState } from "react"
-import useFileChange from "@/hooks/useFileChange"
-import Btn from "./antdUI/Btn"
-import SelectUI from "./antdUI/SelectUI"
-import PhoneInput from "./antdUI/PhoneInput"
+} from "@/utils/utils";
+import {toast} from "sonner";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleEditStudentFunc} from "@/lib/features/toggle/toggleSlice";
+import dayjs from "dayjs";
+import {RootState} from "@/lib/store";
+import {ChangeEvent, useEffect} from "react";
+import useFileChange from "@/hooks/useFileChange";
+import Btn from "./antdUI/Btn";
+import SelectUI from "./antdUI/SelectUI";
+import PhoneInput from "./antdUI/PhoneInput";
 
 async function editStudent(data: IStudents) {
   try {
-    const res = await customFetch.put(`students/${data._id}`, data)
-    toast.success("Student edited successfully")
-    return res.data
+    const res = await customFetch.put(`students/${data._id}`, data);
+    toast.success("Student edited successfully");
+    return res.data;
   } catch (error) {
-    toast.error("Failed to edit student")
-    throw error
+    toast.error("Failed to edit student");
+    throw error;
   } finally {
-    toast.dismiss()
+    toast.dismiss();
   }
 }
 
-function EditStudent({ isOpen }: { isOpen: boolean }) {
-  const { handleFileChange, selectImage, setSelectImage } = useFileChange()
-  const dispatch = useDispatch()
+function EditStudent({isOpen}: {isOpen: boolean}) {
+  const {handleFileChange, selectImage, setSelectImage} = useFileChange();
+  const dispatch = useDispatch();
 
-  const queryClient = useQueryClient()
-  const { control, handleSubmit } = useForm<TInputs>()
-  const { singleStudentData } = useSelector(
+  const queryClient = useQueryClient();
+  const {control, handleSubmit} = useForm<TInputs>();
+  const {singleStudentData} = useSelector(
     (store: RootState) => store.studentSlice
-  )
+  );
 
   useEffect(() => {
     if (singleStudentData?.userPhoto) {
-      setSelectImage(singleStudentData.userPhoto)
+      setSelectImage(singleStudentData.userPhoto);
     }
-  }, [singleStudentData])
+  }, [singleStudentData]);
 
-  const { mutateAsync, isPending } = useMutation({
+  const {mutateAsync, isPending} = useMutation({
     mutationFn: editStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] })
-      dispatch(toggleEditStudentFunc())
+      queryClient.invalidateQueries({queryKey: ["students"]});
+      dispatch(toggleEditStudentFunc());
     },
-  })
+  });
 
   const onSubmit = (studentsFormData: TInputs) => {
     mutateAsync({
@@ -67,25 +67,23 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
       birthday: dayjs(studentsFormData?.birthday).format("MMM D, YYYY"),
       address: studentsFormData.address ?? singleStudentData?.address,
       group: studentsFormData.group ?? singleStudentData?.group?.toString(),
-      personalPhone: studentsFormData.personalPhone ?? singleStudentData?.personalPhone,
+      personalPhone:
+        studentsFormData.personalPhone ?? singleStudentData?.personalPhone,
       homePhone: studentsFormData.homePhone,
       certificate: studentsFormData.certificate,
       graduated: studentsFormData.graduated,
       userPercentage: 13,
       userPhoto: selectImage,
-      createdAt: singleStudentData?.createdAt ?? new Date(),
-      updatedAt: singleStudentData?.updatedAt instanceof Date
-        ? singleStudentData?.updatedAt
-        : new Date(singleStudentData?.updatedAt ?? ""),
       quizLevel: 0,
       videoLevel: 0,
-    })
-  }
+    });
+  };
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
     >
       <div className="bg-white z-50 w-full mx-80 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
@@ -157,7 +155,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                 name="fullName"
                 key={singleStudentData?.fullName}
                 defaultValue={singleStudentData?.fullName}
-                render={({ field }) => (
+                render={({field}) => (
                   <Input
                     className="h-10"
                     size="large"
@@ -165,14 +163,14 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       const capitalizedValue =
                         e.target.value.charAt(0).toUpperCase() +
-                        e.target.value.slice(1)
+                        e.target.value.slice(1);
                       field.onChange({
                         ...e,
                         target: {
                           ...e.target,
                           value: capitalizedValue,
                         },
-                      })
+                      });
                     }}
                   />
                 )}
@@ -184,7 +182,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                 name="birthday"
                 control={control}
                 key={singleStudentData?.birthday}
-                render={({ field }) => (
+                render={({field}) => (
                   <DatePicker
                     defaultValue={dayjs(singleStudentData?.birthday)}
                     placeholder=""
@@ -201,7 +199,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                 name="address"
                 control={control}
                 key={singleStudentData?.address}
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
                     defaultValue={singleStudentData?.address}
                     {...field}
@@ -209,8 +207,8 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                     filterOption={filterOptionSelect}
                     onSearch={onSearchSelect}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                   />
                 )}
@@ -223,7 +221,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                 defaultValue={singleStudentData?.group}
                 name="group"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <Select
                     {...field}
                     size="large"
@@ -272,7 +270,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                     : "Berilmagan ❌"
                 }
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
                     defaultValue={
                       singleStudentData?.certificate
@@ -291,8 +289,8 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                       },
                     ]}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                   />
                 )}
@@ -306,7 +304,7 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                 key={
                   singleStudentData?.graduated ? "Bitirgan ✅" : "Bitirmagan ❌"
                 }
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
                     defaultValue={
                       singleStudentData?.graduated
@@ -325,8 +323,8 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
                       },
                     ]}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                   />
                 )}
@@ -341,6 +339,6 @@ function EditStudent({ isOpen }: { isOpen: boolean }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
-export default EditStudent
+export default EditStudent;

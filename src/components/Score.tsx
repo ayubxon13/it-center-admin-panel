@@ -1,14 +1,14 @@
-"use client"
-import {ReactNode} from "react"
-import {Card, CardContent, CardHeader, CardTitle} from "./ui/card"
+"use client";
+import {ReactNode} from "react";
+import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
 
 type Tscore = {
-  title: string
-  total: number
-  icon: ReactNode
-  active?: boolean
-  onClick: () => void
-}
+  title: string;
+  total: number | "x";
+  icon: ReactNode;
+  active?: boolean;
+  onClick: () => void;
+};
 
 function Score({title, total, icon, active, onClick}: Tscore) {
   return (
@@ -29,6 +29,6 @@ function Score({title, total, icon, active, onClick}: Tscore) {
         </p>
       </CardContent>
     </Card>
-  )
+  );
 }
-export default Score
+export default Score;

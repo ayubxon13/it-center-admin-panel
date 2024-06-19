@@ -1,13 +1,12 @@
-"use client"
-import { Input, Modal } from "antd"
-import { useDispatch, useSelector } from "react-redux"
-import { toggleRegistrationFunc } from "@/lib/features/toggle/toggleSlice"
-import { Controller, useForm } from "react-hook-form"
-import { ChangeEvent } from "react"
-import { customFetch, formatPhoneNumber } from "@/utils/utils"
-import { toast } from "sonner"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { RootState } from "@/lib/store"
+"use client";
+import {Input, Modal} from "antd";
+import {useDispatch} from "react-redux";
+import {toggleRegistrationFunc} from "@/lib/features/toggle/toggleSlice";
+import {Controller, useForm} from "react-hook-form";
+import {ChangeEvent} from "react";
+import {customFetch, formatPhoneNumber} from "@/utils/utils";
+import {toast} from "sonner";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 async function addRegistrationStudent(data: IRegisterStudents) {
   try {
@@ -15,40 +14,40 @@ async function addRegistrationStudent(data: IRegisterStudents) {
       fullName: data.fullName,
       personalPhone: "+998 " + data.personalPhone,
       role: "noStudent",
-    })
-    toast.success("Student created successfully")
+    });
+    toast.success("Student created successfully");
   } catch (error) {
-    toast.error("Failed to create student")
-    throw error
+    toast.error("Failed to create student");
+    throw error;
   } finally {
-    toast.dismiss()
+    toast.dismiss();
   }
 }
 
-function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
-  const queryClient = useQueryClient()
+function AddRegistrationStudent({isOpen}: {isOpen: boolean}) {
+  const queryClient = useQueryClient();
 
-  const dispatch = useDispatch()
-  const { control, handleSubmit, reset } = useForm<IRegisterStudents>()
+  const dispatch = useDispatch();
+  const {control, handleSubmit, reset} = useForm<IRegisterStudents>();
 
-  const { mutateAsync, isPending } = useMutation({
+  const {mutateAsync, isPending} = useMutation({
     mutationFn: addRegistrationStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] })
-      dispatch(toggleRegistrationFunc())
+      queryClient.invalidateQueries({queryKey: ["students"]});
+      dispatch(toggleRegistrationFunc());
     },
-  })
+  });
 
   const onSubmit = (data: IRegisterStudents) => {
-    const isEmpty = Object.values(data).some((val) => val == null || val == "")
+    const isEmpty = Object.values(data).some((val) => val == null || val == "");
     if (isEmpty) {
-      return toast.error("Please fill out the form")
+      return toast.error("Please fill out the form");
     } else {
       mutateAsync(data).then(() => {
-        reset()
-      })
+        reset();
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -72,7 +71,7 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
             <Controller
               name="fullName"
               control={control}
-              render={({ field }) => (
+              render={({field}) => (
                 <Input
                   className="h-10"
                   size="large"
@@ -80,14 +79,14 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const capitalizedValue =
                       e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)
+                      e.target.value.slice(1);
                     field.onChange({
                       ...e,
                       target: {
                         ...e.target,
                         value: capitalizedValue,
                       },
-                    })
+                    });
                   }}
                 />
               )}
@@ -98,24 +97,24 @@ function AddRegistrationStudent({ isOpen }: { isOpen: boolean }) {
             <Controller
               name="personalPhone"
               control={control}
-              render={({ field }) => (
+              render={({field}) => (
                 <Input
                   {...field}
                   name="phone"
                   addonBefore="+998"
                   size="large"
                   onChange={(e) => {
-                    const formattedValue = formatPhoneNumber(e.target.value)
-                    field.onChange(formattedValue)
+                    const formattedValue = formatPhoneNumber(e.target.value);
+                    field.onChange(formattedValue);
                   }}
                 />
               )}
             />
           </div>
         </form>
-      </Modal >
+      </Modal>
     </>
-  )
+  );
 }
 
-export default AddRegistrationStudent
+export default AddRegistrationStudent;

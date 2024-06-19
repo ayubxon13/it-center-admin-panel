@@ -13,6 +13,7 @@ function FilterAndAddData() {
     toggleFilterValue,
     toggleEditStudentValue,
     toggleRegistrationValue,
+    toggleEditRegistrationValue
   } = useSelector((store: RootState) => store.toggleSlice)
   return (
     <>
@@ -20,7 +21,7 @@ function FilterAndAddData() {
       <AddData isOpen={toggleAddStudentValue} />
       <EditStudent isOpen={toggleEditStudentValue} />
       <AddRegistration isOpen={toggleRegistrationValue} />
-      {/* <EditRegistrationStudents isOpen={toggleRegistrationValue} /> */}
+      <EditRegistrationStudents isOpen={toggleEditRegistrationValue} />
     </>
   )
 }

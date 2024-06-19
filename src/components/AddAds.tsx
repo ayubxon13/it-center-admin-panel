@@ -14,7 +14,10 @@ type AdsInputType = {
 
 async function addAds(data: AdsInputType) {
   try {
-    await customFetch.post("ads", data);
+    await customFetch.post("ads", {
+      image: data.adsImageURL,
+      title: data.adsName,
+    });
     toast.success("Reklama muvaffaqiyatli yaratildi");
   } catch (error) {
     toast.error("Yaratishda xatolikka uchradi");

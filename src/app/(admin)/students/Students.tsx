@@ -130,7 +130,7 @@ function Students() {
           active={activeIndex === 4}
           onClick={() => handleScoreClick(4)}
           icon={<UserGroupIcon width={20} height={20} />}
-          title="Ro'yxatga olish"
+          title="Ro'yxatga olinganlar"
           total={registerStudentsData?.length ?? "x"}
         />
       </div>

@@ -1,8 +1,8 @@
-"use client"
-import { DatePicker, Input, Select, Space } from "antd"
-import { XMarkIcon } from "@heroicons/react/24/outline"
-import { Controller, useForm } from "react-hook-form"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+"use client";
+import {DatePicker, Input, Select, Space} from "antd";
+import {XMarkIcon} from "@heroicons/react/24/outline";
+import {Controller, useForm} from "react-hook-form";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {
   customFetch,
   filterOptionSelect,
@@ -11,53 +11,53 @@ import {
   onChangeSelect,
   onSearchSelect,
   selectGroup,
-} from "@/utils/utils"
-import { toast } from "sonner"
-import { useDispatch } from "react-redux"
-import { toggleAddStudentFunc } from "@/lib/features/toggle/toggleSlice"
-import dayjs from "dayjs"
-import { ChangeEvent, useRef } from "react"
-import useFileChange from "@/hooks/useFileChange"
-import SelectUI from "./antdUI/SelectUI"
-import PhoneInput from "./antdUI/PhoneInput"
-import Btn from "./antdUI/Btn"
+} from "@/utils/utils";
+import {toast} from "sonner";
+import {useDispatch} from "react-redux";
+import {toggleAddStudentFunc} from "@/lib/features/toggle/toggleSlice";
+import dayjs from "dayjs";
+import {ChangeEvent, useRef} from "react";
+import useFileChange from "@/hooks/useFileChange";
+import SelectUI from "./antdUI/SelectUI";
+import PhoneInput from "./antdUI/PhoneInput";
+import Btn from "./antdUI/Btn";
 
 async function addStudents(data: IStudents) {
   try {
-    const res = await customFetch.post("students", data)
-    toast.success("Student created successfully")
-    return res.data
+    const res = await customFetch.post("students", data);
+    toast.success("Student created successfully");
+    return res.data;
   } catch (error) {
-    toast.error("Failed to create student")
-    throw error
+    toast.error("Failed to create student");
+    throw error;
   } finally {
-    toast.dismiss()
+    toast.dismiss();
   }
 }
 
-function AddData({ isOpen }: { isOpen: boolean }) {
-  const { handleFileChange, selectImage, setSelectImage } = useFileChange()
-  const dispatch = useDispatch()
-  const fileUpload = useRef<HTMLInputElement>(null)
-  const queryClient = useQueryClient()
-  const { control, handleSubmit, reset } = useForm<TInputs>()
+function AddData({isOpen}: {isOpen: boolean}) {
+  const {handleFileChange, selectImage, setSelectImage} = useFileChange();
+  const dispatch = useDispatch();
+  const fileUpload = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const {control, handleSubmit, reset} = useForm<TInputs>();
 
-  const { mutateAsync, isPending } = useMutation({
+  const {mutateAsync, isPending} = useMutation({
     mutationFn: addStudents,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] })
-      dispatch(toggleAddStudentFunc())
+      queryClient.invalidateQueries({queryKey: ["students"]});
+      dispatch(toggleAddStudentFunc());
     },
-  })
+  });
 
   const onSubmit = (studentsFormData: TInputs) => {
     const isEmpty = Object.values(studentsFormData).some(
       (val) =>
         val == null || val === "" || fileUpload.current?.files?.length == 0
-    )
+    );
 
     if (isEmpty) {
-      return toast.error("Please fill out the form")
+      return toast.error("Please fill out the form");
     } else {
       mutateAsync({
         _id: "",
@@ -76,16 +76,17 @@ function AddData({ isOpen }: { isOpen: boolean }) {
         quizLevel: 0,
         videoLevel: 0,
       }).then(() => {
-        reset()
-        setSelectImage(null)
-      })
+        reset();
+        setSelectImage(null);
+      });
     }
-  }
+  };
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 transition-all duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
     >
       <div className="bg-white z-50 w-full mx-[17%] p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
@@ -156,7 +157,7 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 control={control}
                 name="fullName"
-                render={({ field }) => (
+                render={({field}) => (
                   <Input
                     className="h-10"
                     size="large"
@@ -164,14 +165,14 @@ function AddData({ isOpen }: { isOpen: boolean }) {
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       const capitalizedValue =
                         e.target.value.charAt(0).toUpperCase() +
-                        e.target.value.slice(1)
+                        e.target.value.slice(1);
                       field.onChange({
                         ...e,
                         target: {
                           ...e.target,
                           value: capitalizedValue,
                         },
-                      })
+                      });
                     }}
                   />
                 )}
@@ -184,7 +185,7 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 name="birthday"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <DatePicker
                     {...field}
                     placeholder=""
@@ -199,12 +200,13 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 name="address"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
+                    field={field}
                     filterOption={filterOptionSelect}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                     onSearch={onSearchSelect}
                     options={neighborhood}
@@ -217,7 +219,7 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 name="group"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <Select
                     {...field}
                     size="large"
@@ -259,9 +261,9 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 name="certificate"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
-                    {...field}
+                    field={field}
                     options={[
                       {
                         value: "yes",
@@ -273,8 +275,8 @@ function AddData({ isOpen }: { isOpen: boolean }) {
                       },
                     ]}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                   />
                 )}
@@ -285,9 +287,9 @@ function AddData({ isOpen }: { isOpen: boolean }) {
               <Controller
                 name="graduated"
                 control={control}
-                render={({ field }) => (
+                render={({field}) => (
                   <SelectUI
-                    {...field}
+                    field={field}
                     options={[
                       {
                         value: "yes",
@@ -299,8 +301,8 @@ function AddData({ isOpen }: { isOpen: boolean }) {
                       },
                     ]}
                     onChange={(value) => {
-                      field.onChange(value)
-                      onChangeSelect(value)
+                      field.onChange(value);
+                      onChangeSelect(value);
                     }}
                   />
                 )}
@@ -316,6 +318,6 @@ function AddData({ isOpen }: { isOpen: boolean }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
-export default AddData
+export default AddData;

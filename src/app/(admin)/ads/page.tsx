@@ -1,48 +1,47 @@
-"use client"
+"use client";
 import {
   EditOutlined,
   EllipsisOutlined,
   DeleteOutlined,
   FileTextOutlined,
-} from "@ant-design/icons"
-import {Card, Empty} from "antd"
+} from "@ant-design/icons";
+import {Card, Empty} from "antd";
 
-import Header from "@/components/Header"
-import Score from "@/components/Score"
-import {useQuery} from "@tanstack/react-query"
-import {customFetch} from "@/utils/utils"
-import ModalPromise from "@/components/ModalPromise"
+import Header from "@/components/Header";
+import Score from "@/components/Score";
+import {useQuery} from "@tanstack/react-query";
+import {customFetch} from "@/utils/utils";
+import ModalPromise from "@/components/ModalPromise";
 import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
   ClipboardDocumentCheckIcon,
-} from "@heroicons/react/24/outline"
-import {useRouter} from "next/navigation"
-import {useEffect, useState} from "react"
-const {Meta} = Card
+} from "@heroicons/react/24/outline";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+const {Meta} = Card;
 
 function Ads() {
-  const route = useRouter()
+  const route = useRouter();
   useEffect(() => {
-    const admin = localStorage.getItem("auth")
+    const admin = localStorage.getItem("auth");
     if (!admin) {
-      route.push("/login")
+      route.push("/login");
     }
-  }, [route])
+  }, [route]);
 
   const {data: ads, isPending} = useQuery({
     queryKey: ["ads"],
     queryFn: async () => {
-      const ads: {data: IAds[]} = await customFetch("/ads")
-      return ads.data
+      const ads: {data: IAds[]} = await customFetch("/ads");
+      return ads.data;
     },
-  })
+  });
 
-
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(0);
   const handleScoreClick = (index: number) => {
-    setActiveIndex(index)
-  }
+    setActiveIndex(index);
+  };
 
   return (
     <main className="grid gap-y-5">
@@ -67,12 +66,12 @@ function Ads() {
           total={134}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
+      <div className="grid gap-3 grid-cols-5 max-[1722px]:grid-cols-4 max-[1427px]:grid-cols-3 max-[1180px]:grid-cols-2">
         {ads?.map((ad) => (
           <Card
             key={ad._id}
             loading={isPending}
-            className="w-[100%]"
+            className="max-w-[300px] w-full"
             cover={<img className="h-[220px]" alt="ads photo" src={ad.image} />}
             actions={[
               <ModalPromise key="ads" title="ad" url={`ads/${ad._id}`}>
@@ -107,6 +106,6 @@ function Ads() {
 
       {ads?.length == 0 && <Empty />}
     </main>
-  )
+  );
 }
-export default Ads
+export default Ads;

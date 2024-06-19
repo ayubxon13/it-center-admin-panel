@@ -1,23 +1,26 @@
-import {Select} from "antd"
+import {Select} from "antd";
+import {ControllerRenderProps} from "react-hook-form";
 
 type SelectUIType = {
-  onChange: (value: any) => void
-  defaultValue?: string
-  onSearch?: (value: string) => void
+  field: ControllerRenderProps<TInputs, any>;
+  onChange: (value: any) => void;
+  defaultValue?: string;
+  onSearch?: (value: string) => void;
   filterOption?: (
     input: string,
     option?: {
-      label: string
-      value: "yes" | "no" | string
+      label: string;
+      value: "yes" | "no" | string;
     }
-  ) => boolean
+  ) => boolean;
   options: {
-    value: "yes" | "no" | string
-    label: string
-  }[]
-}
+    value: "yes" | "no" | string;
+    label: string;
+  }[];
+};
 
 function SelectUI({
+  field,
   filterOption,
   defaultValue,
   onChange,
@@ -26,6 +29,7 @@ function SelectUI({
 }: SelectUIType) {
   return (
     <Select
+      {...field}
       defaultValue={defaultValue}
       showSearch
       size="large"
@@ -37,6 +41,6 @@ function SelectUI({
       filterOption={filterOption}
       options={options}
     />
-  )
+  );
 }
-export default SelectUI
+export default SelectUI;

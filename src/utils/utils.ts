@@ -1,58 +1,59 @@
-import { SelectProps } from "antd"
-import axios from "axios"
-const baseURL = "https://it-center-admin-panel.vercel.app/api/"
+import {SelectProps} from "antd";
+import axios from "axios";
+const baseURL = "https://it-center-admin-panel.vercel.app/api/";
 export const customFetch = axios.create({
   baseURL: baseURL,
-})
+});
 
 export function generateRandomNumber(): number {
-  let result = 0
+  let result = "";
   for (let i = 0; i < 5; i++) {
-    result = result * 10 + Math.floor(Math.random() * 10)
+    const randomDigit = Math.floor(Math.random() * 10);
+    result += randomDigit.toString();
   }
-  return result
+  return parseInt(result, 10);
 }
 
 export const formatPhoneNumber = (value: string) => {
   // Raqamlardan boshqa hamma narsani olib tashlaymiz
-  const cleaned = ("" + value).replace(/\D/g, "")
+  const cleaned = ("" + value).replace(/\D/g, "");
 
   // Kirilgan raqamlar soni bo'yicha probellar qo'shamiz
   if (cleaned.length <= 2) {
-    return cleaned
+    return cleaned;
   }
   if (cleaned.length <= 5) {
-    return `${cleaned.slice(0, 2)} ${cleaned.slice(2)}`
+    return `${cleaned.slice(0, 2)} ${cleaned.slice(2)}`;
   }
   if (cleaned.length <= 7) {
-    return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(5)}`
+    return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(5)}`;
   }
   if (cleaned.length <= 9) {
     return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(
       5,
       7
-    )} ${cleaned.slice(7)}`
+    )} ${cleaned.slice(7)}`;
   }
 
   // Agar raqamlar soni 9 bo'lsa, formatni to'liq kiritamiz
   return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(
     5,
     7
-  )} ${cleaned.slice(7, 9)}`
-}
+  )} ${cleaned.slice(7, 9)}`;
+};
 
 export const onChangeSelect = (value: string) => {
-  console.log(`selected ${value}`)
-}
+  console.log(`selected ${value}`);
+};
 
 export const onSearchSelect = (value: string) => {
-  console.log("search:", value)
-}
+  console.log("search:", value);
+};
 
 export const filterOptionSelect = (
   input: string,
-  option?: { label: string; value: string }
-) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+  option?: {label: string; value: string}
+) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
 export const selectGroup: SelectProps["options"] = [
   {
@@ -109,7 +110,7 @@ export const selectGroup: SelectProps["options"] = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/768px-Circle-icons-computer.svg.png",
     desc: "Literacy",
   },
-]
+];
 
 export const neighborhood = [
   {
@@ -296,4 +297,25 @@ export const neighborhood = [
     value: "Pishqaron",
     label: "Pishqaron",
   },
-]
+];
+
+export const teacherData: ITeacher[] = [
+  {
+    id: generateRandomNumber(),
+    fullName: "Ahmadjon Hazratqulov",
+    personalPhone: "+998 91 327 32 31",
+    group: "Python",
+  },
+  {
+    id: generateRandomNumber(),
+    fullName: "Asilbek Komilov",
+    personalPhone: "+998 90 293 39 96",
+    group: "Python, C++, Savodxonlik",
+  },
+  {
+    id: generateRandomNumber(),
+    fullName: "Javohirbek Muxtorov",
+    personalPhone: "+998 90 570 06 54",
+    group: "Android",
+  },
+];

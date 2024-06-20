@@ -69,7 +69,7 @@ function SideNavbar() {
     },
     {
       id: 5,
-      name: "Hiosob",
+      name: "Hisob",
       link: "/profile",
       chilren: (
         <UserCircleIcon

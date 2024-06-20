@@ -7,7 +7,7 @@ import {
   toggleAddStudentFunc,
   toggleRegistrationFunc,
 } from "@/lib/features/toggle/toggleSlice";
-import {customFetch} from "@/utils/utils";
+import {customFetch, teacherData} from "@/utils/utils";
 import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
@@ -83,10 +83,6 @@ function Students() {
   return (
     <main className="grid gap-y-5">
       <Header
-        buttonOne={{
-          text: "QIDIRUV",
-          icon: <FunnelIcon width={21} height={21} />,
-        }}
         buttonTwo={{
           text: "QO'SHISH",
           click: () => dispatch(toggleAddStudentFunc()),
@@ -131,7 +127,7 @@ function Students() {
           onClick={() => handleScoreClick(4)}
           icon={<UserGroupIcon width={20} height={20} />}
           title="Ro'yxatga olinganlar"
-          total={registerStudentsData?.length ?? "x"}
+          total={registerStudentsData?.length ?? 0}
         />
       </div>
       <FilterAndAddData />
@@ -157,6 +153,14 @@ function Students() {
           href={href}
           loading={isPending}
           students={graduateData ?? []}
+        />
+      )}
+      {activeIndex === 3 && (
+        <DataTable
+          activeIndex={activeIndex}
+          href={href}
+          loading={isPending}
+          students={teacherData ?? []}
         />
       )}
     </main>

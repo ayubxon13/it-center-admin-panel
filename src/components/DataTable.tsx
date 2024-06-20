@@ -10,7 +10,7 @@ import ModalPromise from "./ModalPromise";
 import {singleRegisterStudentsFunc} from "@/lib/features/register-students-slice/registerStudentsSlice";
 type TDataTable = {
   href: "students" | "register-students";
-  students: (IStudents | IRegisterStudents)[] | undefined;
+  students: (IStudents | IRegisterStudents | ITeacher)[] | undefined;
   loading: boolean;
   activeIndex: number;
 };
@@ -137,6 +137,74 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       ),
     },
   ];
+  const teacherTableData = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      className: "w-[65px]",
+    },
+    {
+      title: "Ism Familya",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "Shaxsiy raqami",
+      dataIndex: "personalPhone",
+      key: "personalPhone",
+    },
+    {
+      title: "Guruhi",
+      dataIndex: "group",
+      key: "group",
+    },
+    // {
+    //   title: "Tahrirlash",
+    //   key: "options",
+    //   className: "w-[120px]",
+    //   render: (student: IRegisterStudents) => (
+    //     <Space size="small">
+    //       <ModalPromise
+    //         key={href}
+    //         title="student"
+    //         url={`${href}/${student._id}`}
+    //       >
+    //         <Button
+    //           type="primary"
+    //           size="large"
+    //           shape="default"
+    //           danger
+    //           icon={<XMarkIcon width={24} height={24} />}
+    //         />
+    //       </ModalPromise>
+    //       <Tooltip title="Edit">
+    //         <Button
+    //           onClick={() => {
+    //             dispatch(singleRegisterStudentsFunc(student));
+    //             dispatch(toggleEditRegistrationFunc());
+    //           }}
+    //           size="large"
+    //           type="primary"
+    //           shape="default"
+    //           icon={<PencilSquareIcon width={24} height={24} />}
+    //         />
+    //       </Tooltip>
+    //     </Space>
+    //   ),
+    // },
+  ];
+
+  const showTable = () => {
+    if (activeIndex === 4) {
+      return registerStudentsTableData;
+    } else if (activeIndex === 3) {
+      return teacherTableData;
+    } else {
+      return studentsTableData;
+    }
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -151,9 +219,7 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
         tableLayout="auto"
         rowKey="id"
         loading={loading}
-        columns={
-          activeIndex === 4 ? registerStudentsTableData : studentsTableData
-        }
+        columns={showTable()}
         dataSource={students}
       />
     </ConfigProvider>

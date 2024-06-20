@@ -4,7 +4,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
 
 type Tscore = {
   title: string;
-  total: number | "x";
+  total: number;
   icon: ReactNode;
   active?: boolean;
   onClick: () => void;

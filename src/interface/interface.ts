@@ -96,3 +96,10 @@ interface IQuestions {
   d: string;
   right: string;
 }
+
+interface ITeacher {
+  id: number;
+  fullName: string;
+  personalPhone: string;
+  group: string;
+}

@@ -120,7 +120,7 @@ function Students() {
           onClick={() => handleScoreClick(3)}
           icon={<UserGroupIcon width={20} height={20} />}
           title="Ustozlar"
-          total={0}
+          total={teacherData.length}
         />
         <Score
           active={activeIndex === 4}

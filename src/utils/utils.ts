@@ -310,12 +310,12 @@ export const teacherData: ITeacher[] = [
     id: generateRandomNumber(),
     fullName: "Asilbek Komilov",
     personalPhone: "+998 90 293 39 96",
-    group: "Python, C++, Savodxonlik",
+    group: "Android",
   },
   {
     id: generateRandomNumber(),
     fullName: "Javohirbek Muxtorov",
     personalPhone: "+998 90 570 06 54",
-    group: "Android",
+    group: "Java, Kotlin",
   },
 ];

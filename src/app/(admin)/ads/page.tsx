@@ -69,7 +69,7 @@ function Ads() {
             key={ad._id}
             loading={isPending}
             className="max-w-[300px] w-full"
-            cover={<img className="h-[220px]" alt="ads photo" src={ad.image} />}
+            cover={<img className="h-[220px] object-cover" alt="ads photo" src={ad.image} />}
             actions={[
               <ModalPromise key="ads" title="ad" url={`ads/${ad._id}`}>
                 <DeleteOutlined key="delete" />

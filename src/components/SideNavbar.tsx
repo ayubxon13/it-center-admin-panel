@@ -1,8 +1,8 @@
-"use client"
-import {Disclosure} from "@headlessui/react"
+"use client";
+import {Disclosure} from "@headlessui/react";
 import {
   Bars3Icon,
-  ChartBarSquareIcon,
+  BellIcon,
   Cog6ToothIcon,
   EllipsisHorizontalIcon,
   ExclamationCircleIcon,
@@ -11,13 +11,13 @@ import {
   PlayIcon,
   UserCircleIcon,
   UserGroupIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/24/outline";
 
-import Link from "next/link"
-import {useRouter} from "next/navigation"
+import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 function SideNavbar() {
-  const route = useRouter()
+  const route = useRouter();
   const sideBarLinks = [
     {
       id: 1,
@@ -81,17 +81,17 @@ function SideNavbar() {
     },
     {
       id: 7,
-      name: "Analytics",
-      link: "/analytics",
+      name: "Bildirishnoma",
+      link: "/notifications",
       chilren: (
-        <ChartBarSquareIcon
+        <BellIcon
           className="text-2xl text-[#DBE2EF] group-hover:text-white"
           width={24}
           height={24}
         />
       ),
     },
-  ]
+  ];
   return (
     <div>
       <Disclosure className="select-none" as="nav">
@@ -146,8 +146,8 @@ function SideNavbar() {
             {/* logout */}
             <button
               onClick={() => {
-                localStorage.removeItem("auth")
-                route.push("/login")
+                localStorage.removeItem("auth");
+                route.push("/login");
               }}
               className="my-4"
             >
@@ -166,7 +166,7 @@ function SideNavbar() {
         </div>
       </Disclosure>
     </div>
-  )
+  );
 }
 
-export default SideNavbar
+export default SideNavbar;

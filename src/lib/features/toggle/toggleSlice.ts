@@ -9,6 +9,7 @@ export const toggleSlice = createSlice({
     toggleRegistrationValue: false,
     toggleEditRegistrationValue: false,
     toggleAddAdsValue: false,
+    toggleAddNotifications: false,
   },
   reducers: {
     toggleFilterFunc: (state) => {
@@ -31,6 +32,9 @@ export const toggleSlice = createSlice({
     toggleAddAdsFunc: (state) => {
       state.toggleAddAdsValue = !state.toggleAddAdsValue;
     },
+    toggleAddNotifications: (state) => {
+      state.toggleAddNotifications = !state.toggleAddNotifications;
+    },
   },
 });
 
@@ -41,5 +45,6 @@ export const {
   toggleRegistrationFunc,
   toggleEditRegistrationFunc,
   toggleAddAdsFunc,
+  toggleAddNotifications,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

@@ -55,8 +55,8 @@ type TNotification = {
   title: string;
   comment: string;
   image: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 interface ICategory {

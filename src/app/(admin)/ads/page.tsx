@@ -47,15 +47,15 @@ function Ads() {
   return (
     <main className="grid gap-y-5">
       <Header
+        text="Reklamalar"
         buttonTwo={{text: "ADD ADS", click: () => dispatch(toggleAddAdsFunc())}}
-        text="ADS"
       />
       <div className="grid grid-cols-4 justify-self-start gap-5 mb-5 w-full">
         <Score
           active
           onClick={() => 1}
           icon={<ClipboardDocumentCheckIcon width={20} height={20} />}
-          title="All ads"
+          title="Hamma reklamalar"
           total={ads?.length ?? 0}
         />
       </div>

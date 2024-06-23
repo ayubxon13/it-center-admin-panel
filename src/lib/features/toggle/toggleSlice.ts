@@ -9,7 +9,8 @@ export const toggleSlice = createSlice({
     toggleRegistrationValue: false,
     toggleEditRegistrationValue: false,
     toggleAddAdsValue: false,
-    toggleAddNotifications: false,
+    toggleAddNotificationsValue: false,
+    toggleEditNotificationsValue: false,
   },
   reducers: {
     toggleFilterFunc: (state) => {
@@ -32,8 +33,11 @@ export const toggleSlice = createSlice({
     toggleAddAdsFunc: (state) => {
       state.toggleAddAdsValue = !state.toggleAddAdsValue;
     },
-    toggleAddNotifications: (state) => {
-      state.toggleAddNotifications = !state.toggleAddNotifications;
+    toggleAddNotificationsFunc: (state) => {
+      state.toggleAddNotificationsValue = !state.toggleAddNotificationsValue;
+    },
+    toggleEditNotificationsValue: (state) => {
+      state.toggleEditNotificationsValue = !state.toggleEditNotificationsValue;
     },
   },
 });
@@ -45,6 +49,7 @@ export const {
   toggleRegistrationFunc,
   toggleEditRegistrationFunc,
   toggleAddAdsFunc,
-  toggleAddNotifications,
+  toggleAddNotificationsFunc,
+  toggleEditNotificationsValue,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

@@ -47,6 +47,10 @@ function AddAds() {
     );
     if (isEmpty) {
       return toast.error("Please fill out the form");
+    } else if (!/\.(jpg|jpeg|png|svg|webp)$/i.test(adsData.adsImageURL)) {
+      return toast.error(
+        "Invalid image format. Please provide a URL ending with .jpg, .jpeg, .png, .svg, or .webp"
+      );
     } else {
       mutateAsync(adsData).then(() => {
         reset();

@@ -52,10 +52,10 @@ function EditAds({ad, cancel}: EditAdsType) {
 
   return (
     <Modal
-      title="Reklama qo'shish"
+      title="Reklamani tahrirlash"
       centered
       open={true}
-      okText="Qo'shish"
+      okText="Tahrirlash"
       width={700}
       cancelText="Bekor qilish"
       onCancel={cancel}

@@ -60,10 +60,13 @@ type TNotification = {
 };
 
 interface ICategory {
+  _id: string
   id: number;
   image: string;
   levelImage: string;
-  language: ISelectGroup;
+  language: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface IAds {

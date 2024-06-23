@@ -1,13 +1,13 @@
-import connectMongoDB from "@/database/mongodb"
-import Notification from "@/models/notification"
-import {generateRandomNumber} from "@/utils/utils"
-import {NextResponse} from "next/server"
+import connectMongoDB from "@/database/mongodb";
+import Notification from "@/models/notification";
+import {generateRandomNumber} from "@/utils/utils";
+import {NextResponse} from "next/server";
 
 export const GET = async () => {
   try {
-    await connectMongoDB()
-    const notification = await Notification.find()
-    return NextResponse.json(notification)
+    await connectMongoDB();
+    const notification = await Notification.find();
+    return NextResponse.json(notification);
   } catch (error) {
     return NextResponse.json(
       {
@@ -17,21 +17,21 @@ export const GET = async () => {
       {
         status: 500,
       }
-    )
+    );
   }
-}
+};
 
 export const POST = async (req: Request) => {
-  const {id, title, comment, image}: TNotification = await req.json()
+  const {title, comment, image}: TNotification = await req.json();
   try {
-    await connectMongoDB()
+    await connectMongoDB();
     await Notification.create({
       id: generateRandomNumber(),
       title,
       comment,
       image,
-    })
-    return NextResponse.json({message: "OK"}, {status: 200})
+    });
+    return NextResponse.json({message: "OK"}, {status: 200});
   } catch (error) {
     return NextResponse.json(
       {
@@ -41,6 +41,6 @@ export const POST = async (req: Request) => {
       {
         status: 500,
       }
-    )
+    );
   }
-}
+};

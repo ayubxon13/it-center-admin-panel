@@ -1,34 +1,32 @@
-"use client"
-import {
-  toggleFilterFunc,
-} from "@/lib/features/toggle/toggleSlice"
-import {RootState} from "@/lib/store"
-import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline"
-import {Button} from "antd"
-import {ReactNode} from "react"
-import {useDispatch, useSelector} from "react-redux"
+"use client";
+import {toggleFilterFunc} from "@/lib/features/toggle/toggleSlice";
+import {RootState} from "@/lib/store";
+import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
+import {Button} from "antd";
+import {ReactNode} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 type THeader = {
-  text: string
+  text: string;
   buttonOne?: {
-    text: string
-    icon: ReactNode
-  }
+    text: string;
+    icon: ReactNode;
+  };
   buttonTwo?: {
-    text: string
-    click: () => void
-  }
+    text: string;
+    click: () => void;
+  };
   buttonThree?: {
-    text: string
-    click: () => void
-  }
-}
+    text: string;
+    click: () => void;
+  };
+};
 
 function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {toggleFilterValue} = useSelector(
     (store: RootState) => store.toggleSlice
-  )
+  );
   return (
     <div className="w-full mt-5">
       <div className="flex justify-between">
@@ -72,6 +70,6 @@ function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
       </div>
       <hr className="border-black border-opacity-25 mt-4" />
     </div>
-  )
+  );
 }
-export default Header
+export default Header;

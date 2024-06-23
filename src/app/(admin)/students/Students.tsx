@@ -12,7 +12,6 @@ import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
   ClipboardDocumentCheckIcon,
-  FunnelIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";

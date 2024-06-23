@@ -20,7 +20,6 @@ function SideNavbar() {
   const route = useRouter();
   const sideBarLinks = [
     {
-      id: 1,
       name: "O'quvchilar",
       link: "/",
       chilren: (
@@ -32,7 +31,6 @@ function SideNavbar() {
       ),
     },
     {
-      id: 2,
       name: "Kurslar",
       link: "/courses",
       chilren: (
@@ -44,7 +42,6 @@ function SideNavbar() {
       ),
     },
     {
-      id: 3,
       name: "Darslar",
       link: "/lessons",
       chilren: (
@@ -56,7 +53,6 @@ function SideNavbar() {
       ),
     },
     {
-      id: 4,
       name: "Reklama",
       link: "/ads",
       chilren: (
@@ -68,7 +64,6 @@ function SideNavbar() {
       ),
     },
     {
-      id: 5,
       name: "Hisob",
       link: "/profile",
       chilren: (
@@ -80,7 +75,6 @@ function SideNavbar() {
       ),
     },
     {
-      id: 7,
       name: "Bildirishnoma",
       link: "/notifications",
       chilren: (
@@ -109,7 +103,7 @@ function SideNavbar() {
             <div className=" my-4 border-b border-gray-100 pb-4">
               {sideBarLinks.map((link) => (
                 <Link
-                  key={link.id}
+                  key={link.link}
                   href={link.link}
                   className="flex transition-all mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#3F72AF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto"
                 >

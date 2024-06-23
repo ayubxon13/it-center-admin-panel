@@ -12,7 +12,7 @@ import {RootState} from "@/lib/store";
 import {customFetch} from "@/utils/utils";
 import {BellIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
-import {Avatar, Card, Empty} from "antd";
+import {Card, Empty} from "antd";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";

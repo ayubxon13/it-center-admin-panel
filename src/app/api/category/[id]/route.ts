@@ -28,10 +28,11 @@ export const DELETE = async (req: Request) => {
 };
 export const PUT = async (req: Request, {params}: {params: {id: number}}) => {
   const {id} = params;
-  const {image, language}: ICategory = await req.json();
+  const {image, levelImage, language}: ICategory = await req.json();
   await connectMongoDB();
   await Category.findByIdAndUpdate(id, {
     image,
+    levelImage,
     language,
   });
   return NextResponse.json({message: "OK"}, {status: 200});

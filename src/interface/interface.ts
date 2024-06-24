@@ -60,9 +60,10 @@ type TNotification = {
 };
 
 interface ICategory {
-  _id: string
+  _id: string;
   id: number;
   image: string;
+  levelImage: string
   language: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -83,7 +84,7 @@ interface ILessons {
   lessonName: string;
   languageName: string;
   videoLink: string;
-  level: string;
+  level: Level;
   homework: string;
 }
 

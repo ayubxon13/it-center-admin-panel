@@ -7,6 +7,7 @@ import {toast} from "sonner";
 
 type CategoriesInputType = {
   image: string;
+  levelImage: string;
   language: string;
 };
 
@@ -47,6 +48,7 @@ function EditCategories({category, cancel}: EditCourseType) {
       _id: category._id,
       id: category.id,
       image: categoryData.image,
+      levelImage: categoryData.levelImage,
       language: categoryData.language,
     });
   };
@@ -103,6 +105,18 @@ function EditCategories({category, cancel}: EditCourseType) {
               render={({field}) => <Input {...field} size="large" />}
             />
           </div>
+        </div>
+        <div>
+          <h5 className="text-lg opacity-70 font-medium">
+            Kurs qo&apos;shimcha rasm linki:
+          </h5>
+          <Controller
+            name="levelImage"
+            control={control}
+            defaultValue={category.levelImage}
+            key={category.levelImage}
+            render={({field}) => <Input {...field} size="large" />}
+          />
         </div>
       </form>
     </Modal>

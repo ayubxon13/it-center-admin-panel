@@ -83,14 +83,14 @@ function Students() {
     <main className="grid gap-y-5">
       <Header
         buttonTwo={{
-          text: "QO'SHISH",
+          text: "O'QUVCHI QO'SHISH",
           click: () => dispatch(toggleAddStudentFunc()),
         }}
         buttonThree={{
           text: "RO'YXATGA OLISH",
           click: () => dispatch(toggleRegistrationFunc()),
         }}
-        text="Students"
+        text="O'quvchilar"
       />
       <div className="grid grid-cols-4 max-[1900px]:grid-cols-3 gap-5 mb-5">
         <Score

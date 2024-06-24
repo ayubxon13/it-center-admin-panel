@@ -22,12 +22,13 @@ export const GET = async () => {
 };
 
 export const POST = async (req: Request) => {
-  const {image, language}: ICategory = await req.json();
+  const {image, levelImage, language}: ICategory = await req.json();
   try {
     await connectMongoDB();
     await Category.create({
       id: generateRandomNumber(),
       image,
+      levelImage,
       language,
     });
     return NextResponse.json({message: "OK"}, {status: 200});

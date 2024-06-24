@@ -9,6 +9,7 @@ import {toast} from "sonner";
 
 type CategoriesInputType = {
   image: string;
+  levelImage: string;
   language: string;
 };
 
@@ -16,6 +17,7 @@ async function addCategories(data: CategoriesInputType) {
   try {
     await customFetch.post("category", {
       image: data.image,
+      levelImage: data.levelImage,
       language: data.language,
     });
     toast.success("Reklama muvaffaqiyatli yaratildi");
@@ -106,6 +108,16 @@ function AddCategories() {
               render={({field}) => <Input {...field} size="large" />}
             />
           </div>
+        </div>
+        <div>
+          <h5 className="text-lg opacity-70 font-medium">
+            Kurs qo&apos;shimcha rasm linki:
+          </h5>
+          <Controller
+            name="levelImage"
+            control={control}
+            render={({field}) => <Input {...field} size="large" />}
+          />
         </div>
       </form>
     </Modal>

@@ -1,4 +1,3 @@
-import {SelectProps} from "antd";
 import axios from "axios";
 const baseURL = "https://it-center-admin-panel.vercel.app/api/";
 export const customFetch = axios.create({
@@ -54,63 +53,6 @@ export const filterOptionSelect = (
   input: string,
   option?: {label: string; value: string}
 ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
-export const selectGroup: SelectProps["options"] = [
-  {
-    label: "Kotlin",
-    value: "Kotlin",
-    emoji:
-      "https://mathiasfrohlich.gallerycdn.vsassets.io/extensions/mathiasfrohlich/kotlin/1.7.1/1581441165235/Microsoft.VisualStudio.Services.Icons.Default",
-    desc: "Kotlin",
-  },
-  {
-    label: "Java",
-    value: "Java",
-    emoji: "https://www.svgrepo.com/show/303388/java-4-logo.svg",
-    desc: "Java",
-  },
-  {
-    label: "C++",
-    value: "C++",
-    emoji:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1822px-ISO_C%2B%2B_Logo.svg.png",
-    desc: "C++",
-  },
-  {
-    label: "Python",
-    value: "Python",
-    emoji:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Python_logo_51.svg/1200px-Python_logo_51.svg.png",
-    desc: "Python",
-  },
-  {
-    label: "Frontend",
-    value: "Frontend",
-    emoji:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png",
-    desc: "Frontend",
-  },
-  {
-    label: "Android",
-    value: "Android",
-    emoji:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Android_logo_2019.png/640px-Android_logo_2019.png",
-    desc: "Android",
-  },
-  {
-    label: "Backend",
-    value: "Backend",
-    emoji: "https://neunen.com/wp-content/uploads/backend.png",
-    desc: "Backend",
-  },
-  {
-    label: "Literacy",
-    value: "Literacy",
-    emoji:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/768px-Circle-icons-computer.svg.png",
-    desc: "Literacy",
-  },
-];
 
 export const neighborhood = [
   {

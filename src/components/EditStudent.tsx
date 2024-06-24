@@ -9,7 +9,6 @@ import {
   neighborhood,
   onChangeSelect,
   onSearchSelect,
-  selectGroup,
 } from "@/utils/utils";
 import {toast} from "sonner";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,6 +20,7 @@ import useFileChange from "@/hooks/useFileChange";
 import Btn from "./antdUI/Btn";
 import SelectUI from "./antdUI/SelectUI";
 import PhoneInput from "./antdUI/PhoneInput";
+import useGetCategories from "@/hooks/useGetCategories";
 
 async function editStudent(data: IStudents) {
   try {
@@ -36,6 +36,7 @@ async function editStudent(data: IStudents) {
 }
 
 function EditStudent({isOpen}: {isOpen: boolean}) {
+  const {groups, isPendingCategories} = useGetCategories();
   const {handleFileChange, selectImage, setSelectImage} = useFileChange();
   const dispatch = useDispatch();
 
@@ -218,19 +219,25 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
             <div className="w-full">
               <h5 className="text-lg opacity-70 font-medium">Group:</h5>
               <Controller
-                key={singleStudentData?.group?.toString()}
-                defaultValue={singleStudentData?.group}
                 name="group"
                 control={control}
+                key={singleStudentData?.group}
+                defaultValue={singleStudentData?.group}
                 render={({field}) => (
                   <Select
                     {...field}
+                    loading={isPendingCategories}
+                    disabled={isPendingCategories}
                     size="large"
                     className="h-10 w-full"
-                    options={selectGroup}
+                    options={groups?.map((group) => ({
+                      value: group.language,
+                      label: group.language,
+                      emoji: group.image,
+                    }))}
                     optionRender={(option) => (
                       <Space>
-                        <span role="img" aria-label={option.data.label}>
+                        <span role="img" aria-label={option.data.language}>
                           <img
                             src={option.data.emoji}
                             alt=""
@@ -238,7 +245,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                             height={24}
                           />
                         </span>
-                        {option.data.desc}
+                        {option.value}
                       </Space>
                     )}
                   />

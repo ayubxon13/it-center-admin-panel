@@ -10,7 +10,6 @@ import {
   neighborhood,
   onChangeSelect,
   onSearchSelect,
-  selectGroup,
 } from "@/utils/utils";
 import {toast} from "sonner";
 import {useDispatch} from "react-redux";
@@ -21,6 +20,7 @@ import useFileChange from "@/hooks/useFileChange";
 import SelectUI from "./antdUI/SelectUI";
 import PhoneInput from "./antdUI/PhoneInput";
 import Btn from "./antdUI/Btn";
+import useGetCategories from "@/hooks/useGetCategories";
 
 async function addStudents(data: IStudents) {
   try {
@@ -36,6 +36,8 @@ async function addStudents(data: IStudents) {
 }
 
 function AddData({isOpen}: {isOpen: boolean}) {
+  const {groups, isPendingCategories} = useGetCategories();
+
   const {handleFileChange, selectImage, setSelectImage} = useFileChange();
   const dispatch = useDispatch();
   const fileUpload = useRef<HTMLInputElement>(null);
@@ -224,10 +226,16 @@ function AddData({isOpen}: {isOpen: boolean}) {
                     {...field}
                     size="large"
                     className="h-10 w-full"
-                    options={selectGroup}
+                    loading={isPendingCategories}
+                    disabled={isPendingCategories}
+                    options={groups?.map((group) => ({
+                      value: group.language,
+                      label: group.language,
+                      emoji: group.image,
+                    }))}
                     optionRender={(option) => (
                       <Space>
-                        <span role="img" aria-label={option.data.label}>
+                        <span role="img" aria-label={option.data.language}>
                           <img
                             src={option.data.emoji}
                             alt=""
@@ -235,7 +243,7 @@ function AddData({isOpen}: {isOpen: boolean}) {
                             height={24}
                           />
                         </span>
-                        {option.data.desc}
+                        {option.value}
                       </Space>
                     )}
                   />

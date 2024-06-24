@@ -13,7 +13,7 @@ type TInputs = {
   fullName: string;
   birthday: string;
   address: string;
-  group: ISelectGroup[] | string;
+  group: string;
   personalPhone: string;
   homePhone: string;
   certificate: string;
@@ -26,7 +26,7 @@ interface IStudents {
   fullName: string;
   birthday: string;
   address: string;
-  group: ISelectGroup[] | string;
+  group: string;
   personalPhone: string;
   homePhone: string;
   certificate: boolean | string;

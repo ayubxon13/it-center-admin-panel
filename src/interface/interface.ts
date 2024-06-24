@@ -63,7 +63,6 @@ interface ICategory {
   _id: string
   id: number;
   image: string;
-  levelImage: string;
   language: string;
   createdAt?: Date;
   updatedAt?: Date;

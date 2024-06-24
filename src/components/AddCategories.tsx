@@ -1,6 +1,4 @@
-import {
-  toggleAddCourseFunc,
-} from "@/lib/features/toggle/toggleSlice";
+import {toggleAddCourseFunc} from "@/lib/features/toggle/toggleSlice";
 import {customFetch} from "@/utils/utils";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Input, Modal} from "antd";
@@ -11,7 +9,6 @@ import {toast} from "sonner";
 
 type CategoriesInputType = {
   image: string;
-  levelImage: string;
   language: string;
 };
 
@@ -19,7 +16,6 @@ async function addCategories(data: CategoriesInputType) {
   try {
     await customFetch.post("category", {
       image: data.image,
-      levelImage: data.levelImage,
       language: data.language,
     });
     toast.success("Reklama muvaffaqiyatli yaratildi");
@@ -51,9 +47,7 @@ function AddCategories() {
     );
     if (isEmpty) {
       return toast.error("Please fill out the form");
-    } else if (
-      !/\.(jpg|jpeg|png|svg|webp)$/i.test(catData.image && catData.levelImage)
-    ) {
+    } else if (!/\.(jpg|jpeg|png|svg|webp)$/i.test(catData.image)) {
       return toast.error(
         "Invalid image format. Please provide a URL ending with .jpg, .jpeg, .png, .svg, or .webp"
       );
@@ -112,16 +106,6 @@ function AddCategories() {
               render={({field}) => <Input {...field} size="large" />}
             />
           </div>
-        </div>
-        <div className="w-full mb-8">
-          <h5 className="text-lg opacity-70 font-medium mt-3">
-            Kurs qo&apos;shimcha rasm linki
-          </h5>
-          <Controller
-            name="levelImage"
-            control={control}
-            render={({field}) => <Input {...field} size="large" />}
-          />
         </div>
       </form>
     </Modal>

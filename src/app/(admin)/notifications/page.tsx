@@ -72,7 +72,7 @@ function Notifications() {
             className="max-w-[300px] w-full"
             cover={
               <img
-                className="h-[220px] object-cover"
+                className="h-[220px] object-contain"
                 alt="notification photo"
                 src={not.image}
               />

@@ -67,7 +67,7 @@ function Ads() {
             className="max-w-[300px] w-full"
             cover={
               <img
-                className="h-[220px] object-cover"
+                className="h-[220px] object-contain"
                 alt="ads photo"
                 src={ad.image}
               />

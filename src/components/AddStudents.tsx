@@ -53,35 +53,35 @@ function AddData({isOpen}: {isOpen: boolean}) {
   });
 
   const onSubmit = (studentsFormData: TInputs) => {
-    // const isEmpty = Object.values(studentsFormData).some(
-    //   (val) =>
-    //     val == null || val === "" || fileUpload.current?.files?.length == 0
-    // );
+    const isEmpty = Object.values(studentsFormData).some(
+      (val) =>
+        val == null || val === "" || fileUpload.current?.files?.length == 0
+    );
 
-    // if (isEmpty) {
-    //   return toast.error("Please fill out the form");
-    // } else {
-    mutateAsync({
-      _id: "",
-      id: generateRandomNumber(),
-      fullName: studentsFormData.fullName,
-      birthday: dayjs(studentsFormData.birthday).format("MMM D, YYYY"),
-      address: studentsFormData.address,
-      group: studentsFormData?.group?.toString(),
-      personalPhone: "+998 " + studentsFormData.personalPhone,
-      homePhone: "+998 " + studentsFormData.homePhone,
-      certificate: studentsFormData.certificate,
-      graduated: studentsFormData.graduated,
-      userPercentage: 13,
-      userPhoto: selectImage,
-      createdAt: new Date(),
-      quizLevel: 0,
-      videoLevel: 0,
-    }).then(() => {
-      reset();
-      setSelectImage(null);
-    });
-    // }
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else {
+      mutateAsync({
+        _id: "",
+        id: generateRandomNumber(),
+        fullName: studentsFormData.fullName,
+        birthday: dayjs(studentsFormData.birthday).format("MMM D, YYYY"),
+        address: studentsFormData.address,
+        group: studentsFormData?.group?.toString(),
+        personalPhone: "+998 " + studentsFormData.personalPhone,
+        homePhone: "+998 " + studentsFormData.homePhone,
+        certificate: studentsFormData.certificate,
+        graduated: studentsFormData.graduated,
+        userPercentage: 13,
+        userPhoto: selectImage,
+        createdAt: new Date(),
+        quizLevel: 0,
+        videoLevel: 0,
+      }).then(() => {
+        reset();
+        setSelectImage(null);
+      });
+    }
   };
 
   return (

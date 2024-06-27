@@ -28,7 +28,7 @@ type LessonsSinglePageProps = {
 
 function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
   const [lessons, setLessons] = useState<ILessons[] | null>(null);
-  const {isPending} = useQuery({
+  const {} = useQuery({
     queryKey: ["lessons"],
     queryFn: async () => {
       const lessons: {data: ILessons[]} = await customFetch("lessons");

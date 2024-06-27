@@ -70,9 +70,16 @@ function Lessons() {
           <Card
             key={cat._id}
             className="max-w-[300px] w-full"
-            cover={<img className="h-[220px] object-contain" src={cat.image} />}
+            cover={
+              <img
+                alt=""
+                className="h-[220px] object-contain"
+                src={cat.image}
+              />
+            }
             actions={[
               <Dropdown.Button
+                key={cat._id}
                 onClick={() =>
                   select.url === "/"
                     ? toast.warning("Vazifa qo'shish uchun darajani tanlang")
@@ -104,7 +111,7 @@ function Lessons() {
               loading={isPending}
               style={{width: 300}}
               actions={[
-                <Button disabled type="primary" icon={<EyeOutlined />}>
+                <Button key={idx} disabled type="primary" icon={<EyeOutlined />}>
                   VAZIFALARINI KO&apos;RISH
                 </Button>,
               ]}

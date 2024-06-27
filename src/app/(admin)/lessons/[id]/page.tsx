@@ -28,7 +28,7 @@ type LessonsSinglePageProps = {
 
 function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
   const [lessons, setLessons] = useState<ILessons[] | null>(null);
-  const {} = useQuery({
+  const {isPending} = useQuery({
     queryKey: ["lessons"],
     queryFn: async () => {
       const lessons: {data: ILessons[]} = await customFetch("lessons");
@@ -100,19 +100,19 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
           );
         })}
 
-        {/* {isPending &&
+        {isPending &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
               loading={isPending}
               style={{width: 300}}
               actions={[
-                <Button disabled type="primary" icon={<EyeOutlined />}>
-                  VAZIFALARINI KO&apos;RISH
-                </Button>,
+                <DeleteOutlined key="delete" />,
+                <EditOutlined key="edit" />,
+                <EllipsisOutlined key="ellipsis" />,
               ]}
             ></Card>
-          ))} */}
+          ))}
       </div>
     </main>
   );

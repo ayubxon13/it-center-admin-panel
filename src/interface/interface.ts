@@ -80,6 +80,7 @@ interface IAds {
 type Level = "free" | "begin" | "medium" | "advanced";
 
 interface ILessons {
+  _id: string
   id: number;
   lessonName: string;
   languageName: string;
@@ -87,6 +88,7 @@ interface ILessons {
   level: Level;
   homework: string;
 }
+
 
 interface IQuestions {
   id: number;

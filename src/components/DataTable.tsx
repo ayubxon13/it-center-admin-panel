@@ -1,5 +1,5 @@
 import {Button, ConfigProvider, Space, Table, Tooltip} from "antd";
-import {PencilSquareIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {
   toggleEditRegistrationFunc,
   toggleEditStudentFunc,
@@ -66,7 +66,7 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
               size="large"
               shape="default"
               danger
-              icon={<XMarkIcon width={24} height={24} />}
+              icon={<TrashIcon width={24} height={24} />}
             />
           </ModalPromise>
           <Tooltip title="Edit">
@@ -118,7 +118,7 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
               size="large"
               shape="default"
               danger
-              icon={<XMarkIcon width={24} height={24} />}
+              icon={<TrashIcon width={24} height={24} />}
             />
           </ModalPromise>
           <Tooltip title="Edit">

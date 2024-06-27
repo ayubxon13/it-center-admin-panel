@@ -29,7 +29,7 @@ export default function RootLayout({
             {children}
           </div>
         </ReduxProvider>
-        <Chat />
+        {/* <Chat /> */}
       </body>
     </html>
   )

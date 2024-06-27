@@ -214,7 +214,7 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       }}
     >
       <Table
-        // scroll={{ y: `calc(80vh - 250px)` }}
+        // scroll={{y: `calc(71vh - 250px)`}}
         bordered
         tableLayout="auto"
         rowKey="id"

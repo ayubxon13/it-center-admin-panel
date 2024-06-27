@@ -1,13 +1,16 @@
+import React from "react";
 import {Button, ConfigProvider, Space, Table, Tooltip} from "antd";
 import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
-import {
-  toggleEditRegistrationFunc,
-  toggleEditStudentFunc,
-} from "@/lib/features/toggle/toggleSlice";
 import {useDispatch} from "react-redux";
 import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 import ModalPromise from "./ModalPromise";
 import {singleRegisterStudentsFunc} from "@/lib/features/register-students-slice/registerStudentsSlice";
+import {ColumnsType} from "antd/es/table";
+import {
+  toggleEditStudentFunc,
+  toggleEditRegistrationFunc,
+} from "@/lib/features/toggle/toggleSlice";
+
 type TDataTable = {
   href: "students" | "register-students";
   students: (IStudents | IRegisterStudents | ITeacher)[] | undefined;
@@ -15,10 +18,21 @@ type TDataTable = {
   activeIndex: number;
 };
 
-function DataTable({href, loading, students, activeIndex}: TDataTable) {
+const DataTable: React.FC<TDataTable> = ({
+  href,
+  loading,
+  students,
+  activeIndex,
+}) => {
   const dispatch = useDispatch();
 
-  const studentsTableData = [
+  type ColumnDefinition = ColumnsType<IStudents | IRegisterStudents | ITeacher>;
+
+  const filterFunction = (value: any, record: any): any => {
+    return record.fullName.toLowerCase().startsWith(value.toLowerCase());
+  };
+
+  const studentsTableData: ColumnDefinition = [
     {
       title: "ID",
       dataIndex: "id",
@@ -29,6 +43,13 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       title: "Ism Familya",
       dataIndex: "fullName",
       key: "fullName",
+      filters: students?.map((student) => ({
+        text: student.fullName,
+        value: student.fullName,
+      })),
+      filterSearch: true,
+      onFilter: filterFunction,
+      width: "30%",
     },
     {
       title: "Manzil",
@@ -85,7 +106,8 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       ),
     },
   ];
-  const registerStudentsTableData = [
+
+  const registerStudentsTableData: ColumnDefinition = [
     {
       title: "ID",
       dataIndex: "id",
@@ -137,7 +159,8 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       ),
     },
   ];
-  const teacherTableData = [
+
+  const teacherTableData: ColumnDefinition = [
     {
       title: "ID",
       dataIndex: "id",
@@ -159,43 +182,9 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       dataIndex: "group",
       key: "group",
     },
-    // {
-    //   title: "Tahrirlash",
-    //   key: "options",
-    //   className: "w-[120px]",
-    //   render: (student: IRegisterStudents) => (
-    //     <Space size="small">
-    //       <ModalPromise
-    //         key={href}
-    //         title="student"
-    //         url={`${href}/${student._id}`}
-    //       >
-    //         <Button
-    //           type="primary"
-    //           size="large"
-    //           shape="default"
-    //           danger
-    //           icon={<XMarkIcon width={24} height={24} />}
-    //         />
-    //       </ModalPromise>
-    //       <Tooltip title="Edit">
-    //         <Button
-    //           onClick={() => {
-    //             dispatch(singleRegisterStudentsFunc(student));
-    //             dispatch(toggleEditRegistrationFunc());
-    //           }}
-    //           size="large"
-    //           type="primary"
-    //           shape="default"
-    //           icon={<PencilSquareIcon width={24} height={24} />}
-    //         />
-    //       </Tooltip>
-    //     </Space>
-    //   ),
-    // },
   ];
 
-  const showTable = () => {
+  const showTable = (): ColumnDefinition => {
     if (activeIndex === 4) {
       return registerStudentsTableData;
     } else if (activeIndex === 3) {
@@ -203,6 +192,10 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
     } else {
       return studentsTableData;
     }
+  };
+
+  const onChange = (pagination: any, filters: any, sorter: any, extra: any) => {
+    console.log("params", pagination, filters, sorter, extra);
   };
 
   return (
@@ -214,15 +207,16 @@ function DataTable({href, loading, students, activeIndex}: TDataTable) {
       }}
     >
       <Table
-        // scroll={{y: `calc(71vh - 250px)`}}
         bordered
         tableLayout="auto"
         rowKey="id"
         loading={loading}
         columns={showTable()}
         dataSource={students}
+        onChange={onChange}
       />
     </ConfigProvider>
   );
-}
+};
+
 export default DataTable;

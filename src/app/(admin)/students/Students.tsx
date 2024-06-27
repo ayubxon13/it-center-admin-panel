@@ -12,6 +12,7 @@ import {
   ArchiveBoxArrowDownIcon,
   ArrowTrendingDownIcon,
   ClipboardDocumentCheckIcon,
+  FunnelIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
@@ -82,6 +83,10 @@ function Students() {
   return (
     <main className="grid gap-y-5">
       <Header
+        buttonOne={{
+          icon: <FunnelIcon width={20} height={20} />,
+          text: "FILTER",
+        }}
         buttonTwo={{
           text: "O'QUVCHI QO'SHISH",
           click: () => dispatch(toggleAddStudentFunc()),

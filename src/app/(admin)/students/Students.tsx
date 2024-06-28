@@ -83,10 +83,6 @@ function Students() {
   return (
     <main className="grid gap-y-5">
       <Header
-        buttonOne={{
-          icon: <FunnelIcon width={20} height={20} />,
-          text: "FILTER",
-        }}
         buttonTwo={{
           text: "O'QUVCHI QO'SHISH",
           click: () => dispatch(toggleAddStudentFunc()),

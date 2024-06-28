@@ -21,6 +21,7 @@ import Btn from "./antdUI/Btn";
 import SelectUI from "./antdUI/SelectUI";
 import PhoneInput from "./antdUI/PhoneInput";
 import useGetCategories from "@/hooks/useGetCategories";
+import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 
 async function editStudent(data: IStudents) {
   try {
@@ -41,7 +42,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
   const dispatch = useDispatch();
 
   const queryClient = useQueryClient();
-  const {control, handleSubmit} = useForm<TInputs>();
+  const {control, handleSubmit, reset} = useForm<TInputs>();
   const {singleStudentData} = useSelector(
     (store: RootState) => store.studentSlice
   );
@@ -64,12 +65,11 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     mutateAsync({
       _id: singleStudentData?._id ?? "",
       id: singleStudentData?.id ?? 1,
-      fullName: studentsFormData.fullName ?? singleStudentData?.fullName,
+      fullName: studentsFormData.fullName,
       birthday: dayjs(studentsFormData?.birthday).format("MMM D, YYYY"),
-      address: studentsFormData.address ?? singleStudentData?.address,
-      group: studentsFormData.group ?? singleStudentData?.group?.toString(),
-      personalPhone:
-        studentsFormData.personalPhone ?? singleStudentData?.personalPhone,
+      address: studentsFormData.address,
+      group: studentsFormData.group,
+      personalPhone: studentsFormData.personalPhone,
       homePhone: studentsFormData.homePhone,
       certificate: studentsFormData.certificate,
       graduated: studentsFormData.graduated,
@@ -90,7 +90,11 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
         <div className="flex justify-between">
           <p className="mb-5">Edit student</p>
           <button
-            onClick={() => dispatch(toggleEditStudentFunc())}
+            onClick={() => {
+              dispatch(toggleEditStudentFunc());
+              dispatch(setSingleStudentData(null));
+              reset();
+            }}
             className="bg-slate-100 hover:bg-slate-200 transition-all rounded-full justify-center flex items-center w-8 h-8"
           >
             <XMarkIcon width={25} height={25} />

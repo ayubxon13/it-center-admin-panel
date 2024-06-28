@@ -7,6 +7,7 @@ import {
   EllipsisHorizontalIcon,
   ExclamationCircleIcon,
   FolderPlusIcon,
+  InboxIcon,
   PhotoIcon,
   PlayIcon,
   UserCircleIcon,
@@ -34,7 +35,7 @@ function SideNavbar() {
       name: "Kurslar",
       link: "/courses",
       chilren: (
-        <FolderPlusIcon
+        <InboxIcon
           className="text-2xl text-[#DBE2EF] group-hover:text-white"
           width={24}
           height={24}

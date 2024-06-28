@@ -4,9 +4,9 @@ import {useQuery} from "@tanstack/react-query";
 
 const useGetCategories = () => {
   const {data: groups, isPending: isPendingCategories} = useQuery({
-    queryKey: ["category"],
+    queryKey: ["courses"],
     queryFn: async () => {
-      const categories: {data: ICategory[]} = await customFetch("category");
+      const categories: {data: ICategory[]} = await customFetch("courses");
       return categories.data;
     },
     staleTime: 0,

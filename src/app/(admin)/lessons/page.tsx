@@ -5,7 +5,7 @@ import Score from "@/components/Score";
 import {customFetch} from "@/utils/utils";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
-import {Button, Card, Dropdown} from "antd";
+import {Button, Card, Dropdown, Empty} from "antd";
 import Meta from "antd/es/card/Meta";
 import {useState} from "react";
 import {useRouter} from "next/navigation";
@@ -13,11 +13,11 @@ import {toast} from "sonner";
 
 function Lessons() {
   const router = useRouter();
-  const {data: categories, isPending} = useQuery({
-    queryKey: ["category"],
+  const {data: courses, isPending} = useQuery({
+    queryKey: ["courses"],
     queryFn: async () => {
-      const ads: {data: ICategory[]} = await customFetch("category");
-      return ads.data;
+      const courses: {data: ICategory[]} = await customFetch("courses");
+      return courses.data;
     },
   });
   const [select, setSelect] = useState({
@@ -62,30 +62,32 @@ function Lessons() {
           onClick={() => 1}
           icon={<ClipboardDocumentCheckIcon width={20} height={20} />}
           title="Hamma darslar"
-          total={categories?.length ?? 0}
+          total={courses?.length ?? 0}
         />
       </div>
       <div className="grid gap-3 grid-cols-5 max-[1722px]:grid-cols-4 max-[1427px]:grid-cols-3 max-[1180px]:grid-cols-2">
-        {categories?.map((cat) => (
+        {courses?.map((course) => (
           <Card
-            key={cat._id}
+            key={course._id}
             className="max-w-[300px] w-full"
             cover={
               <img
                 alt=""
                 className="h-[220px] object-contain"
-                src={cat.image}
+                src={course.image}
               />
             }
             actions={[
               <Dropdown.Button
-                key={cat._id}
+                key={course._id}
                 onClick={() =>
                   select.url === "/"
                     ? toast.warning("Vazifa qo'shish uchun darajani tanlang")
                     : router.push(
-                        `/lessons/${cat._id}?language=${cat.language}&image=${
-                          cat.image
+                        `/lessons/${course._id}?language=${
+                          course.language
+                        }&image=${
+                          course.image
                         }&level=${select.key.toLowerCase()}`
                       )
                 }
@@ -99,7 +101,7 @@ function Lessons() {
             <Meta
               className="flex items-center"
               avatar={<FileTextOutlined />}
-              title={cat.language}
+              title={course.language}
             />
           </Card>
         ))}
@@ -111,13 +113,19 @@ function Lessons() {
               loading={isPending}
               style={{width: 300}}
               actions={[
-                <Button key={idx} disabled type="primary" icon={<EyeOutlined />}>
+                <Button
+                  key={idx}
+                  disabled
+                  type="primary"
+                  icon={<EyeOutlined />}
+                >
                   VAZIFALARINI KO&apos;RISH
                 </Button>,
               ]}
             ></Card>
           ))}
       </div>
+      {courses?.length === 0 && <Empty />}
     </main>
   );
 }

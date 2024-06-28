@@ -1,72 +1,68 @@
-import { toggleAddCategoryFunc } from "@/lib/features/toggle/toggleSlice";
+"use client";
 import {customFetch} from "@/utils/utils";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Input, Modal} from "antd";
 import {ChangeEvent} from "react";
 import {Controller, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
 import {toast} from "sonner";
 
-type CategoriesInputType = {
+type CourseInputType = {
   image: string;
+  levelImage: string;
   language: string;
 };
 
-async function addCategories(data: CategoriesInputType) {
+type EditCourseType = {
+  course: ICourses;
+  cancel: () => void;
+};
+
+async function editCourse(data: ICourses) {
   try {
-    await customFetch.post("category", {
-      image: data.image,
-      language: data.language,
-    });
-    toast.success("Reklama muvaffaqiyatli yaratildi");
+    const req = await customFetch.put(`courses/${data._id}`, data);
+    toast.success("Muvaffaqiyatli tahrirlandi");
+    return req.data;
   } catch (error) {
-    toast.error("Yaratishda xatolikka uchradi");
+    toast.error("Failed to edit register-student");
     throw error;
   } finally {
     toast.dismiss();
   }
 }
 
-function AddCategories() {
-  const {control, handleSubmit, reset} = useForm<CategoriesInputType>();
+function EditCourse({course, cancel}: EditCourseType) {
+  const {control, handleSubmit, reset} = useForm<CourseInputType>();
 
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: addCategories,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["category"]});
-      dispatch(toggleAddCategoryFunc());
+    mutationFn: editCourse,
+    onSuccess() {
+      queryClient.invalidateQueries({queryKey: ["courses"]});
+      cancel();
+      reset();
     },
   });
 
-  const onSubmit = (catData: CategoriesInputType) => {
-    const isEmpty = Object.values(catData).some(
-      (val) => val == null || val == ""
-    );
-    if (isEmpty) {
-      return toast.error("Please fill out the form");
-    } else if (!/\.(jpg|jpeg|png|svg|webp)$/i.test(catData.image)) {
-      return toast.error(
-        "Invalid image format. Please provide a URL ending with .jpg, .jpeg, .png, .svg, or .webp"
-      );
-    } else {
-      mutateAsync(catData).then(() => {
-        reset();
-      });
-    }
+  const onSubmit = (courseData: CourseInputType) => {
+    mutateAsync({
+      _id: course._id,
+      id: course.id,
+      language: courseData.language,
+      image: courseData.image,
+      levelImage: courseData.levelImage,
+    });
   };
 
   return (
     <Modal
-      title="Kurs qo'shish"
+      title="Kursni tahrirlash"
       centered
       open={true}
-      okText="Qo'shish"
+      okText="Tahrirlash"
       width={700}
       cancelText="Bekor qilish"
-      onCancel={() => dispatch(toggleAddCategoryFunc())}
+      onCancel={cancel}
       confirmLoading={isPending}
       onOk={() => handleSubmit(onSubmit)()}
     >
@@ -77,6 +73,8 @@ function AddCategories() {
             <Controller
               name="language"
               control={control}
+              defaultValue={course.language}
+              key={course.language}
               render={({field}) => (
                 <Input
                   {...field}
@@ -103,13 +101,27 @@ function AddCategories() {
             <Controller
               name="image"
               control={control}
+              defaultValue={course.image}
+              key={course.image}
               render={({field}) => <Input {...field} size="large" />}
             />
           </div>
+        </div>
+        <div>
+          <h5 className="text-lg opacity-70 font-medium">
+            Kurs qo&apos;shimcha rasm linki:
+          </h5>
+          <Controller
+            name="levelImage"
+            control={control}
+            defaultValue={course.levelImage}
+            key={course.levelImage}
+            render={({field}) => <Input {...field} size="large" />}
+          />
         </div>
       </form>
     </Modal>
   );
 }
 
-export default AddCategories;
+export default EditCourse;

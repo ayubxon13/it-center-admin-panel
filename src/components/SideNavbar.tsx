@@ -42,6 +42,17 @@ function SideNavbar() {
       ),
     },
     {
+      name: "Category",
+      link: "/category",
+      chilren: (
+        <FolderPlusIcon
+          className="text-2xl text-[#DBE2EF] group-hover:text-white"
+          width={24}
+          height={24}
+        />
+      ),
+    },
+    {
       name: "Darslar",
       link: "/lessons",
       chilren: (

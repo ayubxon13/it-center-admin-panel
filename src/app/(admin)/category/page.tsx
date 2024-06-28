@@ -15,35 +15,34 @@ import {useQuery} from "@tanstack/react-query";
 import {customFetch} from "@/utils/utils";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/lib/store";
+import AddCategories from "@/components/AddCategories";
 import {useState} from "react";
-import {toggleAddCoursesFunc} from "@/lib/features/toggle/toggleSlice";
-import {nanoid} from "@reduxjs/toolkit";
-import AddCourse from "@/components/AddCourse";
-import EditCourse from "@/components/EditCourse";
+import EditCategories from "@/components/EditCategories";
+import {toggleAddCategoryFunc} from "@/lib/features/toggle/toggleSlice";
 
-function Courses() {
+function Category() {
   const dispatch = useDispatch();
-  const {toggleAddCoursesValue} = useSelector(
+  const {toggleAddCategoryValue} = useSelector(
     (state: RootState) => state.toggleSlice
   );
-  const [singleDataCourse, setSingleDataCourse] = useState<ICourses | null>(
+  const [singleDataCategory, setsingleDataCategory] = useState<ICategory | null>(
     null
   );
-  const {data: courses, isPending} = useQuery({
-    queryKey: ["courses"],
+  const {data: categories, isPending} = useQuery({
+    queryKey: ["category"],
     queryFn: async () => {
-      const courses: {data: ICourses[]} = await customFetch("courses");
-      return courses.data;
+      const ads: {data: ICategory[]} = await customFetch("category");
+      return ads.data;
     },
   });
 
   return (
     <main className="grid gap-y-5">
       <Header
-        text="Kurslar"
+        text="Categories"
         buttonTwo={{
-          text: "KURS QO'SHISH",
-          click: () => dispatch(toggleAddCoursesFunc()),
+          text: "CATEGORY QO'SHISH",
+          click: () => dispatch(toggleAddCategoryFunc()),
         }}
       />
       <div className="grid grid-cols-4 justify-self-start gap-5 mb-5 w-full">
@@ -51,32 +50,32 @@ function Courses() {
           active
           onClick={() => 1}
           icon={<ClipboardDocumentCheckIcon width={20} height={20} />}
-          title="Hamma kurslar"
-          total={courses?.length ?? 0}
+          title="Hamma category"
+          total={categories?.length ?? 0}
         />
       </div>
       <div className="grid gap-3 grid-cols-5 max-[1722px]:grid-cols-4 max-[1427px]:grid-cols-3 max-[1180px]:grid-cols-2">
-        {courses?.map((course) => (
+        {categories?.map((cat) => (
           <Card
-            key={course._id}
+            key={cat._id}
             className="max-w-[300px] w-full"
             cover={
               <img
                 className="h-[220px] object-contain"
                 alt="ads photo"
-                src={course.image}
+                src={cat.image}
               />
             }
             actions={[
               <ModalPromise
-                key="courses"
+                key="category"
                 title="course"
-                url={`courses/${course._id}`}
+                url={`category/${cat._id}`}
               >
                 <DeleteOutlined key="delete" />
               </ModalPromise>,
               <EditOutlined
-                onClick={() => setSingleDataCourse(course)}
+                onClick={() => setsingleDataCategory(cat)}
                 key="edit"
               />,
               <EllipsisOutlined key="ellipsis" />,
@@ -85,15 +84,15 @@ function Courses() {
             <Meta
               className="flex items-center"
               avatar={<FileTextOutlined />}
-              title={course.language}
+              title={cat.language}
             />
           </Card>
         ))}
 
         {isPending &&
-          Array.from({length: 4}).map(() => (
+          Array.from({length: 4}).map((_, idx) => (
             <Card
-              key={nanoid()}
+              key={idx}
               loading={isPending}
               style={{width: 300}}
               actions={[
@@ -104,16 +103,16 @@ function Courses() {
             ></Card>
           ))}
       </div>
-      {courses?.length == 0 && <Empty />}
-      {toggleAddCoursesValue && <AddCourse />}
-      {singleDataCourse && (
-        <EditCourse
-          cancel={() => setSingleDataCourse(null)}
-          course={singleDataCourse}
+      {categories?.length == 0 && <Empty />}
+      {toggleAddCategoryValue && <AddCategories />}
+      {singleDataCategory && (
+        <EditCategories
+          cancel={() => setsingleDataCategory(null)}
+          category={singleDataCategory}
         />
       )}
     </main>
   );
 }
 
-export default Courses;
+export default Category;

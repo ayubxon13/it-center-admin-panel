@@ -4,7 +4,6 @@ const categorySchema = new Schema(
   {
     id: Number,
     image: String,
-    levelImage: String,
     language: String,
   },
   {

@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "https://it-center-admin-panel.vercel.app/api/";
+const baseURL = "/api";
 export const customFetch = axios.create({
   baseURL: baseURL,
 });

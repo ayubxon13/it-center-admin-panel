@@ -1,13 +1,13 @@
 import connectMongoDB from "@/database/mongodb";
-import Category from "@/models/category";
+import Courses from "@/models/courses";
 import {generateRandomNumber} from "@/utils/utils";
 import {NextResponse} from "next/server";
 
 export const GET = async () => {
   try {
     await connectMongoDB();
-    const category = await Category.find();
-    return NextResponse.json(category);
+    const courses = await Courses.find();
+    return NextResponse.json(courses);
   } catch (error) {
     return NextResponse.json(
       {
@@ -22,12 +22,13 @@ export const GET = async () => {
 };
 
 export const POST = async (req: Request) => {
-  const {image, language}: ICategory = await req.json();
+  const {image, levelImage, language}: ICourses = await req.json();
   try {
     await connectMongoDB();
-    await Category.create({
+    await Courses.create({
       id: generateRandomNumber(),
       image,
+      levelImage,
       language,
     });
     return NextResponse.json({message: "OK"}, {status: 200});

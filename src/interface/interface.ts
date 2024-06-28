@@ -63,7 +63,16 @@ interface ICategory {
   _id: string;
   id: number;
   image: string;
-  levelImage: string
+  language: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface ICourses {
+  _id: string;
+  id: string;
+  image: string;
+  levelImage: string;
   language: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -80,7 +89,7 @@ interface IAds {
 type Level = "free" | "begin" | "medium" | "advanced";
 
 interface ILessons {
-  _id: string
+  _id: string;
   id: number;
   lessonName: string;
   languageName: string;
@@ -88,7 +97,6 @@ interface ILessons {
   level: Level;
   homework: string;
 }
-
 
 interface IQuestions {
   id: number;

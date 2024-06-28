@@ -11,8 +11,10 @@ export const toggleSlice = createSlice({
     toggleAddAdsValue: false,
     toggleAddNotificationsValue: false,
     toggleEditNotificationsValue: false,
-    toggleAddCourseValue: false,
-    toggleEditCourseValue: false,
+    toggleAddCategoryValue: false,
+    toggleEditCategoryValue: false,
+    toggleAddCoursesValue: false,
+    toggleEditCoursesValue: false,
   },
   reducers: {
     toggleFilterFunc: (state) => {
@@ -41,11 +43,17 @@ export const toggleSlice = createSlice({
     toggleEditNotificationsFunc: (state) => {
       state.toggleEditNotificationsValue = !state.toggleEditNotificationsValue;
     },
-    toggleAddCourseFunc: (state) => {
-      state.toggleAddCourseValue = !state.toggleAddCourseValue;
+    toggleAddCategoryFunc: (state) => {
+      state.toggleAddCategoryValue = !state.toggleAddCategoryValue;
     },
-    toggleEditCourseFunc: (state) => {
-      state.toggleEditCourseValue = !state.toggleEditCourseValue;
+    toggleEditCategoryFunc: (state) => {
+      state.toggleEditCategoryValue = !state.toggleEditCategoryValue;
+    },
+    toggleAddCoursesFunc: (state) => {
+      state.toggleAddCoursesValue = !state.toggleAddCoursesValue;
+    },
+    toggleEditCoursesFunc: (state) => {
+      state.toggleEditCoursesValue = !state.toggleEditCoursesValue;
     },
   },
 });
@@ -59,7 +67,9 @@ export const {
   toggleAddAdsFunc,
   toggleAddNotificationsFunc,
   toggleEditNotificationsFunc,
-  toggleAddCourseFunc,
-  toggleEditCourseFunc,
+  toggleAddCategoryFunc,
+  toggleEditCategoryFunc,
+  toggleAddCoursesFunc,
+  toggleEditCoursesFunc,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

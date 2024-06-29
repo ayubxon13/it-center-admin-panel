@@ -1,6 +1,13 @@
 "use client";
 import {toggleFilterFunc} from "@/lib/features/toggle/toggleSlice";
 import {RootState} from "@/lib/store";
+import {
+  SignIn,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {Button} from "antd";
 import {ReactNode} from "react";
@@ -31,7 +38,7 @@ function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
     <div className="w-full mt-5">
       <div className="flex justify-between">
         <h1 className="text-3xl font-semibold">{text}</h1>
-        <div className="flex gap-x-3">
+        <div className="flex items-center gap-x-3">
           {buttonOne && (
             <Button
               onClick={() => dispatch(toggleFilterFunc())}
@@ -66,6 +73,7 @@ function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
               {buttonThree?.text}
             </Button>
           )}
+          <UserButton />
         </div>
       </div>
       <hr className="border-black border-opacity-25 mt-4" />

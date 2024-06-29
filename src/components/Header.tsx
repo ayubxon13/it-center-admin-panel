@@ -1,13 +1,7 @@
 "use client";
 import {toggleFilterFunc} from "@/lib/features/toggle/toggleSlice";
 import {RootState} from "@/lib/store";
-import {
-  SignIn,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import {UserButton} from "@clerk/nextjs";
 import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {Button} from "antd";
 import {ReactNode} from "react";

@@ -15,7 +15,6 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
-import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 function Students() {
@@ -33,17 +32,9 @@ function Students() {
   );
   const [activeIndex, setActiveIndex] = useState(0);
   const dispatch = useDispatch();
-  const route = useRouter();
   const [href, setHref] = useState<"students" | "register-students">(
     "students"
   );
-  useEffect(() => {
-    const admin = localStorage.getItem("auth");
-    if (!admin) {
-      route.push("/login");
-    }
-  }, [route]);
-
   const {data, isPending} = useQuery({
     queryKey: ["students", href],
     queryFn: async () => {

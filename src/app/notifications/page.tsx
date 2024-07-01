@@ -13,8 +13,7 @@ import {customFetch} from "@/utils/utils";
 import {BellIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
 import {Card, Empty} from "antd";
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Meta from "antd/es/card/Meta";
 import AddNotifications from "@/components/AddNotifications";
@@ -26,16 +25,9 @@ function Notifications() {
     (state: RootState) => state.toggleSlice
   );
   const dispatch = useDispatch();
-  const route = useRouter();
   const [singleDataNot, setSingleDataNot] = useState<TNotification | null>(
     null
   ); // State to hold the ad being edited
-  useEffect(() => {
-    const admin = localStorage.getItem("auth");
-    if (!admin) {
-      route.push("/login");
-    }
-  }, [route]);
 
   const {data: notification, isPending} = useQuery({
     queryKey: ["notifications"],

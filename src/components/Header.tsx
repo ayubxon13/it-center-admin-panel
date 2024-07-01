@@ -1,7 +1,6 @@
 "use client";
 import {toggleFilterFunc} from "@/lib/features/toggle/toggleSlice";
 import {RootState} from "@/lib/store";
-import {UserButton} from "@clerk/nextjs";
 import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {Button} from "antd";
 import {ReactNode} from "react";
@@ -67,7 +66,6 @@ function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
               {buttonThree?.text}
             </Button>
           )}
-          <UserButton />
         </div>
       </div>
       <hr className="border-black border-opacity-25 mt-4" />

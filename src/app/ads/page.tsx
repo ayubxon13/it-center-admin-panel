@@ -13,13 +13,12 @@ import {useQuery} from "@tanstack/react-query";
 import {customFetch} from "@/utils/utils";
 import ModalPromise from "@/components/ModalPromise";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
 import AddAds from "@/components/AddAds";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/lib/store";
 import {toggleAddAdsFunc} from "@/lib/features/toggle/toggleSlice";
 import EditAds from "@/components/EditAds";
+import {useState} from "react";
 const {Meta} = Card;
 
 function Ads() {
@@ -27,15 +26,7 @@ function Ads() {
     (state: RootState) => state.toggleSlice
   );
   const dispatch = useDispatch();
-  const route = useRouter();
   const [singleDataAd, setSingleDataAd] = useState<IAds | null>(null); // State to hold the ad being edited
-  useEffect(() => {
-    const admin = localStorage.getItem("auth");
-    if (!admin) {
-      route.push("/login");
-    }
-  }, [route]);
-
   const {data: ads, isPending} = useQuery({
     queryKey: ["ads"],
     queryFn: async () => {

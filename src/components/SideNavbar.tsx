@@ -15,10 +15,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 import Link from "next/link";
-import {useRouter} from "next/navigation";
 
 function SideNavbar() {
-  const route = useRouter();
   const sideBarLinks = [
     {
       name: "O'quvchilar",
@@ -149,14 +147,7 @@ function SideNavbar() {
                 </h3>
               </div>
             </div>
-            {/* logout */}
-            <button
-              onClick={() => {
-                localStorage.removeItem("auth");
-                route.push("/login");
-              }}
-              className="my-4"
-            >
+            <button className="my-4">
               <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200  hover:bg-[#3F72AF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <ExclamationCircleIcon
                   width={24}

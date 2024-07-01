@@ -18,19 +18,20 @@ import AddLesson from "@/components/lessons/AddLesson";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/lib/store";
 import {toggleAddLessonsFunc} from "@/lib/features/toggle/toggleSlice";
+import EditLesson from "@/components/lessons/EditLesson";
 
 type LessonsSinglePageProps = {
   // params: {
   //   id: string;
   // };
   searchParams: {
-    image: string;
     language: string;
     level: Level;
   };
 };
 
 function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
+  const [editLessonData, setEditLessonData] = useState<ILessons | null>();
   const {toggleAddLessonsValue} = useSelector(
     (store: RootState) => store.toggleSlice
   );
@@ -95,7 +96,10 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
                 >
                   <DeleteOutlined key="delete" />
                 </ModalPromise>,
-                <EditOutlined onClick={() => 1} key="edit" />,
+                <EditOutlined
+                  onClick={() => setEditLessonData(lesson)}
+                  key="edit"
+                />,
                 <EllipsisOutlined key="ellipsis" />,
               ]}
             >
@@ -124,6 +128,13 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
       </div>
       <AddLesson searchParams={searchParams} show={toggleAddLessonsValue} />
       {lessons?.length == 0 && <Empty />}
+
+      {editLessonData && (
+        <EditLesson
+          lessonData={editLessonData}
+          cancel={() => setEditLessonData(null)}
+        />
+      )}
     </main>
   );
 }

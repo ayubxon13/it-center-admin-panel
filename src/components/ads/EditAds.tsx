@@ -38,7 +38,7 @@ function EditAds({ad, cancel}: EditAdsType) {
     onSuccess() {
       queryClient.invalidateQueries({queryKey: ["ads"]});
       cancel();
-      reset()
+      reset();
     },
   });
 

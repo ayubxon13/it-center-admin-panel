@@ -1,19 +1,15 @@
 "use client";
-import {toggleAddLessonsFunc} from "@/lib/features/toggle/toggleSlice";
 import {customFetch} from "@/utils/utils";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Input, Modal, Select} from "antd";
 import {Controller, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
 import {toast} from "sonner";
 
-type AddLessonParams = {
-  show: boolean;
-  searchParams: {
-    language: string;
-    level: Level;
-  };
+type EditLessonParams = {
+  lessonData: ILessons;
+  cancel: () => void;
 };
+
 type LessonInputType = {
   lessonProgrammingLang: string;
   level: Level;
@@ -22,61 +18,57 @@ type LessonInputType = {
   lessonVideoLink: string;
 };
 
-async function addLesson(data: LessonInputType) {
+async function editLesson(data: ILessons) {
   try {
-    await customFetch.post("lessons", {
-      lessonName: data.lessonName,
-      languageName: data.lessonProgrammingLang,
-      videoLink: data.lessonVideoLink,
-      level: data.level,
-      homework: data.homework,
-    });
+    const req = await customFetch.put(`lessons/${data._id}`, data);
+    toast.success("Muvaffaqiyatli tahrirlandi");
+    return req.data;
   } catch (error) {
-    toast.error("Yaratishda xatolikka uchradi");
+    toast.error("Failed to edit register-student");
     throw error;
   } finally {
     toast.dismiss();
   }
 }
 
-function AddLesson({searchParams, show}: AddLessonParams) {
-  const dispatch = useDispatch();
-  const {control, handleSubmit, reset} = useForm<LessonInputType>();
+function EditLesson({lessonData, cancel}: EditLessonParams) {
+  const {control, reset, handleSubmit} = useForm<LessonInputType>();
 
   const queryClient = useQueryClient();
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: addLesson,
-    onSuccess: () => {
+    mutationFn: editLesson,
+    onSuccess() {
       queryClient.invalidateQueries({queryKey: ["lessons"]});
-      dispatch(toggleAddLessonsFunc());
+      cancel();
+      reset();
     },
   });
 
-  const onSubmit = (lessonData: LessonInputType) => {
-    console.log(lessonData);
-
-    const isEmpty = Object.values(lessonData).some(
-      (val) => val == null || val == ""
-    );
-    if (isEmpty) {
-      return toast.error("Please fill out the form");
-    } else {
-      mutateAsync(lessonData).then(() => {
-        reset();
-      });
-    }
+  const onSubmit = (data: LessonInputType) => {
+    mutateAsync({
+      _id: lessonData._id,
+      id: lessonData.id,
+      lessonName: data.lessonName,
+      languageName: data.lessonProgrammingLang,
+      videoLink: data.lessonVideoLink,
+      level: data.level,
+      homework: data.homework,
+    });
   };
 
   return (
     <Modal
-      title="Vazifa qo'shish"
+      title="Vazifani tahrirlash"
       centered
-      open={show}
+      open={true}
       okText="Qo'shish"
       width={700}
       cancelText="Bekor qilish"
-      onCancel={() => dispatch(toggleAddLessonsFunc())}
+      onCancel={() => {
+        cancel();
+        reset();
+      }}
       confirmLoading={isPending}
       onOk={() => handleSubmit(onSubmit)()}
     >
@@ -87,7 +79,8 @@ function AddLesson({searchParams, show}: AddLessonParams) {
             <Controller
               name="lessonProgrammingLang"
               control={control}
-              defaultValue={searchParams?.language}
+              key={lessonData?.languageName}
+              defaultValue={lessonData?.languageName}
               render={({field}) => (
                 <Input {...field} className="h-10" disabled size="large" />
               )}
@@ -98,7 +91,8 @@ function AddLesson({searchParams, show}: AddLessonParams) {
             <Controller
               name="level"
               control={control}
-              defaultValue={searchParams?.level}
+              key={lessonData?.level}
+              defaultValue={lessonData?.level}
               render={({field}) => (
                 <Select
                   {...field}
@@ -114,6 +108,8 @@ function AddLesson({searchParams, show}: AddLessonParams) {
             <Controller
               name="lessonName"
               control={control}
+              key={lessonData?.lessonName}
+              defaultValue={lessonData?.lessonName}
               render={({field}) => (
                 <Input {...field} className="h-10 w-full" size="large" />
               )}
@@ -124,6 +120,8 @@ function AddLesson({searchParams, show}: AddLessonParams) {
             <Controller
               name="homework"
               control={control}
+              key={lessonData?.homework}
+              defaultValue={lessonData?.homework}
               render={({field}) => (
                 <Input {...field} className="h-10 w-full" size="large" />
               )}
@@ -135,6 +133,8 @@ function AddLesson({searchParams, show}: AddLessonParams) {
           <Controller
             name="lessonVideoLink"
             control={control}
+            key={lessonData?.videoLink}
+            defaultValue={lessonData?.videoLink}
             render={({field}) => <Input {...field} size="large" />}
           />
         </div>
@@ -143,4 +143,4 @@ function AddLesson({searchParams, show}: AddLessonParams) {
   );
 }
 
-export default AddLesson;
+export default EditLesson;

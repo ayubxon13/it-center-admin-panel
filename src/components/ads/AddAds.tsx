@@ -27,7 +27,7 @@ async function addAds(data: AdsInputType) {
   }
 }
 
-function AddAds() {
+function AddAds({show}: {show: boolean}) {
   const {control, handleSubmit, reset} = useForm<AdsInputType>();
 
   const queryClient = useQueryClient();
@@ -62,7 +62,7 @@ function AddAds() {
     <Modal
       title="Reklama qo'shish"
       centered
-      open={true}
+      open={show}
       okText="Qo'shish"
       width={700}
       cancelText="Bekor qilish"

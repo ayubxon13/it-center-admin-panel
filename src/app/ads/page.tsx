@@ -95,7 +95,7 @@ function Ads() {
       </div>
 
       {ads?.length == 0 && <Empty />}
-      {toggleAddAdsValue && <AddAds />}
+      <AddAds show={toggleAddAdsValue} />
       {singleDataAd && (
         <EditAds cancel={() => setSingleDataAd(null)} ad={singleDataAd} />
       )}

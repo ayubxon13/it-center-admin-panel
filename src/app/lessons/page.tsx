@@ -80,8 +80,6 @@ function Lessons() {
                     : router.push(
                         `/lessons/${course._id}?language=${
                           course.language
-                        }&image=${
-                          course.image
                         }&level=${select.key.toLowerCase()}`
                       )
                 }

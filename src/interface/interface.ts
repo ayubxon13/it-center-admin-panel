@@ -99,9 +99,10 @@ interface ILessons {
 }
 
 interface IQuestions {
+  _id: string;
   id: number;
   question: string;
-  language: ISelectGroup;
+  language: string;
   level: string;
   a: string;
   b: string;

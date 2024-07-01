@@ -5,9 +5,9 @@ import {
   DeleteOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import Header from "@/components/Header";
-import ModalPromise from "@/components/ModalPromise";
-import Score from "@/components/Score";
+import Header from "@/components/ui/Header";
+import ModalPromise from "@/components/antdUI/ModalPromise";
+import Score from "@/components/ui/Score";
 import {RootState} from "@/lib/store";
 import {customFetch} from "@/utils/utils";
 import {BellIcon} from "@heroicons/react/24/outline";
@@ -16,9 +16,9 @@ import {Card, Empty} from "antd";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Meta from "antd/es/card/Meta";
-import AddNotifications from "@/components/AddNotifications";
+import AddNotifications from "@/components/notification/AddNotifications";
 import {toggleAddNotificationsFunc} from "@/lib/features/toggle/toggleSlice";
-import EditNotifications from "@/components/EditNotifications";
+import EditNotifications from "../../components/notification/EditNotifications";
 
 function Notifications() {
   const {toggleAddNotificationsValue} = useSelector(

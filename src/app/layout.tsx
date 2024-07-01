@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
-import SideNavbar from "@/components/SideNavbar";
+import SideNavbar from "@/components/ui/SideNavbar";
 import {ReduxProvider} from "@/provider/ReduxProvider";
 import {Inter} from "next/font/google";
 export const metadata: Metadata = {

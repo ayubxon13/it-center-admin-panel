@@ -3,7 +3,6 @@ import {createSlice} from "@reduxjs/toolkit";
 export const toggleSlice = createSlice({
   name: "toggle",
   initialState: {
-    toggleFilterValue: false,
     toggleAddStudentValue: false,
     toggleEditStudentValue: false,
     toggleRegistrationValue: false,
@@ -15,15 +14,14 @@ export const toggleSlice = createSlice({
     toggleEditCategoryValue: false,
     toggleAddCoursesValue: false,
     toggleEditCoursesValue: false,
+    toggleAddQuestionValue: false,
+    toggleEditQuestionValue: false,
+    toggleAddLessonsValue: false,
+    toggleEditLessonsValue: false,
   },
   reducers: {
-    toggleFilterFunc: (state) => {
-      state.toggleFilterValue = !state.toggleFilterValue;
-      state.toggleAddStudentValue = false;
-    },
     toggleAddStudentFunc: (state) => {
       state.toggleAddStudentValue = !state.toggleAddStudentValue;
-      state.toggleFilterValue = false;
     },
     toggleEditStudentFunc: (state) => {
       state.toggleEditStudentValue = !state.toggleEditStudentValue;
@@ -55,11 +53,22 @@ export const toggleSlice = createSlice({
     toggleEditCoursesFunc: (state) => {
       state.toggleEditCoursesValue = !state.toggleEditCoursesValue;
     },
+    toggleAddQuestionFunc: (state) => {
+      state.toggleAddQuestionValue = !state.toggleAddQuestionValue;
+    },
+    toggleEditQuestionFunc: (state) => {
+      state.toggleEditQuestionValue = !state.toggleEditQuestionValue;
+    },
+    toggleAddLessonsFunc: (state) => {
+      state.toggleAddLessonsValue = !state.toggleAddLessonsValue;
+    },
+    toggleEditLessonsFunc: (state) => {
+      state.toggleEditLessonsValue = !state.toggleEditLessonsValue;
+    },
   },
 });
 
 export const {
-  toggleFilterFunc,
   toggleAddStudentFunc,
   toggleEditStudentFunc,
   toggleRegistrationFunc,
@@ -71,5 +80,9 @@ export const {
   toggleEditCategoryFunc,
   toggleAddCoursesFunc,
   toggleEditCoursesFunc,
+  toggleAddQuestionFunc,
+  toggleEditQuestionFunc,
+  toggleAddLessonsFunc,
+  toggleEditLessonsFunc,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

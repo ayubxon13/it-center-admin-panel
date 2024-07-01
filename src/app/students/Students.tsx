@@ -1,8 +1,8 @@
 "use client";
-import DataTable from "@/components/DataTable";
-import FilterAndAddData from "@/components/FilterAddEdit";
-import Header from "@/components/Header";
-import Score from "@/components/Score";
+import DataTable from "@/components/ui/DataTable";
+import FilterAndAddData from "@/components/ui/FilterAddEdit";
+import Header from "@/components/ui/Header";
+import Score from "@/components/ui/Score";
 import {
   toggleAddStudentFunc,
   toggleRegistrationFunc,

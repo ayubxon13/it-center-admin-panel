@@ -10,6 +10,7 @@ import {
   InboxIcon,
   PhotoIcon,
   PlayIcon,
+  QuestionMarkCircleIcon,
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
@@ -67,6 +68,17 @@ function SideNavbar() {
       link: "/ads",
       chilren: (
         <PhotoIcon
+          className="text-2xl text-[#DBE2EF] group-hover:text-white"
+          width={24}
+          height={24}
+        />
+      ),
+    },
+    {
+      name: "Savollar",
+      link: "/questions",
+      chilren: (
+        <QuestionMarkCircleIcon
           className="text-2xl text-[#DBE2EF] group-hover:text-white"
           width={24}
           height={24}

@@ -1,6 +1,6 @@
 "use client";
 import {ReactNode} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 
 type Tscore = {
   title: string;

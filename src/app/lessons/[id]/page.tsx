@@ -1,8 +1,8 @@
 "use client";
-import Header from "@/components/Header";
-import Score from "@/components/Score";
+import Header from "@/components/ui/Header";
+import Score from "@/components/ui/Score";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
-import {Card} from "antd";
+import {Card, Empty} from "antd";
 import Meta from "antd/es/card/Meta";
 import {
   EditOutlined,
@@ -13,7 +13,11 @@ import {
 import {useQuery} from "@tanstack/react-query";
 import {customFetch} from "@/utils/utils";
 import {useState} from "react";
-import ModalPromise from "@/components/ModalPromise";
+import ModalPromise from "@/components/antdUI/ModalPromise";
+import AddLesson from "@/components/lessons/AddLesson";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/lib/store";
+import {toggleAddLessonsFunc} from "@/lib/features/toggle/toggleSlice";
 
 type LessonsSinglePageProps = {
   // params: {
@@ -27,6 +31,10 @@ type LessonsSinglePageProps = {
 };
 
 function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
+  const {toggleAddLessonsValue} = useSelector(
+    (store: RootState) => store.toggleSlice
+  );
+  const dispatch = useDispatch();
   const [lessons, setLessons] = useState<ILessons[] | null>(null);
   const {isPending} = useQuery({
     queryKey: ["lessons"],
@@ -49,7 +57,7 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
         text="Uyga vazifalar"
         buttonTwo={{
           text: "VAZIFA QO'SHISH",
-          click: () => 1,
+          click: () => dispatch(toggleAddLessonsFunc()),
         }}
       />
       <div className="grid grid-cols-4 justify-self-start gap-5 mb-5 w-full">
@@ -114,6 +122,8 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
             ></Card>
           ))}
       </div>
+      <AddLesson searchParams={searchParams} show={toggleAddLessonsValue} />
+      {lessons?.length == 0 && <Empty />}
     </main>
   );
 }

@@ -6,82 +6,78 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {
   customFetch,
   filterOptionSelect,
-  generateRandomNumber,
   neighborhood,
   onChangeSelect,
   onSearchSelect,
 } from "@/utils/utils";
 import {toast} from "sonner";
-import {useDispatch} from "react-redux";
-import {toggleAddStudentFunc} from "@/lib/features/toggle/toggleSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleEditStudentFunc} from "@/lib/features/toggle/toggleSlice";
 import dayjs from "dayjs";
-import {ChangeEvent, useRef} from "react";
+import {RootState} from "@/lib/store";
+import {ChangeEvent, useEffect} from "react";
 import useFileChange from "@/hooks/useFileChange";
-import SelectUI from "./antdUI/SelectUI";
-import PhoneInput from "./antdUI/PhoneInput";
-import Btn from "./antdUI/Btn";
+import Btn from "@/components/antdUI/Btn";
+import SelectUI from "@/components/antdUI/SelectUI";
+import PhoneInput from "@/components/antdUI/PhoneInput";
 import useGetCategories from "@/hooks/useGetCategories";
+import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 
-async function addStudents(data: IStudents) {
+async function editStudent(data: IStudents) {
   try {
-    const res = await customFetch.post("students", data);
-    toast.success("Student created successfully");
+    const res = await customFetch.put(`students/${data._id}`, data);
+    toast.success("Student edited successfully");
     return res.data;
   } catch (error) {
-    toast.error("Failed to create student");
+    toast.error("Failed to edit student");
     throw error;
   } finally {
     toast.dismiss();
   }
 }
 
-function AddData({isOpen}: {isOpen: boolean}) {
+function EditStudent({isOpen}: {isOpen: boolean}) {
   const {groups, isPendingCategories} = useGetCategories();
-
   const {handleFileChange, selectImage, setSelectImage} = useFileChange();
   const dispatch = useDispatch();
-  const fileUpload = useRef<HTMLInputElement>(null);
+
   const queryClient = useQueryClient();
   const {control, handleSubmit, reset} = useForm<TInputs>();
+  const {singleStudentData} = useSelector(
+    (store: RootState) => store.studentSlice
+  );
+
+  useEffect(() => {
+    if (singleStudentData?.userPhoto) {
+      setSelectImage(singleStudentData.userPhoto);
+    }
+  }, [singleStudentData]);
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: addStudents,
+    mutationFn: editStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["students"]});
-      dispatch(toggleAddStudentFunc());
+      dispatch(toggleEditStudentFunc());
     },
   });
 
   const onSubmit = (studentsFormData: TInputs) => {
-    const isEmpty = Object.values(studentsFormData).some(
-      (val) =>
-        val == null || val === "" || fileUpload.current?.files?.length == 0
-    );
-
-    if (isEmpty) {
-      return toast.error("Please fill out the form");
-    } else {
-      mutateAsync({
-        _id: "",
-        id: generateRandomNumber(),
-        fullName: studentsFormData.fullName,
-        birthday: dayjs(studentsFormData.birthday).format("MMM D, YYYY"),
-        address: studentsFormData.address,
-        group: studentsFormData?.group?.toString(),
-        personalPhone: "+998 " + studentsFormData.personalPhone,
-        homePhone: "+998 " + studentsFormData.homePhone,
-        certificate: studentsFormData.certificate,
-        graduated: studentsFormData.graduated,
-        userPercentage: 13,
-        userPhoto: selectImage,
-        createdAt: new Date(),
-        quizLevel: 0,
-        videoLevel: 0,
-      }).then(() => {
-        reset();
-        setSelectImage(null);
-      });
-    }
+    mutateAsync({
+      _id: singleStudentData?._id ?? "",
+      id: singleStudentData?.id ?? 1,
+      fullName: studentsFormData.fullName,
+      birthday: dayjs(studentsFormData?.birthday).format("MMM D, YYYY"),
+      address: studentsFormData.address,
+      group: studentsFormData.group,
+      personalPhone: studentsFormData.personalPhone,
+      homePhone: studentsFormData.homePhone,
+      certificate: studentsFormData.certificate,
+      graduated: studentsFormData.graduated,
+      userPercentage: 13,
+      userPhoto: selectImage,
+      quizLevel: 0,
+      videoLevel: 0,
+    });
   };
 
   return (
@@ -90,11 +86,15 @@ function AddData({isOpen}: {isOpen: boolean}) {
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-white z-50 w-full mx-[17%] p-6 rounded-lg shadow-lg">
+      <div className="bg-white z-50 w-full mx-80 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
-          <p className="mb-5">Yangi student qo&apos;shish</p>
+          <p className="mb-5">Edit student</p>
           <button
-            onClick={() => dispatch(toggleAddStudentFunc())}
+            onClick={() => {
+              dispatch(toggleEditStudentFunc());
+              dispatch(setSingleStudentData(null));
+              reset();
+            }}
             className="bg-slate-100 hover:bg-slate-200 transition-all rounded-full justify-center flex items-center w-8 h-8"
           >
             <XMarkIcon width={25} height={25} />
@@ -136,7 +136,6 @@ function AddData({isOpen}: {isOpen: boolean}) {
                     </p>
                   </div>
                   <input
-                    ref={fileUpload}
                     onChange={handleFileChange}
                     type="file"
                     className="hidden"
@@ -145,20 +144,22 @@ function AddData({isOpen}: {isOpen: boolean}) {
               </div>
             )}
             <Btn
-              click={() => setSelectImage(null)}
               disabled={selectImage ? false : true}
-              size="middle"
+              click={() => setSelectImage(null)}
               danger
+              size="middle"
             >
               RASMNI O&apos;CHIRISH
             </Btn>
           </div>
           <div className="grid mt-5 grid-cols-2 gap-3 h-min w-full ml-5">
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Ism familya:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Fullname:</h5>
               <Controller
                 control={control}
                 name="fullName"
+                key={singleStudentData?.fullName}
+                defaultValue={singleStudentData?.fullName}
                 render={({field}) => (
                   <Input
                     className="h-10"
@@ -181,53 +182,58 @@ function AddData({isOpen}: {isOpen: boolean}) {
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">
-                Tug&apos;ilgan sana:
-              </h5>
+              <h5 className="text-lg opacity-70 font-medium">Birthday:</h5>
               <Controller
                 name="birthday"
                 control={control}
+                key={singleStudentData?.birthday}
                 render={({field}) => (
                   <DatePicker
-                    {...field}
+                    defaultValue={dayjs(singleStudentData?.birthday)}
                     placeholder=""
                     className="w-full h-10"
+                    {...field}
                     size="large"
                   />
                 )}
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Manzil:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Address:</h5>
               <Controller
                 name="address"
                 control={control}
+                key={singleStudentData?.address}
                 render={({field}) => (
                   <SelectUI
                     field={field}
+                    defaultValue={singleStudentData?.address}
+                    {...field}
+                    options={neighborhood}
                     filterOption={filterOptionSelect}
+                    onSearch={onSearchSelect}
                     onChange={(value) => {
                       field.onChange(value);
                       onChangeSelect(value);
                     }}
-                    onSearch={onSearchSelect}
-                    options={neighborhood}
                   />
                 )}
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Guruh:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Group:</h5>
               <Controller
                 name="group"
                 control={control}
+                key={singleStudentData?.group}
+                defaultValue={singleStudentData?.group}
                 render={({field}) => (
                   <Select
                     {...field}
-                    size="large"
-                    className="h-10 w-full"
                     loading={isPendingCategories}
                     disabled={isPendingCategories}
+                    size="large"
+                    className="h-10 w-full"
                     options={groups?.map((group) => ({
                       value: group.language,
                       label: group.language,
@@ -252,26 +258,39 @@ function AddData({isOpen}: {isOpen: boolean}) {
             </div>
             <div className="w-full">
               <PhoneInput
+                defaultValue={singleStudentData?.personalPhone.slice(5)}
+                control={control}
                 controlName="personalPhone"
                 label="Shaxsiy"
-                control={control}
               />
             </div>
             <div className="w-full">
               <PhoneInput
+                defaultValue={singleStudentData?.homePhone.slice(5)}
+                control={control}
                 controlName="homePhone"
                 label="Uy"
-                control={control}
               />
             </div>
             <div className="w-full">
               <h5 className="text-lg opacity-70 font-medium">Sertifikat:</h5>
               <Controller
                 name="certificate"
+                key={
+                  singleStudentData?.certificate
+                    ? "Berilgan ✅"
+                    : "Berilmagan ❌"
+                }
                 control={control}
                 render={({field}) => (
                   <SelectUI
                     field={field}
+                    defaultValue={
+                      singleStudentData?.certificate
+                        ? "Berilgan ✅"
+                        : "Berilmagan ❌"
+                    }
+                    {...field}
                     options={[
                       {
                         value: "yes",
@@ -295,9 +314,18 @@ function AddData({isOpen}: {isOpen: boolean}) {
               <Controller
                 name="graduated"
                 control={control}
+                key={
+                  singleStudentData?.graduated ? "Bitirgan ✅" : "Bitirmagan ❌"
+                }
                 render={({field}) => (
                   <SelectUI
                     field={field}
+                    defaultValue={
+                      singleStudentData?.graduated
+                        ? "Bitirgan ✅"
+                        : "Bitirmagan ❌"
+                    }
+                    {...field}
                     options={[
                       {
                         value: "yes",
@@ -316,10 +344,9 @@ function AddData({isOpen}: {isOpen: boolean}) {
                 )}
               />
             </div>
-
             <div className="w-full items-end flex">
-              <Btn htmlType="submit" loading={isPending}>
-                QO&apos;SHISH
+              <Btn htmlType="submit" icon="edit" loading={isPending}>
+                TAHRIRLASH
               </Btn>
             </div>
           </div>
@@ -328,4 +355,4 @@ function AddData({isOpen}: {isOpen: boolean}) {
     </div>
   );
 }
-export default AddData;
+export default EditStudent;

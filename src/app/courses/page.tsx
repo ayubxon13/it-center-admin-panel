@@ -5,9 +5,9 @@ import {
   DeleteOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import Header from "@/components/Header";
-import ModalPromise from "@/components/ModalPromise";
-import Score from "@/components/Score";
+import Header from "@/components/ui/Header";
+import ModalPromise from "@/components/antdUI/ModalPromise";
+import Score from "@/components/ui/Score";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import Meta from "antd/es/card/Meta";
 import {Card, Empty} from "antd";
@@ -18,8 +18,8 @@ import {RootState} from "@/lib/store";
 import {useState} from "react";
 import {toggleAddCoursesFunc} from "@/lib/features/toggle/toggleSlice";
 import {nanoid} from "@reduxjs/toolkit";
-import AddCourse from "@/components/AddCourse";
-import EditCourse from "@/components/EditCourse";
+import AddCourse from "@/components/course/AddCourse";
+import EditCourse from "@/components/course/EditCourse";
 
 function Courses() {
   const dispatch = useDispatch();

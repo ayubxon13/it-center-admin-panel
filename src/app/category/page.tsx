@@ -5,9 +5,9 @@ import {
   DeleteOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import Header from "@/components/Header";
-import ModalPromise from "@/components/ModalPromise";
-import Score from "@/components/Score";
+import Header from "@/components/ui/Header";
+import ModalPromise from "@/components/antdUI/ModalPromise";
+import Score from "@/components/ui/Score";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import Meta from "antd/es/card/Meta";
 import {Card, Empty} from "antd";
@@ -15,9 +15,9 @@ import {useQuery} from "@tanstack/react-query";
 import {customFetch} from "@/utils/utils";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/lib/store";
-import AddCategories from "@/components/AddCategories";
+import AddCategories from "@/components/category/AddCategories";
 import {useState} from "react";
-import EditCategories from "@/components/EditCategories";
+import EditCategories from "@/components/category/EditCategories";
 import {toggleAddCategoryFunc} from "@/lib/features/toggle/toggleSlice";
 
 function Category() {

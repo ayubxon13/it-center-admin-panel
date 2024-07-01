@@ -7,17 +7,17 @@ import {
 } from "@ant-design/icons";
 import {Card, Empty} from "antd";
 
-import Header from "@/components/Header";
-import Score from "@/components/Score";
+import Header from "@/components/ui/Header";
+import Score from "@/components/ui/Score";
 import {useQuery} from "@tanstack/react-query";
 import {customFetch} from "@/utils/utils";
-import ModalPromise from "@/components/ModalPromise";
+import ModalPromise from "@/components/antdUI/ModalPromise";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
-import AddAds from "@/components/AddAds";
+import AddAds from "@/components/ads/AddAds";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/lib/store";
 import {toggleAddAdsFunc} from "@/lib/features/toggle/toggleSlice";
-import EditAds from "@/components/EditAds";
+import EditAds from "@/components/ads/EditAds";
 import {useState} from "react";
 const {Meta} = Card;
 

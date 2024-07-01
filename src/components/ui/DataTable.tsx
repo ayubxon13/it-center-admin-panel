@@ -3,7 +3,7 @@ import {Button, ConfigProvider, Space, Table, Tooltip} from "antd";
 import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {useDispatch} from "react-redux";
 import {setSingleStudentData} from "@/lib/features/student/studentSlice";
-import ModalPromise from "./ModalPromise";
+import ModalPromise from "../antdUI/ModalPromise";
 import {singleRegisterStudentsFunc} from "@/lib/features/register-students-slice/registerStudentsSlice";
 import {ColumnsType} from "antd/es/table";
 import {
@@ -118,6 +118,13 @@ const DataTable: React.FC<TDataTable> = ({
       title: "Ism Familya",
       dataIndex: "fullName",
       key: "fullName",
+      filters: students?.map((student) => ({
+        text: student.fullName,
+        value: student.fullName,
+      })),
+      filterSearch: true,
+      onFilter: filterFunction,
+      width: "30%",
     },
     {
       title: "Shaxsiy raqami",
@@ -171,6 +178,13 @@ const DataTable: React.FC<TDataTable> = ({
       title: "Ism Familya",
       dataIndex: "fullName",
       key: "fullName",
+      filters: students?.map((student) => ({
+        text: student.fullName,
+        value: student.fullName,
+      })),
+      filterSearch: true,
+      onFilter: filterFunction,
+      width: "30%",
     },
     {
       title: "Shaxsiy raqami",

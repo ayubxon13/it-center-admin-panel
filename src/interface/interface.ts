@@ -103,12 +103,14 @@ interface IQuestions {
   id: number;
   question: string;
   language: string;
-  level: Level;
+  level: string;
   a: string;
   b: string;
   c: string;
   d: string;
-  right: string;
+  right: "a" | "b" | "c" | "d";
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface ITeacher {

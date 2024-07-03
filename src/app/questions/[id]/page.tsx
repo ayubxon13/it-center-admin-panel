@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {toggleAddQuestionFunc} from "@/lib/features/toggle/toggleSlice";
 import {RootState} from "@/lib/store";
 import AddQuestion from "@/components/questions/AddQuestion";
+import EditQuestion from "@/components/questions/EditQuestion";
 
 type QuestionsSingleParams = {
   // params: {
@@ -29,6 +30,9 @@ type QuestionsSingleParams = {
 };
 
 function QuestionsSingle({searchParams}: QuestionsSingleParams) {
+  const [editQuestionData, setEditQuestionData] = useState<IQuestions | null>(
+    null
+  );
   const dispatch = useDispatch();
   const {toggleAddQuestionValue} = useSelector(
     (state: RootState) => state.toggleSlice
@@ -77,7 +81,10 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
                 >
                   <DeleteOutlined key="delete" />
                 </ModalPromise>,
-                <EditOutlined key="edit" />,
+                <EditOutlined
+                  onClick={() => setEditQuestionData(ques)}
+                  key="edit"
+                />,
                 <EllipsisOutlined key="ellipsis" />,
               ]}
             >
@@ -105,6 +112,12 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
           ))}
       </div>
       <AddQuestion searchParams={searchParams} show={toggleAddQuestionValue} />
+      {editQuestionData && (
+        <EditQuestion
+          cancel={() => setEditQuestionData(null)}
+          questionData={editQuestionData}
+        />
+      )}
     </main>
   );
 }

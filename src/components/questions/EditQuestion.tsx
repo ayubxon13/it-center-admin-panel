@@ -1,30 +1,13 @@
-"use client";
-import {toggleAddQuestionFunc} from "@/lib/features/toggle/toggleSlice";
 import {customFetch} from "@/utils/utils";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Input, Modal, Select} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {Controller, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
 import {toast} from "sonner";
 
-type AddQuestionProps = {
-  show: boolean;
-  searchParams: {
-    language: string;
-    level: string;
-  };
-};
-
-type InputTypeAddQustion = {
-  programmingLanguage: string;
-  level: string;
-  questionText: string;
-  aVariant: string;
-  bVariant: string;
-  cVariant: string;
-  dVariant: string;
-  rightVariant: "a" | "b" | "c" | "d";
+type EditQuestionProps = {
+  questionData: IQuestions;
+  cancel: () => void;
 };
 
 const variants = [
@@ -42,18 +25,20 @@ const variants = [
   },
 ];
 
-async function addQuestion(data: InputTypeAddQustion) {
+type InputTypeEditQustion = {
+  programmingLanguage: string;
+  level: string;
+  questionText: string;
+  aVariant: string;
+  bVariant: string;
+  cVariant: string;
+  dVariant: string;
+  rightVariant: "a" | "b" | "c" | "d";
+};
+
+async function editQuestion(data: IQuestions) {
   try {
-    await customFetch.post("questions", {
-      question: data.questionText,
-      language: data.programmingLanguage,
-      level: data.level.slice(0, -6),
-      a: data.aVariant,
-      b: data.bVariant,
-      c: data.cVariant,
-      d: data.dVariant,
-      right: data.rightVariant,
-    });
+    await customFetch.put(`questions/${data._id}`, data);
     toast.success("Reklama muvaffaqiyatli yaratildi");
   } catch (error) {
     toast.error("Yaratishda xatolikka uchradi");
@@ -63,43 +48,43 @@ async function addQuestion(data: InputTypeAddQustion) {
   }
 }
 
-function AddQuestion({show, searchParams}: AddQuestionProps) {
- 
-  const dispatch = useDispatch();
-  const {control, handleSubmit, reset} = useForm<InputTypeAddQustion>();
+function EditQuestion({questionData, cancel}: EditQuestionProps) {
+  const {control, reset, handleSubmit} = useForm<InputTypeEditQustion>();
 
   const queryClient = useQueryClient();
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: addQuestion,
-    onSuccess: () => {
+    mutationFn: editQuestion,
+    onSuccess() {
       queryClient.invalidateQueries({queryKey: ["questions"]});
-      dispatch(toggleAddQuestionFunc());
+      cancel();
+      reset();
     },
   });
 
-  const onSubmit = (questionData: InputTypeAddQustion) => {
-    const isEmpty = Object.values(questionData).some(
-      (val) => val == null || val == ""
-    );
-    if (isEmpty) {
-      return toast.error("Please fill out the form");
-    } else {
-      mutateAsync(questionData).then(() => {
-        reset();
-      });
-    }
+  const onSubmit = (data: InputTypeEditQustion) => {
+    mutateAsync({
+      _id: questionData._id,
+      id: questionData.id,
+      question: data.questionText,
+      language: data.programmingLanguage,
+      level: data.level.slice(0, -6),
+      a: data.aVariant,
+      b: data.bVariant,
+      c: data.cVariant,
+      d: data.dVariant,
+      right: data.rightVariant,
+    });
   };
-
   return (
     <Modal
       title="Savol qo'shish"
       centered
-      open={show}
+      open={true}
       okText="Qo'shish"
       width={700}
       cancelText="Bekor qilish"
-      onCancel={() => dispatch(toggleAddQuestionFunc())}
+      onCancel={() => cancel()}
       confirmLoading={isPending}
       onOk={() => handleSubmit(onSubmit)()}
     >
@@ -110,7 +95,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
             <Controller
               name="programmingLanguage"
               control={control}
-              defaultValue={searchParams.language}
+              defaultValue={questionData.language}
+              key={questionData.language}
               render={({field}) => (
                 <Input disabled {...field} className="h-10" size="large" />
               )}
@@ -121,7 +107,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
             <Controller
               name="level"
               control={control}
-              defaultValue={searchParams.level}
+              defaultValue={`${questionData.level} level`}
+              key={questionData.level}
               render={({field}) => (
                 <Select
                   disabled
@@ -138,6 +125,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="questionText"
             control={control}
+            defaultValue={questionData.question}
+            key={questionData.question}
             render={({field}) => (
               <TextArea
                 {...field}
@@ -153,6 +142,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="aVariant"
             control={control}
+            defaultValue={questionData.a}
+            key={questionData.a}
             render={({field}) => <Input className="h-10" {...field} />}
           />
         </div>
@@ -161,6 +152,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="bVariant"
             control={control}
+            defaultValue={questionData.b}
+            key={questionData.b}
             render={({field}) => <Input className="h-10" {...field} />}
           />
         </div>
@@ -169,6 +162,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="cVariant"
             control={control}
+            defaultValue={questionData.c}
+            key={questionData.c}
             render={({field}) => <Input className="h-10" {...field} />}
           />
         </div>
@@ -177,6 +172,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="dVariant"
             control={control}
+            defaultValue={questionData.d}
+            key={questionData.d}
             render={({field}) => <Input className="h-10" {...field} />}
           />
         </div>
@@ -187,6 +184,8 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
           <Controller
             name="rightVariant"
             control={control}
+            defaultValue={questionData.right}
+            key={questionData.right}
             render={({field}) => (
               <Select
                 {...field}
@@ -205,4 +204,4 @@ function AddQuestion({show, searchParams}: AddQuestionProps) {
   );
 }
 
-export default AddQuestion;
+export default EditQuestion;

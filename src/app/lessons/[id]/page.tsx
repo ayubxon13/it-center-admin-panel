@@ -81,7 +81,7 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
                 <iframe
                   className="rounded-t-md"
                   height="335"
-                  src="https://www.youtube.com/embed/XMRqRvcb6hM?si=F0_zyw50ij_sP5T-"
+                  src={lesson.videoLink}
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
@@ -106,7 +106,7 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
               <Meta
                 avatar={<InfoCircleOutlined />}
                 title={`${newIndex}. ${lesson.homework}`}
-                description="dew"
+                description={lesson.homework}
               />
             </Card>
           );

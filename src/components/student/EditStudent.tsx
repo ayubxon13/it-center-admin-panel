@@ -23,6 +23,21 @@ import PhoneInput from "@/components/antdUI/PhoneInput";
 import useGetCategories from "@/hooks/useGetCategories";
 import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 
+type StudentsInput = {
+  fullName: string;
+  birthday: string;
+  address: string;
+  group: string;
+  personalPhone: string;
+  homePhone: string;
+  certificate: string;
+  graduated: string;
+  userPercentage: number;
+  userPhoto: string | null;
+  quizLevel: number;
+  videoLevel: number;
+};
+
 async function editStudent(data: IStudents) {
   try {
     const res = await customFetch.put(`students/${data._id}`, data);
@@ -42,7 +57,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
   const dispatch = useDispatch();
 
   const queryClient = useQueryClient();
-  const {control, handleSubmit, reset} = useForm<TInputs>();
+  const {control, handleSubmit, reset} = useForm<StudentsInput>();
   const {singleStudentData} = useSelector(
     (store: RootState) => store.studentSlice
   );
@@ -61,7 +76,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     },
   });
 
-  const onSubmit = (studentsFormData: TInputs) => {
+  const onSubmit = (studentsFormData: StudentsInput) => {
     mutateAsync({
       _id: singleStudentData?._id ?? "",
       id: singleStudentData?.id ?? 1,

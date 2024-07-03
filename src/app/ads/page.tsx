@@ -54,7 +54,6 @@ function Ads() {
         {ads?.map((ad) => (
           <Card
             key={ad._id}
-            loading={isPending}
             className="max-w-[300px] w-full"
             cover={
               <img

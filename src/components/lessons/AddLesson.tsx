@@ -61,6 +61,12 @@ function AddLesson({searchParams, show}: AddLessonParams) {
     );
     if (isEmpty) {
       return toast.error("Please fill out the form");
+    } else if (
+      !/https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})\?si=([a-zA-Z0-9_-]+)/.test(
+        lessonData.lessonVideoLink
+      )
+    ) {
+      toast.error("Iltimos Youtube link joylang");
     } else {
       mutateAsync(lessonData).then(() => {
         reset();

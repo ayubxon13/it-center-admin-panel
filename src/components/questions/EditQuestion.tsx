@@ -63,18 +63,23 @@ function EditQuestion({questionData, cancel}: EditQuestionProps) {
   });
 
   const onSubmit = (data: InputTypeEditQustion) => {
-    mutateAsync({
-      _id: questionData._id,
-      id: questionData.id,
-      question: data.questionText,
-      language: data.programmingLanguage,
-      level: data.level.slice(0, -6),
-      a: data.aVariant,
-      b: data.bVariant,
-      c: data.cVariant,
-      d: data.dVariant,
-      right: data.rightVariant,
-    });
+    const isEmpty = Object.values(data).some((val) => val == null || val == "");
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else {
+      mutateAsync({
+        _id: questionData._id,
+        id: questionData.id,
+        question: data.questionText,
+        language: data.programmingLanguage,
+        level: data.level.slice(0, -6),
+        a: data.aVariant,
+        b: data.bVariant,
+        c: data.cVariant,
+        d: data.dVariant,
+        right: data.rightVariant,
+      });
+    }
   };
   return (
     <Modal

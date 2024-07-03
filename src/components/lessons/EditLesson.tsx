@@ -46,15 +46,28 @@ function EditLesson({lessonData, cancel}: EditLessonParams) {
   });
 
   const onSubmit = (data: LessonInputType) => {
-    mutateAsync({
-      _id: lessonData._id,
-      id: lessonData.id,
-      lessonName: data.lessonName,
-      languageName: data.lessonProgrammingLang,
-      videoLink: data.lessonVideoLink,
-      level: data.level,
-      homework: data.homework,
-    });
+    const isEmpty = Object.values(lessonData).some(
+      (val) => val == null || val == ""
+    );
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else if (
+      !/https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})\?si=([a-zA-Z0-9_-]+)/.test(
+        data.lessonVideoLink
+      )
+    ) {
+      toast.error("Iltimos Youtube link joylang");
+    } else {
+      mutateAsync({
+        _id: lessonData._id,
+        id: lessonData.id,
+        lessonName: data.lessonName,
+        languageName: data.lessonProgrammingLang,
+        videoLink: data.lessonVideoLink,
+        level: data.level,
+        homework: data.homework,
+      });
+    }
   };
 
   return (

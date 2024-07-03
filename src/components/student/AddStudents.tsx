@@ -22,7 +22,22 @@ import PhoneInput from "../antdUI/PhoneInput";
 import Btn from "../antdUI/Btn";
 import useGetCategories from "@/hooks/useGetCategories";
 
-async function addStudents(data: IStudents) {
+type StudentsInput = {
+  fullName: string;
+  birthday: string;
+  address: string;
+  group: string;
+  personalPhone: string;
+  homePhone: string;
+  certificate: string;
+  graduated: string;
+  userPercentage: number;
+  userPhoto: string | null;
+  quizLevel: number;
+  videoLevel: number;
+};
+
+async function addStudents(data: StudentsInput) {
   try {
     const res = await customFetch.post("students", data);
     toast.success("Student created successfully");
@@ -34,7 +49,6 @@ async function addStudents(data: IStudents) {
     toast.dismiss();
   }
 }
-
 function AddStudents({isOpen}: {isOpen: boolean}) {
   const {groups, isPendingCategories} = useGetCategories();
 
@@ -42,7 +56,7 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
   const dispatch = useDispatch();
   const fileUpload = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
-  const {control, handleSubmit, reset} = useForm<TInputs>();
+  const {control, handleSubmit, reset} = useForm<StudentsInput>();
 
   const {mutateAsync, isPending} = useMutation({
     mutationFn: addStudents,
@@ -52,7 +66,7 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
     },
   });
 
-  const onSubmit = (studentsFormData: TInputs) => {
+  const onSubmit = (studentsFormData: StudentsInput) => {
     const isEmpty = Object.values(studentsFormData).some(
       (val) =>
         val == null || val === "" || fileUpload.current?.files?.length == 0
@@ -62,8 +76,6 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
       return toast.error("Please fill out the form");
     } else {
       mutateAsync({
-        _id: "",
-        id: generateRandomNumber(),
         fullName: studentsFormData.fullName,
         birthday: dayjs(studentsFormData.birthday).format("MMM D, YYYY"),
         address: studentsFormData.address,
@@ -74,7 +86,6 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
         graduated: studentsFormData.graduated,
         userPercentage: 13,
         userPhoto: selectImage,
-        createdAt: new Date(),
         quizLevel: 0,
         videoLevel: 0,
       }).then(() => {

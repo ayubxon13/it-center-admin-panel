@@ -45,13 +45,24 @@ function EditCourse({course, cancel}: EditCourseType) {
   });
 
   const onSubmit = (courseData: CourseInputType) => {
-    mutateAsync({
-      _id: course._id,
-      id: course.id,
-      language: courseData.language,
-      image: courseData.image,
-      levelImage: courseData.levelImage,
-    });
+    const isEmpty = Object.values(courseData).some(
+      (val) => val == null || val == ""
+    );
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else if (!/\.(jpg|jpeg|png|svg|webp)$/i.test(courseData.image)) {
+      return toast.error(
+        "Invalid image format. Please provide a URL ending with .jpg, .jpeg, .png, .svg, or .webp"
+      );
+    } else {
+      mutateAsync({
+        _id: course._id,
+        id: course.id,
+        language: courseData.language,
+        image: courseData.image,
+        levelImage: courseData.levelImage,
+      });
+    }
   };
 
   return (

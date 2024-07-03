@@ -43,12 +43,23 @@ function EditAds({ad, cancel}: EditAdsType) {
   });
 
   const onSubmit = (adData: AdsInputType) => {
-    mutateAsync({
-      _id: ad._id,
-      id: ad.id,
-      image: adData.adsImageURL,
-      title: adData.adsName,
-    });
+    const isEmpty = Object.values(adData).some(
+      (val) => val == null || val == ""
+    );
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else if (!/\.(jpg|jpeg|png|svg|webp)$/i.test(adData.adsImageURL)) {
+      return toast.error(
+        "Invalid image format. Please provide a URL ending with .jpg, .jpeg, .png, .svg, or .webp"
+      );
+    } else {
+      mutateAsync({
+        _id: ad._id,
+        id: ad.id,
+        image: adData.adsImageURL,
+        title: adData.adsName,
+      });
+    }
   };
 
   return (

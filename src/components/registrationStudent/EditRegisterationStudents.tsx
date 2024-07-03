@@ -43,13 +43,20 @@ function EditRegistrationStudents({isOpen}: {isOpen: boolean}) {
   });
 
   const onSubmit = (registerStudentsData: InputType) => {
-    mutateAsync({
-      _id: singleRegisterStudents?._id ?? "",
-      id: singleRegisterStudents?.id ?? 1,
-      fullName: registerStudentsData.fullName,
-      personalPhone: "+998 " + registerStudentsData.personalPhone,
-      role: singleRegisterStudents?.role ?? "noStudent",
-    });
+    const isEmpty = Object.values(registerStudentsData).some(
+      (val) => val == null || val == ""
+    );
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else {
+      mutateAsync({
+        _id: singleRegisterStudents?._id ?? "",
+        id: singleRegisterStudents?.id ?? 1,
+        fullName: registerStudentsData.fullName,
+        personalPhone: "+998 " + registerStudentsData.personalPhone,
+        role: singleRegisterStudents?.role ?? "noStudent",
+      });
+    }
   };
 
   return (

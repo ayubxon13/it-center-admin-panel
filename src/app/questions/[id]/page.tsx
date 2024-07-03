@@ -4,7 +4,7 @@ import Score from "@/components/ui/Score";
 import {customFetch} from "@/utils/utils";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
-import {Card, Skeleton, Typography} from "antd";
+import {Card, Empty, Skeleton, Typography} from "antd";
 const {Title} = Typography;
 import {useState} from "react";
 import {
@@ -118,6 +118,7 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
           questionData={editQuestionData}
         />
       )}
+      {questions?.length === 0 && <Empty />}
     </main>
   );
 }

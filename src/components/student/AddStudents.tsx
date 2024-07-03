@@ -6,7 +6,6 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {
   customFetch,
   filterOptionSelect,
-  generateRandomNumber,
   neighborhood,
   onChangeSelect,
   onSearchSelect,

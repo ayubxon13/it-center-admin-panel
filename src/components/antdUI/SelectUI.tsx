@@ -1,8 +1,25 @@
 import {Select} from "antd";
 import {ControllerRenderProps} from "react-hook-form";
 
+
+
+type StudentsInput = {
+  fullName: string;
+  birthday: string;
+  address: string;
+  group: string;
+  personalPhone: string;
+  homePhone: string;
+  certificate: string;
+  graduated: string;
+  userPercentage: number;
+  userPhoto: string | null;
+  quizLevel: number;
+  videoLevel: number;
+};
+
 type SelectUIType = {
-  field: ControllerRenderProps<TInputs, any>;
+  field: ControllerRenderProps<StudentsInput, any>;
   onChange: (value: any) => void;
   defaultValue?: string;
   onSearch?: (value: string) => void;

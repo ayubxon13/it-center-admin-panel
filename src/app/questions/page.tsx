@@ -2,14 +2,12 @@
 import Header from "@/components/ui/Header";
 import {FileTextOutlined, EyeOutlined} from "@ant-design/icons";
 import Score from "@/components/ui/Score";
-import {toggleAddQuestionFunc} from "@/lib/features/toggle/toggleSlice";
 import {customFetch} from "@/utils/utils";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
 import {Button, Card, Dropdown} from "antd";
 import Meta from "antd/es/card/Meta";
 import {useRouter} from "next/navigation";
-import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {toast} from "sonner";
 
@@ -21,7 +19,6 @@ function Qustions() {
     url: "/",
   });
 
-  const dispatch = useDispatch();
   const {data: categories, isPending} = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
@@ -73,18 +70,11 @@ function Qustions() {
   ];
   const onMenuClick = (e: any) => {
     setSelect(e);
-    console.log(e);
   };
 
   return (
     <main className="grid gap-y-5">
-      <Header
-        text="Savollar"
-        buttonTwo={{
-          text: "SAVOL QO'SHISH",
-          click: () => dispatch(toggleAddQuestionFunc()),
-        }}
-      />
+      <Header text="Savollar" />
       <div className="grid grid-cols-4 justify-self-start gap-5 mb-5 w-full">
         <Score
           active

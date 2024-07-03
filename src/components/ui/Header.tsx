@@ -9,7 +9,7 @@ type THeader = {
     icon: ReactNode;
   };
   buttonTwo?: {
-    text: string;
+    text?: string;
     click: () => void;
   };
   buttonThree?: {

@@ -103,7 +103,7 @@ interface IQuestions {
   id: number;
   question: string;
   language: string;
-  level: string;
+  level: Level;
   a: string;
   b: string;
   c: string;

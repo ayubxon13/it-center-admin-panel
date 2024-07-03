@@ -1,13 +1,12 @@
-import {formatPhoneNumber} from "@/utils/utils"
-import {Input} from "antd"
-import {Control, Controller} from "react-hook-form"
-
+import {formatPhoneNumber} from "@/utils/utils";
+import {Input} from "antd";
+import {Control, Controller} from "react-hook-form";
 type PhoneInputType = {
-  controlName: keyof TInputs
-  label: string
-  control: Control<TInputs, any>
-  defaultValue?: string
-}
+  controlName: any;
+  label: string;
+  control: Control<any, any>;
+  defaultValue?: string;
+};
 
 function PhoneInput({
   control,
@@ -30,13 +29,13 @@ function PhoneInput({
             addonBefore="+998"
             size="large"
             onChange={(e) => {
-              const formattedValue = formatPhoneNumber(e.target.value)
-              field.onChange(formattedValue)
+              const formattedValue = formatPhoneNumber(e.target.value);
+              field.onChange(formattedValue);
             }}
           />
         )}
       />
     </>
-  )
+  );
 }
-export default PhoneInput
+export default PhoneInput;

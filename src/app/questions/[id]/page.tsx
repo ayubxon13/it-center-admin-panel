@@ -73,6 +73,7 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
         {questions?.map((ques) => (
           <>
             <Card
+              title={ques.question}
               actions={[
                 <ModalPromise
                   key="questions"
@@ -88,7 +89,6 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
                 <EllipsisOutlined key="ellipsis" />,
               ]}
             >
-              <Title level={5}>{ques.question}</Title>
               <p>{`a) ${ques.a}`}</p>
               <p>{`b) ${ques.b}`}</p>
               <p>{`c) ${ques.c}`}</p>

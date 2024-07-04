@@ -11,11 +11,11 @@ import {
   PhotoIcon,
   PlayIcon,
   QuestionMarkCircleIcon,
-  UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 function SideNavbar() {
   const sideBarLinks = [
@@ -85,17 +85,17 @@ function SideNavbar() {
         />
       ),
     },
-    {
-      name: "Hisob",
-      link: "/profile",
-      chilren: (
-        <UserCircleIcon
-          className="text-2xl text-[#DBE2EF] group-hover:text-white"
-          width={24}
-          height={24}
-        />
-      ),
-    },
+    // {
+    //   name: "Hisob",
+    //   link: "/profile",
+    //   chilren: (
+    //     <UserCircleIcon
+    //       className="text-2xl text-[#DBE2EF] group-hover:text-white"
+    //       width={24}
+    //       height={24}
+    //     />
+    //   ),
+    // },
     {
       name: "Bildirishnoma",
       link: "/notifications",
@@ -108,6 +108,7 @@ function SideNavbar() {
       ),
     },
   ];
+  const route = useRouter();
   return (
     <div>
       <Disclosure className="select-none" as="nav">
@@ -159,7 +160,13 @@ function SideNavbar() {
                 </h3>
               </div>
             </div>
-            <button className="my-4">
+            <button
+              onClick={() => {
+                localStorage.removeItem("auth");
+                route.push("/login");
+              }}
+              className="my-4"
+            >
               <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200  hover:bg-[#3F72AF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <ExclamationCircleIcon
                   width={24}

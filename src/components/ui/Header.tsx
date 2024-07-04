@@ -1,6 +1,8 @@
+"use client";
 import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {Button} from "antd";
-import {ReactNode} from "react";
+import {useRouter} from "next/navigation";
+import {ReactNode, useEffect} from "react";
 
 type THeader = {
   text: string;
@@ -19,6 +21,14 @@ type THeader = {
 };
 
 function Header({text, buttonTwo, buttonThree}: THeader) {
+  const route = useRouter();
+  useEffect(() => {
+    const admin = localStorage.getItem("auth");
+    if (!admin) {
+      route.push("/login");
+    }
+  }, [route]);
+
   return (
     <div className="w-full mt-5">
       <div className="flex justify-between">

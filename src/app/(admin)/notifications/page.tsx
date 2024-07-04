@@ -18,7 +18,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Meta from "antd/es/card/Meta";
 import AddNotifications from "@/components/notification/AddNotifications";
 import {toggleAddNotificationsFunc} from "@/lib/features/toggle/toggleSlice";
-import EditNotifications from "../../components/notification/EditNotifications";
+import EditNotifications from "../../../components/notification/EditNotifications";
 
 function Notifications() {
   const {toggleAddNotificationsValue} = useSelector(

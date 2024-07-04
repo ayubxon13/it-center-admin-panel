@@ -4,8 +4,7 @@ import Score from "@/components/ui/Score";
 import {customFetch} from "@/utils/utils";
 import {ClipboardDocumentCheckIcon} from "@heroicons/react/24/outline";
 import {useQuery} from "@tanstack/react-query";
-import {Card, Empty, Skeleton, Typography} from "antd";
-const {Title} = Typography;
+import {Card, Empty, Skeleton} from "antd";
 import {useState} from "react";
 import {
   EditOutlined,

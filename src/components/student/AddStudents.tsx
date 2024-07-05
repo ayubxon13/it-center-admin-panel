@@ -83,7 +83,7 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
         homePhone: "+998 " + studentsFormData.homePhone,
         certificate: studentsFormData.certificate,
         graduated: studentsFormData.graduated,
-        userPercentage: 13,
+        userPercentage: 0,
         userPhoto: selectImage,
         quizLevel: 0,
         videoLevel: 0,

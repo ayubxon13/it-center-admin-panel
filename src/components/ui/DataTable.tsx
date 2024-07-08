@@ -62,6 +62,11 @@ const DataTable: React.FC<TDataTable> = ({
       key: "birthday",
     },
     {
+      title: "O'zlashtirishi",
+      dataIndex: "userPercentage",
+      key: "userPercentage",
+    },
+    {
       title: "Guruh",
       dataIndex: "group",
       key: "group",

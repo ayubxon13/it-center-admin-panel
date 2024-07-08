@@ -77,6 +77,9 @@ function Students() {
           text: "O'QUVCHI QO'SHISH",
           click: () => dispatch(toggleAddStudentFunc()),
         }}
+        buttonOne={{
+          text: "O'QUVCHINI ARXIXLASH",
+        }}
         buttonThree={{
           text: "RO'YXATGA OLISH",
           click: () => dispatch(toggleRegistrationFunc()),

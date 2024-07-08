@@ -2,13 +2,12 @@
 import {ClipboardDocumentListIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {Button} from "antd";
 import {useRouter} from "next/navigation";
-import {ReactNode, useEffect} from "react";
+import {useEffect} from "react";
 
 type THeader = {
   text: string;
   buttonOne?: {
     text: string;
-    icon: ReactNode;
   };
   buttonTwo?: {
     text?: string;
@@ -20,7 +19,7 @@ type THeader = {
   };
 };
 
-function Header({text, buttonTwo, buttonThree}: THeader) {
+function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
   const route = useRouter();
   useEffect(() => {
     const admin = localStorage.getItem("auth");
@@ -34,6 +33,17 @@ function Header({text, buttonTwo, buttonThree}: THeader) {
       <div className="flex justify-between">
         <h1 className="text-3xl font-semibold">{text}</h1>
         <div className="flex items-center gap-x-3">
+          {buttonOne && (
+            <Button
+              type={"primary"}
+              size="large"
+              onClick={() => 1}
+              className="flex items-center"
+              icon={<PlusIcon width={21} height={21} />}
+            >
+              {buttonOne.text}
+            </Button>
+          )}
           {buttonTwo && (
             <Button
               type={"primary"}

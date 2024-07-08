@@ -1,5 +1,5 @@
 "use client";
-import {DatePicker, Input, Select, Space} from "antd";
+import {DatePicker, Input, InputNumber, Select, Space} from "antd";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {Controller, useForm} from "react-hook-form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
@@ -83,7 +83,7 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
         homePhone: "+998 " + studentsFormData.homePhone,
         certificate: studentsFormData.certificate,
         graduated: studentsFormData.graduated,
-        userPercentage: 0,
+        userPercentage: studentsFormData.userPercentage,
         userPhoto: selectImage,
         quizLevel: 0,
         videoLevel: 0,
@@ -327,10 +327,31 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
               />
             </div>
 
-            <div className="w-full items-end flex">
-              <Btn htmlType="submit" loading={isPending}>
-                QO&apos;SHISH
-              </Btn>
+            <div className="flex gap-3">
+              <div>
+                <h5 className="text-lg w-full opacity-70 font-medium">
+                  O&apos;zlashtirishi:
+                </h5>
+                <Controller
+                  name="userPercentage"
+                  control={control}
+                  render={({field}) => (
+                    <InputNumber
+                      {...field}
+                      size="large"
+                      className="w-full"
+                      min={0}
+                      max={100}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="w-full items-end flex">
+                <Btn htmlType="submit" loading={isPending}>
+                  QO&apos;SHISH
+                </Btn>
+              </div>
             </div>
           </div>
         </form>

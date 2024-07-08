@@ -368,6 +368,8 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 <Controller
                   name="userPercentage"
                   control={control}
+                  key={singleStudentData?.userPercentage}
+                  defaultValue={singleStudentData?.userPercentage}
                   render={({field}) => (
                     <InputNumber
                       {...field}

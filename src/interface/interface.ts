@@ -27,20 +27,6 @@ interface IStudents {
   createdAt?: Date;
   updatedAt?: Date;
 }
-
-interface IArchiveStudents {
-  _id: string;
-  fullName: string;
-  birthday: string;
-  address: string;
-  group: string;
-  personalPhone: string;
-  homePhone: string;
-  userPhoto: string | null;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 interface IRegisterStudents {
   _id: string;
   id: number;

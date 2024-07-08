@@ -1,5 +1,5 @@
 "use client";
-import {DatePicker, Input, InputNumber, Select, Space} from "antd";
+import {DatePicker, Input, Select, Space} from "antd";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {Controller, useForm} from "react-hook-form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
@@ -11,17 +11,15 @@ import {
   onSearchSelect,
 } from "@/utils/utils";
 import {toast} from "sonner";
-import {useDispatch, useSelector} from "react-redux";
-import {toggleEditStudentFunc} from "@/lib/features/toggle/toggleSlice";
+import {useDispatch} from "react-redux";
+import {toggleAddArchiveStudentsFunc} from "@/lib/features/toggle/toggleSlice";
 import dayjs from "dayjs";
-import {RootState} from "@/lib/store";
-import {ChangeEvent, useEffect} from "react";
+import {ChangeEvent, useRef} from "react";
 import useFileChange from "@/hooks/useFileChange";
-import Btn from "@/components/antdUI/Btn";
-import SelectUI from "@/components/antdUI/SelectUI";
-import PhoneInput from "@/components/antdUI/PhoneInput";
+import SelectUI from "../antdUI/SelectUI";
+import PhoneInput from "../antdUI/PhoneInput";
+import Btn from "../antdUI/Btn";
 import useGetCategories from "@/hooks/useGetCategories";
-import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 
 type StudentsInput = {
   fullName: string;
@@ -30,69 +28,60 @@ type StudentsInput = {
   group: string;
   personalPhone: string;
   homePhone: string;
-  certificate: string;
-  graduated: string;
-  userPercentage: number;
   userPhoto: string | null;
-  quizLevel: number;
-  videoLevel: number;
 };
 
-async function editStudent(data: IStudents) {
+async function addStudents(data: StudentsInput) {
   try {
-    const res = await customFetch.put(`students/${data._id}`, data);
-    toast.success("Student edited successfully");
+    const res = await customFetch.post("archive-students", data);
+    toast.success("Student created successfully");
     return res.data;
   } catch (error) {
-    toast.error("Failed to edit student");
+    toast.error("Failed to create student");
     throw error;
   } finally {
     toast.dismiss();
   }
 }
-
-function EditStudent({isOpen}: {isOpen: boolean}) {
+function AddArchiveStudents({isOpen}: {isOpen: boolean}) {
   const {groups, isPendingCategories} = useGetCategories();
+
   const {handleFileChange, selectImage, setSelectImage} = useFileChange();
   const dispatch = useDispatch();
-
+  const fileUpload = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const {control, handleSubmit, reset} = useForm<StudentsInput>();
-  const {singleStudentData} = useSelector(
-    (store: RootState) => store.studentSlice
-  );
-
-  useEffect(() => {
-    if (singleStudentData?.userPhoto) {
-      setSelectImage(singleStudentData.userPhoto);
-    }
-  }, [singleStudentData]);
 
   const {mutateAsync, isPending} = useMutation({
-    mutationFn: editStudent,
+    mutationFn: addStudents,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["students"]});
-      dispatch(toggleEditStudentFunc());
+      queryClient.invalidateQueries({queryKey: ["archive-students"]});
+      dispatch(toggleAddArchiveStudentsFunc());
     },
   });
 
   const onSubmit = (studentsFormData: StudentsInput) => {
-    mutateAsync({
-      _id: singleStudentData?._id ?? "",
-      id: singleStudentData?.id ?? 1,
-      fullName: studentsFormData.fullName,
-      birthday: dayjs(studentsFormData?.birthday).format("MMM D, YYYY"),
-      address: studentsFormData.address,
-      group: studentsFormData.group,
-      personalPhone: studentsFormData.personalPhone,
-      homePhone: studentsFormData.homePhone,
-      certificate: studentsFormData.certificate,
-      graduated: studentsFormData.graduated,
-      userPercentage: studentsFormData.userPercentage,
-      userPhoto: selectImage,
-      quizLevel: 0,
-      videoLevel: 0,
-    });
+    const isEmpty = Object.values(studentsFormData).some(
+      (val) =>
+        val == null || val === "" || fileUpload.current?.files?.length == 0
+    );
+
+    if (isEmpty) {
+      return toast.error("Please fill out the form");
+    } else {
+      mutateAsync({
+        fullName: studentsFormData.fullName,
+        birthday: dayjs(studentsFormData.birthday).format("MMM D, YYYY"),
+        address: studentsFormData.address,
+        group: studentsFormData?.group?.toString(),
+        personalPhone: "+998 " + studentsFormData.personalPhone,
+        homePhone: "+998 " + studentsFormData.homePhone,
+        userPhoto: selectImage,
+      }).then(() => {
+        reset();
+        setSelectImage(null);
+      });
+    }
   };
 
   return (
@@ -103,13 +92,9 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     >
       <div className="bg-white z-50 w-full mx-[17%] p-6 rounded-lg shadow-lg">
         <div className="flex justify-between">
-          <p className="mb-5">Edit student</p>
+          <p className="mb-5">Studentni arxivlash</p>
           <button
-            onClick={() => {
-              dispatch(toggleEditStudentFunc());
-              dispatch(setSingleStudentData(null));
-              reset();
-            }}
+            onClick={() => dispatch(toggleAddArchiveStudentsFunc())}
             className="bg-slate-100 hover:bg-slate-200 transition-all rounded-full justify-center flex items-center w-8 h-8"
           >
             <XMarkIcon width={25} height={25} />
@@ -151,6 +136,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                     </p>
                   </div>
                   <input
+                    ref={fileUpload}
                     onChange={handleFileChange}
                     type="file"
                     className="hidden"
@@ -159,22 +145,20 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
               </div>
             )}
             <Btn
-              disabled={selectImage ? false : true}
               click={() => setSelectImage(null)}
-              danger
+              disabled={selectImage ? false : true}
               size="middle"
+              danger
             >
               RASMNI O&apos;CHIRISH
             </Btn>
           </div>
           <div className="grid mt-5 grid-cols-2 gap-3 h-min w-full ml-5">
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Fullname:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Ism familya:</h5>
               <Controller
                 control={control}
                 name="fullName"
-                key={singleStudentData?.fullName}
-                defaultValue={singleStudentData?.fullName}
                 render={({field}) => (
                   <Input
                     className="h-10"
@@ -197,58 +181,53 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Birthday:</h5>
+              <h5 className="text-lg opacity-70 font-medium">
+                Tug&apos;ilgan sana:
+              </h5>
               <Controller
                 name="birthday"
                 control={control}
-                key={singleStudentData?.birthday}
                 render={({field}) => (
                   <DatePicker
-                    defaultValue={dayjs(singleStudentData?.birthday)}
+                    {...field}
                     placeholder=""
                     className="w-full h-10"
-                    {...field}
                     size="large"
                   />
                 )}
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Address:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Manzil:</h5>
               <Controller
                 name="address"
                 control={control}
-                key={singleStudentData?.address}
                 render={({field}) => (
                   <SelectUI
                     field={field}
-                    defaultValue={singleStudentData?.address}
-                    {...field}
-                    options={neighborhood}
                     filterOption={filterOptionSelect}
-                    onSearch={onSearchSelect}
                     onChange={(value) => {
                       field.onChange(value);
                       onChangeSelect(value);
                     }}
+                    onSearch={onSearchSelect}
+                    options={neighborhood}
                   />
                 )}
               />
             </div>
             <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Group:</h5>
+              <h5 className="text-lg opacity-70 font-medium">Guruh:</h5>
               <Controller
                 name="group"
                 control={control}
-                key={singleStudentData?.group}
-                defaultValue={singleStudentData?.group}
                 render={({field}) => (
                   <Select
                     {...field}
-                    loading={isPendingCategories}
-                    disabled={isPendingCategories}
                     size="large"
                     className="h-10 w-full"
+                    loading={isPendingCategories}
+                    disabled={isPendingCategories}
                     options={groups?.map((group) => ({
                       value: group.language,
                       label: group.language,
@@ -273,120 +252,22 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
             </div>
             <div className="w-full">
               <PhoneInput
-                defaultValue={singleStudentData?.personalPhone.slice(5)}
-                control={control}
                 controlName="personalPhone"
                 label="Shaxsiy"
+                control={control}
               />
             </div>
             <div className="w-full">
               <PhoneInput
-                defaultValue={singleStudentData?.homePhone.slice(5)}
-                control={control}
                 controlName="homePhone"
                 label="Uy"
-              />
-            </div>
-            <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Sertifikat:</h5>
-              <Controller
-                name="certificate"
-                key={
-                  singleStudentData?.certificate
-                    ? "Berilgan ✅"
-                    : "Berilmagan ❌"
-                }
                 control={control}
-                render={({field}) => (
-                  <SelectUI
-                    field={field}
-                    defaultValue={
-                      singleStudentData?.certificate
-                        ? "Berilgan ✅"
-                        : "Berilmagan ❌"
-                    }
-                    {...field}
-                    options={[
-                      {
-                        value: "yes",
-                        label: "Berilgan ✅",
-                      },
-                      {
-                        value: "no",
-                        label: "Berilmagan ❌",
-                      },
-                    ]}
-                    onChange={(value) => {
-                      field.onChange(value);
-                      onChangeSelect(value);
-                    }}
-                  />
-                )}
               />
             </div>
-            <div className="w-full">
-              <h5 className="text-lg opacity-70 font-medium">Bitirgan:</h5>
-              <Controller
-                name="graduated"
-                control={control}
-                key={
-                  singleStudentData?.graduated ? "Bitirgan ✅" : "Bitirmagan ❌"
-                }
-                render={({field}) => (
-                  <SelectUI
-                    field={field}
-                    defaultValue={
-                      singleStudentData?.graduated
-                        ? "Bitirgan ✅"
-                        : "Bitirmagan ❌"
-                    }
-                    {...field}
-                    options={[
-                      {
-                        value: "yes",
-                        label: "Bitirgan ✅",
-                      },
-                      {
-                        value: "no",
-                        label: "Bitirmagan ❌",
-                      },
-                    ]}
-                    onChange={(value) => {
-                      field.onChange(value);
-                      onChangeSelect(value);
-                    }}
-                  />
-                )}
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <div>
-                <h5 className="text-lg w-full opacity-70 font-medium">
-                  O&apos;zlashtirishi:
-                </h5>
-                <Controller
-                  name="userPercentage"
-                  control={control}
-                  key={singleStudentData?.userPercentage}
-                  defaultValue={singleStudentData?.userPercentage}
-                  render={({field}) => (
-                    <InputNumber
-                      {...field}
-                      size="large"
-                      className="w-full"
-                      min={0}
-                      max={100}
-                    />
-                  )}
-                />
-              </div>
-
-              <div className="w-full items-end flex">
-                <Btn htmlType="submit" icon="edit" loading={isPending}>
-                  TAHRIRLASH
-                </Btn>
-              </div>
+            <div className="w-full items-end flex">
+              <Btn htmlType="submit" loading={isPending}>
+                QO&apos;SHISH
+              </Btn>
             </div>
           </div>
         </form>
@@ -394,4 +275,4 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     </div>
   );
 }
-export default EditStudent;
+export default AddArchiveStudents;

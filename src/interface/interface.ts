@@ -9,8 +9,6 @@ type ISelectGroup =
   | "JavaScript"
   | "Frontend";
 
-
-
 interface IStudents {
   _id: string;
   id: number;
@@ -24,10 +22,23 @@ interface IStudents {
   graduated: boolean | string;
   userPhoto: string | null;
   userPercentage: number;
-  createdAt?: Date;
-  updatedAt?: Date;
   quizLevel: number;
   videoLevel: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface IArchiveStudents {
+  _id: string;
+  fullName: string;
+  birthday: string;
+  address: string;
+  group: string;
+  personalPhone: string;
+  homePhone: string;
+  userPhoto: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface IRegisterStudents {

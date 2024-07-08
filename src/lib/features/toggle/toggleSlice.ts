@@ -17,6 +17,7 @@ export const toggleSlice = createSlice({
     toggleAddQuestionValue: false,
     toggleAddLessonsValue: false,
     toggleEditLessonsValue: false,
+    toggleAddArchiveStudentsValue: false,
   },
   reducers: {
     toggleAddStudentFunc: (state) => {
@@ -55,12 +56,15 @@ export const toggleSlice = createSlice({
     toggleAddQuestionFunc: (state) => {
       state.toggleAddQuestionValue = !state.toggleAddQuestionValue;
     },
-
     toggleAddLessonsFunc: (state) => {
       state.toggleAddLessonsValue = !state.toggleAddLessonsValue;
     },
     toggleEditLessonsFunc: (state) => {
       state.toggleEditLessonsValue = !state.toggleEditLessonsValue;
+    },
+    toggleAddArchiveStudentsFunc: (state) => {
+      state.toggleAddArchiveStudentsValue =
+        !state.toggleAddArchiveStudentsValue;
     },
   },
 });
@@ -80,5 +84,6 @@ export const {
   toggleAddQuestionFunc,
   toggleAddLessonsFunc,
   toggleEditLessonsFunc,
+  toggleAddArchiveStudentsFunc,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

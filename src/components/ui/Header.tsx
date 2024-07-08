@@ -8,6 +8,7 @@ type THeader = {
   text: string;
   buttonOne?: {
     text: string;
+    click: () => void;
   };
   buttonTwo?: {
     text?: string;
@@ -37,7 +38,7 @@ function Header({text, buttonOne, buttonTwo, buttonThree}: THeader) {
             <Button
               type={"primary"}
               size="large"
-              onClick={() => 1}
+              onClick={() => buttonOne.click()}
               className="flex items-center"
               icon={<PlusIcon width={21} height={21} />}
             >

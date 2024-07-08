@@ -5,6 +5,7 @@ import {RootState} from "@/lib/store";
 import EditStudent from "@/components/student/EditStudent";
 import AddRegistration from "../registrationStudent/AddRegistrationStudent";
 import EditRegistrationStudents from "../registrationStudent/EditRegisterationStudents";
+import AddArchiveStudents from "../archiveStudents/AddArchiveStudents";
 
 function FilterAndAddData() {
   const {
@@ -12,6 +13,7 @@ function FilterAndAddData() {
     toggleEditStudentValue,
     toggleRegistrationValue,
     toggleEditRegistrationValue,
+    toggleAddArchiveStudentsValue,
   } = useSelector((store: RootState) => store.toggleSlice);
   return (
     <>
@@ -19,6 +21,7 @@ function FilterAndAddData() {
       <EditStudent isOpen={toggleEditStudentValue} />
       <AddRegistration isOpen={toggleRegistrationValue} />
       <EditRegistrationStudents isOpen={toggleEditRegistrationValue} />
+      <AddArchiveStudents isOpen={toggleAddArchiveStudentsValue} />
     </>
   );
 }

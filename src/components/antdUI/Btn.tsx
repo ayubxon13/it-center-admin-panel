@@ -1,19 +1,20 @@
-import {PencilSquareIcon, PlusIcon} from "@heroicons/react/24/outline"
-import {Button} from "antd"
-import {SizeType} from "antd/es/config-provider/SizeContext"
-import {ReactNode} from "react"
+import {PencilSquareIcon, PlusIcon} from "@heroicons/react/24/outline";
+import {Button} from "antd";
+import {SizeType} from "antd/es/config-provider/SizeContext";
+import {ReactNode} from "react";
 
 type BtnType = {
-  loading?: boolean
-  htmlType?: "reset" | "button" | "submit"
-  type?: "link" | "text" | "primary" | "default" | "dashed"
-  icon?: "add" | "edit"
-  children: ReactNode
-  size?: SizeType
-  danger?: boolean
-  click?: () => void
-  disabled?: boolean
-}
+  loading?: boolean;
+  htmlType?: "reset" | "button" | "submit";
+  type?: "link" | "text" | "primary" | "default" | "dashed";
+  icon?: "add" | "edit";
+  children: ReactNode;
+  size?: SizeType;
+  danger?: boolean;
+  click?: () => void;
+  disabled?: boolean;
+  className?: string;
+};
 
 function Btn({
   children,
@@ -25,6 +26,7 @@ function Btn({
   loading,
   danger,
   type,
+  className,
 }: BtnType) {
   return (
     <Button
@@ -35,7 +37,7 @@ function Btn({
       htmlType={htmlType ?? "button"}
       type={type ?? "primary"}
       size={size ?? "large"}
-      className="flex justify-center items-center"
+      className={`flex justify-center items-center ${className}`}
       icon={
         icon == "edit" ? (
           <PencilSquareIcon width={21} height={21} />
@@ -46,6 +48,6 @@ function Btn({
     >
       {children}
     </Button>
-  )
+  );
 }
-export default Btn
+export default Btn;

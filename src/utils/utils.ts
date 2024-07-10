@@ -259,7 +259,8 @@ export const teacherData: ITeacher[] = [
     fullName: "Javohirbek Muxtorov",
     personalPhone: "+998 90 570 06 54",
     group: "Java, Kotlin",
-  },{
+  },
+  {
     id: generateRandomNumber(),
     fullName: "Ayubxon Yuldashaliyev",
     personalPhone: "+998 94 730 70 06",

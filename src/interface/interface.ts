@@ -37,6 +37,18 @@ interface IRegisterStudents {
   updatedAt?: Date;
 }
 
+interface IArchiveStudents {
+  _id: string;
+  id: number;
+  fullName: string;
+  birthday: string;
+  address: string;
+  group: string;
+  personalPhone: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 type TNotification = {
   _id: string;
   id: number;

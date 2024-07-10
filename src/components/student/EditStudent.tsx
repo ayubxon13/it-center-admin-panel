@@ -65,6 +65,8 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
   useEffect(() => {
     if (singleStudentData?.userPhoto) {
       setSelectImage(singleStudentData.userPhoto);
+    } else {
+      setSelectImage(null)
     }
   }, [singleStudentData, isOpen]);
 

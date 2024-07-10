@@ -111,6 +111,80 @@ const DataTable: React.FC<TDataTable> = ({
       ),
     },
   ];
+  const archiveStudentsTableData: ColumnDefinition = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      className: "w-[65px]",
+    },
+    {
+      title: "Ism Familya",
+      dataIndex: "fullName",
+      key: "fullName",
+      filters: students?.map((student) => ({
+        text: student.fullName,
+        value: student.fullName,
+      })),
+      filterSearch: true,
+      onFilter: filterFunction,
+      width: "30%",
+    },
+    {
+      title: "Manzil",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Tug'ilgan kun",
+      dataIndex: "birthday",
+      key: "birthday",
+    },
+    {
+      title: "Guruh",
+      dataIndex: "group",
+      key: "group",
+    },
+    {
+      title: "Shaxsiy raqami",
+      dataIndex: "personalPhone",
+      key: "personalPhone",
+    },
+    {
+      title: "Tahrirlash",
+      className: "w-[120px]",
+      key: "options",
+      render: (student: IArchiveStudents) => (
+        <Space size="small">
+          <ModalPromise
+            key={href}
+            title="student"
+            url={`${href}/${student._id}`}
+          >
+            <Button
+              type="primary"
+              size="large"
+              shape="default"
+              danger
+              icon={<TrashIcon width={24} height={24} />}
+            />
+          </ModalPromise>
+          <Tooltip title="Edit">
+            <Button
+              onClick={() => {
+                // dispatch(setSingleStudentData(student));
+                // dispatch(toggleEditStudentFunc());
+              }}
+              size="large"
+              type="primary"
+              shape="default"
+              icon={<PencilSquareIcon width={24} height={24} />}
+            />
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
 
   const registerStudentsTableData: ColumnDefinition = [
     {
@@ -208,6 +282,8 @@ const DataTable: React.FC<TDataTable> = ({
       return registerStudentsTableData;
     } else if (activeIndex === 3) {
       return teacherTableData;
+    } else if (activeIndex === 5) {
+      return archiveStudentsTableData;
     } else {
       return studentsTableData;
     }

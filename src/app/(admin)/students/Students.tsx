@@ -31,17 +31,20 @@ function Students() {
   const [graduateData, setGraduateData] = useState<IStudents[] | undefined>(
     undefined
   );
+  const [archiveStudentsData, setArchiveStudentsData] = useState<
+    IArchiveStudents[] | undefined
+  >(undefined);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const dispatch = useDispatch();
-  const [href, setHref] = useState<"students" | "register-students">(
-    "students"
-  );
+  const [href, setHref] = useState<
+    "students" | "archive-students" | "register-students"
+  >("students");
   const {data, isPending} = useQuery({
     queryKey: ["students", href],
     queryFn: async () => {
       const students: {
-        data: IStudents[] & IRegisterStudents[];
+        data: IStudents[] & IRegisterStudents[] & IArchiveStudents[];
       } = await customFetch(href);
       return students.data;
     },
@@ -62,12 +65,17 @@ function Students() {
     if (href === "register-students") {
       setRegisterStudentsData(data);
     }
+    if (href === "archive-students") {
+      setArchiveStudentsData(data);
+    }
   }, [href, data]);
 
   const handleScoreClick = (index: number) => {
     setActiveIndex(index);
     if (index === 4) {
       setHref("register-students");
+    } else if (index === 5) {
+      setHref("archive-students");
     } else {
       setHref("students");
     }
@@ -126,6 +134,13 @@ function Students() {
           title="Ro'yxatga olinganlar"
           total={registerStudentsData?.length ?? 0}
         />
+        <Score
+          active={activeIndex === 5}
+          onClick={() => handleScoreClick(5)}
+          icon={<UserGroupIcon width={20} height={20} />}
+          title="Arxivlangan o'quvchilar"
+          total={archiveStudentsData?.length ?? 0}
+        />
       </div>
       <FilterAndAddData />
       {[0, 4].includes(activeIndex) && (
@@ -158,6 +173,14 @@ function Students() {
           href={href}
           loading={isPending}
           students={teacherData ?? []}
+        />
+      )}
+      {activeIndex === 5 && (
+        <DataTable
+          activeIndex={activeIndex}
+          href={href}
+          loading={isPending}
+          students={archiveStudentsData ?? []}
         />
       )}
     </main>

@@ -66,7 +66,7 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     if (singleStudentData?.userPhoto) {
       setSelectImage(singleStudentData.userPhoto);
     }
-  }, [singleStudentData]);
+  }, [singleStudentData, isOpen]);
 
   const {mutateAsync, isPending} = useMutation({
     mutationFn: editStudent,

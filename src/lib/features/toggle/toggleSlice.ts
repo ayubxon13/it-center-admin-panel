@@ -18,6 +18,7 @@ export const toggleSlice = createSlice({
     toggleAddLessonsValue: false,
     toggleEditLessonsValue: false,
     toggleAddArchiveStudentsValue: false,
+    toggleEditArchiveStudentsValue: false,
   },
   reducers: {
     toggleAddStudentFunc: (state) => {
@@ -66,6 +67,10 @@ export const toggleSlice = createSlice({
       state.toggleAddArchiveStudentsValue =
         !state.toggleAddArchiveStudentsValue;
     },
+    toggleEditArchiveStudentsFunc: (state) => {
+      state.toggleEditArchiveStudentsValue =
+        !state.toggleEditArchiveStudentsValue;
+    },
   },
 });
 
@@ -85,5 +90,6 @@ export const {
   toggleAddLessonsFunc,
   toggleEditLessonsFunc,
   toggleAddArchiveStudentsFunc,
+  toggleEditArchiveStudentsFunc,
 } = toggleSlice.actions;
 export default toggleSlice.reducer;

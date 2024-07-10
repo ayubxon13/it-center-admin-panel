@@ -9,7 +9,9 @@ import {ColumnsType} from "antd/es/table";
 import {
   toggleEditStudentFunc,
   toggleEditRegistrationFunc,
+  toggleEditArchiveStudentsFunc,
 } from "@/lib/features/toggle/toggleSlice";
+import {setSingleArchiveStudents} from "@/lib/features/archive-students";
 
 type TDataTable = {
   href: "students" | "register-students" | "archive-students";
@@ -172,8 +174,8 @@ const DataTable: React.FC<TDataTable> = ({
           <Tooltip title="Edit">
             <Button
               onClick={() => {
-                // dispatch(setSingleStudentData(student));
-                // dispatch(toggleEditStudentFunc());
+                dispatch(setSingleArchiveStudents(student));
+                dispatch(toggleEditArchiveStudentsFunc());
               }}
               size="large"
               type="primary"

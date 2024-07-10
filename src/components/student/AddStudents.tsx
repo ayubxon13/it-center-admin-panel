@@ -28,8 +28,8 @@ type StudentsInput = {
   group: string;
   personalPhone: string;
   homePhone: string;
-  certificate: string;
-  graduated: string;
+  certificate: boolean;
+  graduated: boolean;
   userPercentage: number;
   userPhoto: string | null;
   quizLevel: number;
@@ -70,6 +70,8 @@ function AddStudents({isOpen}: {isOpen: boolean}) {
       (val) =>
         val == null || val === "" || fileUpload.current?.files?.length == 0
     );
+    console.log(studentsFormData);
+    
 
     if (isEmpty) {
       return toast.error("Please fill out the form");

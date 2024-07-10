@@ -6,6 +6,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {
   customFetch,
   filterOptionSelect,
+  formatPhoneNumber,
   neighborhood,
   onChangeSelect,
   onSearchSelect,
@@ -21,17 +22,16 @@ import Btn from "@/components/antdUI/Btn";
 import SelectUI from "@/components/antdUI/SelectUI";
 import PhoneInput from "@/components/antdUI/PhoneInput";
 import useGetCategories from "@/hooks/useGetCategories";
-import {setSingleStudentData} from "@/lib/features/student/studentSlice";
 
 type StudentsInput = {
   fullName: string;
-  birthday: string;
+  birthday: any;
   address: string;
   group: string;
   personalPhone: string;
   homePhone: string;
-  certificate: string;
-  graduated: string;
+  certificate: any;
+  graduated: any;
   userPercentage: number;
   userPhoto: string | null;
   quizLevel: number;
@@ -76,6 +76,24 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
     },
   });
 
+  useEffect(() => {
+    if (isOpen && singleStudentData) {
+      reset({
+        address: singleStudentData.address,
+        birthday: dayjs(singleStudentData?.birthday),
+        certificate: singleStudentData.certificate,
+        fullName: singleStudentData.fullName,
+        graduated: singleStudentData.graduated,
+        group: singleStudentData.group,
+        homePhone: singleStudentData.homePhone.slice(5),
+        personalPhone: singleStudentData.personalPhone.slice(5), // Use slice(5) here        quizLevel: 0,
+        userPercentage: singleStudentData.userPercentage,
+        userPhoto: singleStudentData.userPhoto,
+        videoLevel: singleStudentData.videoLevel,
+      });
+    }
+  }, [singleStudentData, isOpen, reset]);
+
   const onSubmit = (studentsFormData: StudentsInput) => {
     mutateAsync({
       _id: singleStudentData?._id ?? "",
@@ -84,15 +102,15 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
       birthday: dayjs(studentsFormData?.birthday).format("MMM D, YYYY"),
       address: studentsFormData.address,
       group: studentsFormData.group,
-      personalPhone: studentsFormData.personalPhone,
-      homePhone: studentsFormData.homePhone,
+      personalPhone: "+998 " + studentsFormData.personalPhone,
+      homePhone: "+998 " + studentsFormData.homePhone,
       certificate: studentsFormData.certificate,
       graduated: studentsFormData.graduated,
       userPercentage: studentsFormData.userPercentage,
       userPhoto: selectImage,
       quizLevel: 0,
       videoLevel: 0,
-    });
+    }).then(() => reset());
   };
 
   return (
@@ -107,7 +125,6 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
           <button
             onClick={() => {
               dispatch(toggleEditStudentFunc());
-              dispatch(setSingleStudentData(null));
               reset();
             }}
             className="bg-slate-100 hover:bg-slate-200 transition-all rounded-full justify-center flex items-center w-8 h-8"
@@ -272,11 +289,23 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
               />
             </div>
             <div className="w-full">
-              <PhoneInput
-                defaultValue={singleStudentData?.personalPhone.slice(5)}
+              <h5 className="text-lg opacity-70 font-medium">Shaxsiy raqam:</h5>
+              <Controller
+                key={singleStudentData?.personalPhone.slice(5)}
+                name="personalPhone"
                 control={control}
-                controlName="personalPhone"
-                label="Shaxsiy"
+                render={({field}) => (
+                  <Input
+                    {...field}
+                    defaultValue={singleStudentData?.personalPhone.slice(5)}
+                    addonBefore="+998"
+                    size="large"
+                    onChange={(e) => {
+                      const formattedValue = formatPhoneNumber(e.target.value);
+                      field.onChange(formattedValue);
+                    }}
+                  />
+                )}
               />
             </div>
             <div className="w-full">
@@ -298,14 +327,14 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                 }
                 control={control}
                 render={({field}) => (
-                  <SelectUI
-                    field={field}
+                  <Select
+                    className="w-full"
+                    size="large"
                     defaultValue={
                       singleStudentData?.certificate
                         ? "Berilgan ✅"
                         : "Berilmagan ❌"
                     }
-                    {...field}
                     options={[
                       {
                         value: "yes",
@@ -333,14 +362,14 @@ function EditStudent({isOpen}: {isOpen: boolean}) {
                   singleStudentData?.graduated ? "Bitirgan ✅" : "Bitirmagan ❌"
                 }
                 render={({field}) => (
-                  <SelectUI
-                    field={field}
+                  <Select
+                    className="w-full"
+                    size="large"
                     defaultValue={
                       singleStudentData?.graduated
                         ? "Bitirgan ✅"
                         : "Bitirmagan ❌"
                     }
-                    {...field}
                     options={[
                       {
                         value: "yes",

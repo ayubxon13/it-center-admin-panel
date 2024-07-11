@@ -13,7 +13,7 @@ import {toast} from "sonner";
 
 function Lessons() {
   const router = useRouter();
-  const {data: courses, isPending} = useQuery({
+  const {data: courses, isFetching} = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const courses: {data: ICategory[]} = await customFetch("courses");
@@ -98,11 +98,11 @@ function Lessons() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <Button

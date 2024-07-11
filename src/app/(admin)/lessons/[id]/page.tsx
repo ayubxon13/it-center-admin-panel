@@ -37,7 +37,7 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
   );
   const dispatch = useDispatch();
   const [lessons, setLessons] = useState<ILessons[] | null>(null);
-  const {isPending} = useQuery({
+  const {isFetching} = useQuery({
     queryKey: ["lessons"],
     queryFn: async () => {
       const lessons: {data: ILessons[]} = await customFetch("lessons");
@@ -112,11 +112,11 @@ function LessonsSinglePage({searchParams}: LessonsSinglePageProps) {
           );
         })}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <DeleteOutlined key="delete" />,

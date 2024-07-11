@@ -19,7 +19,7 @@ function Qustions() {
     url: "/",
   });
 
-  const {data: categories, isPending} = useQuery({
+  const {data: categories, isFetching} = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
       const category: {data: ICategory[]} = await customFetch("category");
@@ -123,11 +123,11 @@ function Qustions() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <Button

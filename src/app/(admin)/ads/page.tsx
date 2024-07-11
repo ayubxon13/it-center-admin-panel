@@ -27,7 +27,7 @@ function Ads() {
   );
   const dispatch = useDispatch();
   const [singleDataAd, setSingleDataAd] = useState<IAds | null>(null); // State to hold the ad being edited
-  const {data: ads, isPending} = useQuery({
+  const {data: ads, isFetching} = useQuery({
     queryKey: ["ads"],
     queryFn: async () => {
       const ads: {data: IAds[]} = await customFetch("ads");
@@ -78,11 +78,11 @@ function Ads() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <DeleteOutlined key="delete" />,

@@ -29,7 +29,7 @@ function Notifications() {
     null
   ); // State to hold the ad being edited
 
-  const {data: notification, isPending} = useQuery({
+  const {data: notification, isFetching} = useQuery({
     queryKey: ["notifications"],
     queryFn: async () => {
       const notifications: {data: TNotification[]} = await customFetch(
@@ -60,7 +60,7 @@ function Notifications() {
         {notification?.map((not) => (
           <Card
             key={not._id}
-            loading={isPending}
+            loading={isFetching}
             className="max-w-[300px] w-full"
             cover={
               <img
@@ -89,11 +89,11 @@ function Notifications() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <DeleteOutlined key="delete" />,

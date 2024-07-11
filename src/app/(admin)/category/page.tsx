@@ -25,10 +25,9 @@ function Category() {
   const {toggleAddCategoryValue} = useSelector(
     (state: RootState) => state.toggleSlice
   );
-  const [singleDataCategory, setsingleDataCategory] = useState<ICategory | null>(
-    null
-  );
-  const {data: categories, isPending} = useQuery({
+  const [singleDataCategory, setsingleDataCategory] =
+    useState<ICategory | null>(null);
+  const {data: categories, isFetching} = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
       const ads: {data: ICategory[]} = await customFetch("category");
@@ -89,11 +88,11 @@ function Category() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <DeleteOutlined key="delete" />,

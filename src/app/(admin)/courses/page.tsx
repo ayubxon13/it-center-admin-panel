@@ -29,7 +29,7 @@ function Courses() {
   const [singleDataCourse, setSingleDataCourse] = useState<ICourses | null>(
     null
   );
-  const {data: courses, isPending} = useQuery({
+  const {data: courses, isFetching} = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const courses: {data: ICourses[]} = await customFetch("courses");
@@ -90,11 +90,11 @@ function Courses() {
           </Card>
         ))}
 
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map(() => (
             <Card
               key={nanoid()}
-              loading={isPending}
+              loading={isFetching}
               style={{width: 300}}
               actions={[
                 <DeleteOutlined key="delete" />,

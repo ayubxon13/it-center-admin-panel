@@ -3,7 +3,7 @@ import {customFetch} from "@/utils/utils";
 import {useQuery} from "@tanstack/react-query";
 
 const useGetCategories = () => {
-  const {data: groups, isPending: isPendingCategories} = useQuery({
+  const {data: groups, isFetching: isPendingCategories} = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const categories: {data: ICategory[]} = await customFetch("courses");

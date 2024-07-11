@@ -37,7 +37,7 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
     (state: RootState) => state.toggleSlice
   );
   const [questions, setQuestions] = useState<IQuestions[] | null>(null);
-  const {isPending} = useQuery({
+  const {isFetching} = useQuery({
     queryKey: ["questions"],
     queryFn: async () => {
       const questions: {data: IQuestions[]} = await customFetch("questions");
@@ -96,7 +96,7 @@ function QuestionsSingle({searchParams}: QuestionsSingleParams) {
             </Card>
           </>
         ))}
-        {isPending &&
+        {isFetching &&
           Array.from({length: 4}).map((_, idx) => (
             <Card
               key={idx}

@@ -40,7 +40,7 @@ function Students() {
   const [href, setHref] = useState<
     "students" | "archive-students" | "register-students"
   >("students");
-  const {data, isPending} = useQuery({
+  const {data, isFetching} = useQuery({
     queryKey: ["students", href],
     queryFn: async () => {
       const students: {
@@ -147,7 +147,7 @@ function Students() {
         <DataTable
           activeIndex={activeIndex}
           href={href}
-          loading={isPending}
+          loading={isFetching}
           students={data ?? []}
         />
       )}
@@ -155,7 +155,7 @@ function Students() {
         <DataTable
           activeIndex={activeIndex}
           href={href}
-          loading={isPending}
+          loading={isFetching}
           students={noGraduateData ?? []}
         />
       )}
@@ -163,7 +163,7 @@ function Students() {
         <DataTable
           activeIndex={activeIndex}
           href={href}
-          loading={isPending}
+          loading={isFetching}
           students={graduateData ?? []}
         />
       )}
@@ -171,7 +171,7 @@ function Students() {
         <DataTable
           activeIndex={activeIndex}
           href={href}
-          loading={isPending}
+          loading={isFetching}
           students={teacherData ?? []}
         />
       )}
@@ -179,7 +179,7 @@ function Students() {
         <DataTable
           activeIndex={activeIndex}
           href={href}
-          loading={isPending}
+          loading={isFetching}
           students={archiveStudentsData ?? []}
         />
       )}

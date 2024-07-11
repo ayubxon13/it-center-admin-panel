@@ -141,7 +141,7 @@ function AddArchiveStudent({isOpen}: {isOpen: boolean}) {
             />
           </div>
           <div>
-            <h5 className="text-lg opacity-70 font-medium">Uyga vazifa:</h5>
+            <h5 className="text-lg opacity-70 font-medium">Guruhi:</h5>
             <Controller
               name="group"
               control={control}
